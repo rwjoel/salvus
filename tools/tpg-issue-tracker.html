@@ -3,920 +3,865 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Salvus × TPG — Issue Tracker</title>
+<title>Salvus Wealth Partners × ThePARTNERS — Operations Tracker</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
 
+/* ── TOKENS ─────────────────────────────────────── */
 :root{
-  --navy:#0b1929;--navy2:#122035;--navy3:#1c2f48;
-  --gold:#b8892a;--gold2:#d4a843;
-  --cream:#f7f3ec;--cream2:#ede8df;--rule:#d9cfc0;
-  --text:#2a3d52;--text2:#4a6070;--text3:#7a8f9a;
-  --red:#c0392b;--red2:#fdf0ee;--red3:#e8a090;
-  --amber:#e67e22;--amber2:#fdf5eb;--amber3:#f0c080;
-  --blue:#2471a3;--blue2:#eaf2fb;--blue3:#a9cce3;
-  --green:#1a6b40;--green2:#edf7f2;--green3:#a8d8be;
-  --grey:#5d6d7e;--grey2:#f2f3f4;--grey3:#aab7b8;
-  --purple:#6c3483;--purple2:#f5eef8;--purple3:#c39bd3;
+  --n0:#060f1a; --n1:#0b1929; --n2:#122035; --n3:#1a2f4a; --n4:#243d5e;
+  --g1:#b8892a; --g2:#d4a843; --g3:#f0cc7a; --g4:#fdf8f0;
+  --c0:#f7f3ec; --c1:#ede8df; --c2:#e0d8cc; --rule:#d4cbbf;
+  --t0:#1e2f3e; --t1:#3a5068; --t2:#5a7088; --t3:#8a9faf;
+  --red:#b03020; --red-bg:#fdf2f0; --red-bd:#e8b0a0;
+  --amber:#b07010; --amber-bg:#fdf8ed; --amber-bd:#e8c870;
+  --blue:#1a5a8a; --blue-bg:#edf4fb; --blue-bd:#90bcd8;
+  --green:#1a6040; --green-bg:#edf7f2; --green-bd:#90ccac;
+  --purple:#5a2a7a; --purple-bg:#f5eef8; --purple-bd:#c090d8;
 }
 
+/* ── RESET ──────────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'Jost',sans-serif;background:var(--navy);color:var(--text);font-size:13px;-webkit-font-smoothing:antialiased;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;}
 
-/* TOPBAR */
-.topbar{background:var(--navy2);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.tb-brand{display:flex;align-items:center;gap:10px;}
-.tb-mark{width:26px;height:26px;border:1.5px solid var(--gold);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace;}
-.tb-name{font-size:13px;font-weight:600;color:white;}
-.tb-sep{color:rgba(255,255,255,0.2);margin:0 6px;}
-.tb-sub{font-size:11px;color:rgba(255,255,255,0.35);}
-.tb-right{display:flex;align-items:center;gap:10px;}
-.tb-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);}
+/* ── MASTHEAD ───────────────────────────────────── */
+.masthead{
+  height:64px;background:var(--n0);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;position:relative;flex-shrink:0;
+}
+.masthead::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(184,137,42,0.4),transparent);
+}
 
-/* MAIN */
-.main{display:flex;height:calc(100vh - 52px);}
+/* SWP LOGO */
+.swp-logo{display:flex;align-items:center;gap:14px;}
+.swp-emblem{
+  width:38px;height:38px;border:1.5px solid var(--g1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;
+}
+.swp-emblem::before{
+  content:'';position:absolute;inset:3px;border:0.5px solid rgba(184,137,42,0.25);
+}
+.swp-s{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--g1);line-height:1;letter-spacing:-0.5px;}
+.swp-wordmark{display:flex;flex-direction:column;gap:1px;}
+.swp-line1{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:white;letter-spacing:4px;text-transform:uppercase;line-height:1;}
+.swp-line2{font-size:8px;font-weight:400;color:rgba(255,255,255,0.3);letter-spacing:3.5px;text-transform:uppercase;font-family:'Jost',sans-serif;}
+.swp-sep{width:1px;height:28px;background:rgba(255,255,255,0.1);margin:0 4px;}
+.swp-partner{font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:1px;font-family:'Jost',sans-serif;font-weight:300;}
 
-/* SIDEBAR */
-.sidebar{width:220px;flex-shrink:0;background:var(--navy2);border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:16px 0;}
-.sb-sec{margin-bottom:4px;}
-.sb-sec-hdr{padding:6px 16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-top:12px;}
-.sb-item{display:flex;align-items:center;justify-content:space-between;padding:7px 16px;cursor:pointer;border-radius:0;transition:all 0.15s;font-size:12px;color:rgba(255,255,255,0.5);}
-.sb-item:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);}
-.sb-item.active{background:rgba(184,137,42,0.12);color:var(--gold2);border-right:2px solid var(--gold);}
-.sb-count{font-family:'DM Mono',monospace;font-size:10px;background:rgba(255,255,255,0.08);padding:1px 6px;border-radius:10px;color:rgba(255,255,255,0.35);}
-.sb-item.active .sb-count{background:rgba(184,137,42,0.2);color:var(--gold2);}
-.sb-count.has-issues{background:rgba(192,57,43,0.2);color:#e74c3c;}
-.sb-divider{height:1px;background:rgba(255,255,255,0.06);margin:8px 16px;}
+/* MASTHEAD RIGHT */
+.mast-right{display:flex;align-items:center;gap:14px;}
+.mast-pulse{display:flex;align-items:center;gap:6px;}
+.pulse-dot{width:6px;height:6px;border-radius:50%;background:#27ae60;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+.pulse-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.mast-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.22);letter-spacing:0.5px;}
+.mast-actions{display:flex;gap:6px;}
 
-/* CONTENT */
-.content{flex:1;overflow-y:auto;background:var(--cream);display:flex;flex-direction:column;}
+/* ── LAYOUT ─────────────────────────────────────── */
+.shell{display:flex;height:calc(100vh - 64px);}
 
-/* HEADER BAR */
-.hdr{background:white;border-bottom:1px solid var(--rule);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
-.hdr-left h2{font-size:16px;font-weight:600;color:var(--navy);}
-.hdr-left p{font-size:11px;color:var(--text3);margin-top:2px;}
-.hdr-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+/* ── SIDEBAR ────────────────────────────────────── */
+.sidebar{
+  width:210px;flex-shrink:0;background:var(--n1);
+  border-right:1px solid rgba(255,255,255,0.05);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.sb-section{padding:20px 0 4px;}
+.sb-hdr{
+  padding:0 18px 6px;
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2.5px;
+  text-transform:uppercase;color:rgba(255,255,255,0.18);
+}
+.sb-rule{height:1px;background:rgba(255,255,255,0.05);margin:0 18px 6px;}
+.sb-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 18px;cursor:pointer;font-size:12px;
+  color:rgba(255,255,255,0.42);transition:all 0.12s;
+  border-right:2px solid transparent;
+}
+.sb-item:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.72);}
+.sb-item.active{
+  background:rgba(184,137,42,0.08);color:var(--g2);
+  border-right-color:var(--g1);
+}
+.sb-badge{
+  font-family:'DM Mono',monospace;font-size:9px;min-width:18px;text-align:center;
+  padding:1px 5px;border-radius:8px;
+  background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.28);
+}
+.sb-badge.live{background:rgba(176,48,32,0.2);color:#e07060;}
+.sb-item.active .sb-badge{background:rgba(184,137,42,0.15);color:var(--g2);}
+.sb-spacer{flex:1;}
+
+/* ── CONTENT ────────────────────────────────────── */
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--c0);}
+
+/* CONTENT HEADER */
+.content-hdr{
+  background:white;border-bottom:1px solid var(--rule);
+  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;flex-shrink:0;
+}
+.ch-left h2{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;
+  color:var(--n1);line-height:1;
+}
+.ch-left p{font-size:11px;color:var(--t3);margin-top:3px;}
+.ch-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+
+/* METRICS STRIP */
+.metrics{
+  background:white;border-bottom:1px solid var(--rule);
+  display:flex;flex-shrink:0;
+}
+.metric{
+  flex:1;padding:12px 16px;border-right:1px solid var(--rule);
+  text-align:center;cursor:pointer;transition:background 0.12s;
+}
+.metric:last-child{border:none;}
+.metric:hover{background:var(--c0);}
+.metric.active-m{background:var(--g4);border-bottom:2px solid var(--g1);}
+.m-val{
+  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;
+  color:var(--n1);line-height:1;
+}
+.m-val.red{color:var(--red);}
+.m-val.amber{color:var(--amber);}
+.m-val.blue{color:var(--blue);}
+.m-val.green{color:var(--green);}
+.m-val.purple{color:var(--purple);}
+.m-val.warn{color:var(--red);}
+.m-lbl{font-size:9px;color:var(--t3);font-family:'DM Mono',monospace;letter-spacing:0.8px;margin-top:2px;text-transform:uppercase;}
+
+/* ISSUE SCROLL */
+.issue-scroll{flex:1;overflow-y:auto;padding:16px 20px 32px;}
+
+/* SECTION DIVIDER */
+.cat-divider{
+  display:flex;align-items:center;gap:10px;
+  margin:20px 0 8px;
+}
+.cat-divider:first-child{margin-top:0;}
+.cd-label{
+  font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--t2);white-space:nowrap;
+}
+.cd-line{flex:1;height:1px;background:var(--c2);}
+.cd-count{
+  font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);
+  background:var(--c1);padding:1px 6px;border-radius:8px;
+}
+
+/* ISSUE CARD */
+.icard{
+  background:white;border:1px solid var(--rule);border-radius:5px;
+  margin-bottom:8px;overflow:hidden;
+  transition:box-shadow 0.15s,border-color 0.15s;
+  border-left:3px solid var(--rule);
+}
+.icard:hover{border-color:#b8c8d8;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+.icard.s-open{border-left-color:var(--red);}
+.icard.s-in-progress{border-left-color:var(--amber);}
+.icard.s-next-steps{border-left-color:var(--blue);}
+.icard.s-escalated{border-left-color:var(--purple);}
+.icard.s-resolved{border-left-color:var(--green);opacity:0.72;}
+
+.ic-row{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;}
+.ic-body{flex:1;min-width:0;}
+.ic-title{
+  font-size:13px;font-weight:600;color:var(--n1);
+  margin-bottom:5px;line-height:1.35;
+}
+.ic-client{font-weight:400;color:var(--t2);font-size:12px;}
+.ic-chips{display:flex;flex-wrap:wrap;gap:5px;align-items:center;}
+.chip{
+  font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;
+  border-radius:2px;font-weight:500;letter-spacing:0.3px;
+  border:1px solid;
+}
+.chip-cat{background:var(--c1);color:var(--t1);border-color:var(--c2);}
+.chip-open{background:var(--red-bg);color:var(--red);border-color:var(--red-bd);}
+.chip-in-progress{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bd);}
+.chip-next-steps{background:var(--blue-bg);color:var(--blue);border-color:var(--blue-bd);}
+.chip-resolved{background:var(--green-bg);color:var(--green);border-color:var(--green-bd);}
+.chip-escalated{background:var(--purple-bg);color:var(--purple);border-color:var(--purple-bd);}
+.chip-age{background:transparent;color:var(--t3);border-color:transparent;padding:2px 0;}
+.chip-age.warn{color:var(--red);font-weight:700;}
+.chip-age.aging{color:var(--amber);}
+.chip-assign{background:transparent;color:var(--t2);border-color:transparent;padding:2px 0;}
+
+.ic-next-strip{
+  margin:8px 14px 0;padding:7px 10px;
+  background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:3px;
+  font-size:11.5px;color:var(--blue);line-height:1.6;
+}
+.ic-next-strip strong{
+  display:inline;font-family:'DM Mono',monospace;font-size:8.5px;
+  letter-spacing:1px;text-transform:uppercase;margin-right:6px;
+}
+.ic-history-strip{
+  margin:6px 14px 10px;
+  font-size:11px;color:var(--t3);line-height:1.6;
+}
+.hist-entry{padding:4px 0;border-top:1px solid var(--c1);}
+.hist-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);margin-bottom:1px;}
+.hist-note{color:var(--t1);}
+
+.ic-desc-strip{
+  margin:6px 14px 0;
+  font-size:12px;color:var(--t1);line-height:1.65;
+}
+
+.ic-actions{flex-shrink:0;display:flex;gap:5px;align-items:flex-start;padding-top:1px;}
 
 /* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:4px;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;transition:all 0.15s;}
-.btn-primary{background:var(--navy);color:white;}
-.btn-primary:hover{background:var(--navy3);}
-.btn-gold{background:var(--gold);color:white;}
-.btn-gold:hover{background:var(--gold2);}
-.btn-outline{background:white;color:var(--text2);border:1px solid var(--rule);}
-.btn-outline:hover{border-color:var(--navy);color:var(--navy);}
-.btn-sm{padding:4px 10px;font-size:11px;}
-.btn-icon{background:none;border:1px solid var(--rule);color:var(--text3);padding:5px 8px;}
-.btn-icon:hover{background:var(--cream2);color:var(--navy);}
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 12px;border-radius:3px;border:none;
+  cursor:pointer;font-family:'Jost',sans-serif;font-size:11.5px;
+  font-weight:500;transition:all 0.12s;white-space:nowrap;
+}
+.btn-dark{background:var(--n1);color:white;}
+.btn-dark:hover{background:var(--n2);}
+.btn-gold{background:var(--g1);color:white;}
+.btn-gold:hover{background:var(--g2);}
+.btn-outline{background:white;color:var(--t1);border:1px solid var(--rule);}
+.btn-outline:hover{border-color:var(--n1);color:var(--n1);}
+.btn-ghost{background:none;border:1px solid var(--rule);color:var(--t2);}
+.btn-ghost:hover{background:var(--c0);color:var(--n1);}
+.btn-sm{padding:4px 9px;font-size:11px;}
+.btn-xs{padding:3px 7px;font-size:10px;}
+.btn-ico{padding:5px 8px;background:none;border:1px solid var(--rule);color:var(--t2);}
+.btn-ico:hover{background:var(--c0);color:var(--n1);border-color:var(--t2);}
 
-/* STATS ROW */
-.stats-row{display:flex;gap:0;border-bottom:1px solid var(--rule);background:white;}
-.stat-pill{flex:1;padding:12px 16px;text-align:center;border-right:1px solid var(--rule);cursor:pointer;transition:all 0.15s;}
-.stat-pill:last-child{border:none;}
-.stat-pill:hover{background:var(--cream);}
-.stat-pill.active-filter{background:var(--cream2);}
-.sp-val{font-size:22px;font-weight:700;color:var(--navy);}
-.sp-val.red{color:var(--red);}
-.sp-val.amber{color:var(--amber);}
-.sp-val.blue{color:var(--blue);}
-.sp-val.green{color:var(--green);}
-.sp-val.purple{color:var(--purple);}
-.sp-lbl{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:0.5px;margin-top:2px;}
-
-/* ISSUES LIST */
-.issues-wrap{flex:1;padding:16px 24px;}
-.issues-empty{text-align:center;padding:60px 24px;color:var(--text3);}
-.issues-empty .ei{font-size:32px;margin-bottom:12px;}
-.issues-empty p{font-size:13px;line-height:1.7;}
-
-.issue-card{background:white;border:1px solid var(--rule);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:all 0.15s;}
-.issue-card:hover{border-color:#b0c0d0;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
-.issue-card.escalated{border-left:3px solid var(--red);}
-.issue-card.open{border-left:3px solid var(--red);}
-.issue-card.in-progress{border-left:3px solid var(--amber);}
-.issue-card.next-steps{border-left:3px solid var(--blue);}
-.issue-card.resolved{border-left:3px solid var(--green);opacity:0.75;}
-
-.ic-top{display:flex;align-items:flex-start;gap:12px;padding:12px 16px 10px;}
-.ic-status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.dot-open{background:var(--red);}
-.dot-in-progress{background:var(--amber);}
-.dot-next-steps{background:var(--blue);}
-.dot-resolved{background:var(--green);}
-.dot-escalated{background:var(--purple);}
-
-.ic-main{flex:1;}
-.ic-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;line-height:1.4;}
-.ic-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.ic-cat{font-size:10px;background:var(--cream2);color:var(--text2);padding:2px 8px;border-radius:2px;font-family:'DM Mono',monospace;letter-spacing:0.3px;}
-.ic-age{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
-.ic-age.old{color:var(--red);font-weight:600;}
-.ic-age.aging{color:var(--amber);}
-.ic-assigned{font-size:10px;color:var(--text3);}
-
-.ic-actions{display:flex;gap:6px;align-items:center;flex-shrink:0;}
-
-.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:3px;font-size:10px;font-weight:600;letter-spacing:0.3px;font-family:'DM Mono',monospace;}
-.sb-open{background:var(--red2);color:var(--red);border:1px solid var(--red3);}
-.sb-in-progress{background:var(--amber2);color:var(--amber);border:1px solid var(--amber3);}
-.sb-next-steps{background:var(--blue2);color:var(--blue);border:1px solid var(--blue3);}
-.sb-resolved{background:var(--green2);color:var(--green);border:1px solid var(--green3);}
-.sb-escalated{background:var(--purple2);color:var(--purple);border:1px solid var(--purple3);}
-
-.ic-detail{padding:0 16px 12px 36px;border-top:1px solid var(--cream2);margin-top:8px;padding-top:10px;}
-.ic-desc{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px;}
-.ic-next{font-size:12px;color:var(--blue);line-height:1.6;background:var(--blue2);border:1px solid var(--blue3);border-radius:3px;padding:6px 10px;margin-bottom:8px;}
-.ic-next strong{display:block;font-size:10px;font-family:'DM Mono',monospace;letter-spacing:0.5px;color:var(--blue);margin-bottom:2px;}
-.ic-history{font-size:11px;color:var(--text3);line-height:1.6;}
-.ic-history strong{color:var(--text2);}
+/* EMPTY */
+.empty{text-align:center;padding:64px 24px;color:var(--t3);}
+.empty-icon{font-size:36px;margin-bottom:14px;opacity:0.5;}
+.empty p{font-size:13px;line-height:1.8;max-width:320px;margin:0 auto;}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.open{display:flex;}
-.modal{background:white;border-radius:8px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
-.modal-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;}
-.modal-hdr h3{font-size:16px;font-weight:600;color:var(--navy);}
-.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);padding:0 4px;}
-.modal-body{padding:20px 24px;}
-.modal-footer{padding:16px 24px;border-top:1px solid var(--rule);display:flex;justify-content:flex-end;gap:8px;}
+.overlay{position:fixed;inset:0;background:rgba(6,15,26,0.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px);}
+.overlay.open{display:flex;}
+.modal{background:white;border-radius:6px;width:100%;max-width:580px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,0.35);}
+.modal-lg{max-width:720px;}
+.mhdr{padding:18px 22px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;background:var(--n1);}
+.mhdr h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:white;}
+.mhdr p{font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;}
+.m-close{background:none;border:none;font-size:22px;cursor:pointer;color:rgba(255,255,255,0.4);line-height:1;padding:0 2px;}
+.m-close:hover{color:white;}
+.mbody{padding:20px 22px;overflow-y:auto;}
+.mfoot{padding:14px 22px;border-top:1px solid var(--rule);display:flex;justify-content:flex-end;gap:8px;background:var(--c0);}
 
 /* FORM */
-.form-row{margin-bottom:14px;}
-.form-row label{display:block;font-size:11px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;font-family:'DM Mono',monospace;}
-.form-row input,.form-row select,.form-row textarea{width:100%;border:1px solid var(--rule);border-radius:4px;padding:8px 12px;font-family:'Jost',sans-serif;font-size:13px;color:var(--text);background:white;transition:border 0.15s;}
-.form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--navy);}
-.form-row textarea{resize:vertical;min-height:80px;}
-.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fr{margin-bottom:14px;}
+.fr label{display:block;font-size:10px;font-weight:700;color:var(--n1);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;font-family:'DM Mono',monospace;}
+.fr input,.fr select,.fr textarea{
+  width:100%;border:1px solid var(--rule);border-radius:3px;
+  padding:8px 11px;font-family:'Jost',sans-serif;font-size:13px;
+  color:var(--t0);background:white;transition:border 0.12s;
+}
+.fr input:focus,.fr select:focus,.fr textarea:focus{outline:none;border-color:var(--n1);}
+.fr textarea{resize:vertical;min-height:78px;line-height:1.65;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
-/* EMAIL COPY */
-.email-box{background:var(--cream);border:1px solid var(--rule);border-radius:6px;padding:16px;margin:16px 0;font-size:12px;color:var(--text2);line-height:1.7;white-space:pre-wrap;font-family:'DM Mono',monospace;}
-.copy-success{color:var(--green);font-size:12px;font-weight:600;display:none;}
+/* EMAIL BOX */
+.email-box{
+  background:var(--c0);border:1px solid var(--rule);border-radius:4px;
+  padding:14px 16px;font-size:11.5px;color:var(--t1);
+  line-height:1.75;white-space:pre-wrap;font-family:'DM Mono',monospace;
+  max-height:360px;overflow-y:auto;
+}
+.copy-ok{display:none;font-size:11px;font-weight:600;color:var(--green);}
 
-/* FRIDAY VIEW */
-.friday-hdr{background:var(--navy);color:white;padding:16px 24px;margin:-16px -24px 16px;border-radius:6px 6px 0 0;}
-.friday-hdr h3{font-size:15px;font-weight:600;margin-bottom:3px;}
-.friday-hdr p{font-size:11px;color:rgba(255,255,255,0.45);}
+/* FRIDAY TABLE */
+.fri-card{
+  border:1px solid var(--rule);border-radius:4px;padding:12px 16px;
+  margin-bottom:8px;
+  border-left:3px solid var(--rule);
+}
+.fri-card.s-open{border-left-color:var(--red);}
+.fri-card.s-in-progress{border-left-color:var(--amber);}
+.fri-card.s-next-steps{border-left-color:var(--blue);}
+.fri-card.s-escalated{border-left-color:var(--purple);}
+.fri-ttl{font-size:13px;font-weight:600;color:var(--n1);margin-bottom:4px;}
+.fri-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);margin-bottom:6px;}
 
-/* SECTION DIVIDER in issues */
-.section-divider{display:flex;align-items:center;gap:10px;margin:20px 0 10px;}
-.sd-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);white-space:nowrap;}
-.sd-line{flex:1;height:1px;background:var(--rule);}
-.sd-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);background:var(--cream2);padding:1px 6px;border-radius:10px;}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:3px;}
 
 @media(max-width:700px){
   .sidebar{display:none;}
-  .form-grid-2{grid-template-columns:1fr;}
-  .stats-row{flex-wrap:wrap;}
-  .stat-pill{min-width:50%;}
+  .fg2{grid-template-columns:1fr;}
+  .metrics{flex-wrap:wrap;}
+  .metric{min-width:50%;}
 }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="tb-brand">
-    <div class="tb-mark">SW</div>
-    <div class="tb-name">Salvus</div>
-    <span class="tb-sep">×</span>
-    <div class="tb-sub">TPG Issue Tracker</div>
+<!-- ── MASTHEAD ──────────────────────────────────── -->
+<div class="masthead">
+  <div class="swp-logo">
+    <div class="swp-emblem"><div class="swp-s">S</div></div>
+    <div class="swp-wordmark">
+      <div class="swp-line1">SALVUS</div>
+      <div class="swp-line2">Wealth Partners</div>
+    </div>
+    <div class="swp-sep"></div>
+    <div class="swp-partner">× ThePARTNERS Operations Tracker</div>
   </div>
-  <div class="tb-right">
-    <div class="tb-date" id="live-date"></div>
-    <button class="btn btn-gold btn-sm" onclick="openNewIssue()">+ Log Issue</button>
-    <button class="btn btn-outline btn-sm" onclick="showFridayView()">📋 Friday View</button>
-    <button class="btn btn-outline btn-sm" onclick="copyEmailSummary()">✉ Email Summary</button>
+  <div class="mast-right">
+    <div class="mast-pulse">
+      <div class="pulse-dot"></div>
+      <div class="pulse-label">Live</div>
+    </div>
+    <div class="mast-date" id="live-date"></div>
+    <div class="mast-actions">
+      <button class="btn btn-gold btn-sm" onclick="openNew()">+ Log Issue</button>
+      <button class="btn btn-outline btn-sm" onclick="showFriday()">📋 Friday</button>
+      <button class="btn btn-outline btn-sm" onclick="showEmail()">✉ Email</button>
+    </div>
   </div>
 </div>
 
-<div class="main">
+<!-- ── SHELL ─────────────────────────────────────── -->
+<div class="shell">
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="sb-sec-hdr">Schwab</div>
-  <div class="sb-item active" onclick="setFilter('all')" id="sb-all">
-    <span>All Issues</span>
-    <span class="sb-count" id="cnt-all">0</span>
+  <div class="sb-section">
+    <div class="sb-hdr">Schwab</div>
+    <div class="sb-item active" onclick="nav('all')" id="nav-all"><span>All Issues</span><span class="sb-badge" id="c-all">0</span></div>
+    <div class="sb-rule"></div>
+    <div class="sb-item" onclick="nav('schwab-new-accounts')" id="nav-schwab-new-accounts"><span>New Accounts</span><span class="sb-badge" id="c-schwab-new-accounts">0</span></div>
+    <div class="sb-item" onclick="nav('schwab-account-service')" id="nav-schwab-account-service"><span>Account Service</span><span class="sb-badge" id="c-schwab-account-service">0</span></div>
+    <div class="sb-item" onclick="nav('schwab-trading')" id="nav-schwab-trading"><span>Trading</span><span class="sb-badge" id="c-schwab-trading">0</span></div>
   </div>
-  <div class="sb-item" onclick="setFilter('schwab-new-accounts')" id="sb-schwab-new-accounts">
-    <span>New Accounts</span>
-    <span class="sb-count" id="cnt-schwab-new-accounts">0</span>
+  <div class="sb-section">
+    <div class="sb-hdr">Fidelity</div>
+    <div class="sb-rule"></div>
+    <div class="sb-item" onclick="nav('fidelity-new-accounts')" id="nav-fidelity-new-accounts"><span>New Accounts</span><span class="sb-badge" id="c-fidelity-new-accounts">0</span></div>
+    <div class="sb-item" onclick="nav('fidelity-account-service')" id="nav-fidelity-account-service"><span>Account Service</span><span class="sb-badge" id="c-fidelity-account-service">0</span></div>
+    <div class="sb-item" onclick="nav('fidelity-trading')" id="nav-fidelity-trading"><span>Trading</span><span class="sb-badge" id="c-fidelity-trading">0</span></div>
   </div>
-  <div class="sb-item" onclick="setFilter('schwab-account-service')" id="sb-schwab-account-service">
-    <span>Account Service</span>
-    <span class="sb-count" id="cnt-schwab-account-service">0</span>
+  <div class="sb-section">
+    <div class="sb-hdr">Platform</div>
+    <div class="sb-rule"></div>
+    <div class="sb-item" onclick="nav('amplify')" id="nav-amplify"><span>Amplify</span><span class="sb-badge" id="c-amplify">0</span></div>
+    <div class="sb-item" onclick="nav('billing')" id="nav-billing"><span>Billing</span><span class="sb-badge" id="c-billing">0</span></div>
+    <div class="sb-item" onclick="nav('payments')" id="nav-payments"><span>Payments</span><span class="sb-badge" id="c-payments">0</span></div>
+    <div class="sb-item" onclick="nav('compliance')" id="nav-compliance"><span>Compliance</span><span class="sb-badge" id="c-compliance">0</span></div>
+    <div class="sb-item" onclick="nav('other')" id="nav-other"><span>Other</span><span class="sb-badge" id="c-other">0</span></div>
   </div>
-  <div class="sb-item" onclick="setFilter('schwab-trading')" id="sb-schwab-trading">
-    <span>Trading</span>
-    <span class="sb-count" id="cnt-schwab-trading">0</span>
+  <div class="sb-section">
+    <div class="sb-hdr">By Status</div>
+    <div class="sb-rule"></div>
+    <div class="sb-item" onclick="nav('s-open')" id="nav-s-open"><span>🔴 Open</span><span class="sb-badge" id="c-s-open">0</span></div>
+    <div class="sb-item" onclick="nav('s-in-progress')" id="nav-s-in-progress"><span>🟡 In Progress</span><span class="sb-badge" id="c-s-in-progress">0</span></div>
+    <div class="sb-item" onclick="nav('s-next-steps')" id="nav-s-next-steps"><span>🔵 Next Steps</span><span class="sb-badge" id="c-s-next-steps">0</span></div>
+    <div class="sb-item" onclick="nav('s-escalated')" id="nav-s-escalated"><span>🟣 Escalated</span><span class="sb-badge" id="c-s-escalated">0</span></div>
+    <div class="sb-item" onclick="nav('s-resolved')" id="nav-s-resolved"><span>🟢 Resolved</span><span class="sb-badge" id="c-s-resolved">0</span></div>
   </div>
-
-  <div class="sb-divider"></div>
-  <div class="sb-sec-hdr">Fidelity</div>
-  <div class="sb-item" onclick="setFilter('fidelity-new-accounts')" id="sb-fidelity-new-accounts">
-    <span>New Accounts</span>
-    <span class="sb-count" id="cnt-fidelity-new-accounts">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('fidelity-account-service')" id="sb-fidelity-account-service">
-    <span>Account Service</span>
-    <span class="sb-count" id="cnt-fidelity-account-service">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('fidelity-trading')" id="sb-fidelity-trading">
-    <span>Trading</span>
-    <span class="sb-count" id="cnt-fidelity-trading">0</span>
-  </div>
-
-  <div class="sb-divider"></div>
-  <div class="sb-sec-hdr">Platform</div>
-  <div class="sb-item" onclick="setFilter('amplify')" id="sb-amplify">
-    <span>Amplify</span>
-    <span class="sb-count" id="cnt-amplify">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('billing')" id="sb-billing">
-    <span>Billing</span>
-    <span class="sb-count" id="cnt-billing">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('payments')" id="sb-payments">
-    <span>Payments</span>
-    <span class="sb-count" id="cnt-payments">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('compliance')" id="sb-compliance">
-    <span>Compliance</span>
-    <span class="sb-count" id="cnt-compliance">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('other')" id="sb-other">
-    <span>Other</span>
-    <span class="sb-count" id="cnt-other">0</span>
-  </div>
-
-  <div class="sb-divider"></div>
-  <div class="sb-sec-hdr">By Status</div>
-  <div class="sb-item" onclick="setFilter('status-open')" id="sb-status-open">
-    <span>🔴 Open</span>
-    <span class="sb-count" id="cnt-status-open">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('status-in-progress')" id="sb-status-in-progress">
-    <span>🟡 In Progress</span>
-    <span class="sb-count" id="cnt-status-in-progress">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('status-next-steps')" id="sb-status-next-steps">
-    <span>🔵 Next Steps</span>
-    <span class="sb-count" id="cnt-status-next-steps">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('status-escalated')" id="sb-status-escalated">
-    <span>🟣 Escalated</span>
-    <span class="sb-count" id="cnt-status-escalated">0</span>
-  </div>
-  <div class="sb-item" onclick="setFilter('status-resolved')" id="sb-status-resolved">
-    <span>🟢 Resolved</span>
-    <span class="sb-count" id="cnt-status-resolved">0</span>
-  </div>
+  <div class="sb-spacer"></div>
 </div>
 
 <!-- CONTENT -->
 <div class="content">
-  <div class="hdr">
-    <div class="hdr-left">
-      <h2 id="hdr-title">All Issues</h2>
-      <p id="hdr-sub">Showing all open and active issues</p>
+  <div class="content-hdr">
+    <div class="ch-left">
+      <h2 id="view-title">All Issues</h2>
+      <p id="view-sub">Oldest first — unresolved items requiring attention</p>
     </div>
-    <div class="hdr-right">
-      <select class="btn btn-outline btn-sm" id="sort-select" onchange="renderIssues()" style="cursor:pointer;">
-        <option value="age-desc">Oldest First</option>
-        <option value="age-asc">Newest First</option>
+    <div class="ch-right">
+      <select class="btn btn-outline btn-sm" id="sort-sel" onchange="render()" style="cursor:pointer;padding:5px 10px;">
+        <option value="age-asc">Oldest First</option>
+        <option value="age-desc">Newest First</option>
         <option value="status">By Status</option>
-        <option value="category">By Category</option>
+        <option value="cat">By Category</option>
       </select>
-      <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);cursor:pointer;">
-        <input type="checkbox" id="hide-resolved" onchange="renderIssues()" checked> Hide Resolved
+      <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);cursor:pointer;">
+        <input type="checkbox" id="hide-res" onchange="render()" checked>
+        <span>Hide Resolved</span>
       </label>
     </div>
   </div>
 
-  <!-- STATS ROW -->
-  <div class="stats-row">
-    <div class="stat-pill" onclick="setFilter('status-open')">
-      <div class="sp-val red" id="stat-open">0</div>
-      <div class="sp-lbl">Open</div>
-    </div>
-    <div class="stat-pill" onclick="setFilter('status-in-progress')">
-      <div class="sp-val amber" id="stat-inprog">0</div>
-      <div class="sp-lbl">In Progress</div>
-    </div>
-    <div class="stat-pill" onclick="setFilter('status-next-steps')">
-      <div class="sp-val blue" id="stat-next">0</div>
-      <div class="sp-lbl">Next Steps</div>
-    </div>
-    <div class="stat-pill" onclick="setFilter('status-escalated')">
-      <div class="sp-val purple" id="stat-esc">0</div>
-      <div class="sp-lbl">Escalated</div>
-    </div>
-    <div class="stat-pill" onclick="setFilter('status-resolved')">
-      <div class="sp-val green" id="stat-res">0</div>
-      <div class="sp-lbl">Resolved</div>
-    </div>
-    <div class="stat-pill">
-      <div class="sp-val" id="stat-aging" style="color:var(--red)">0</div>
-      <div class="sp-lbl">Aging 5+ Days</div>
-    </div>
+  <!-- METRICS STRIP -->
+  <div class="metrics">
+    <div class="metric" onclick="nav('s-open')"><div class="m-val red" id="m-open">0</div><div class="m-lbl">Open</div></div>
+    <div class="metric" onclick="nav('s-in-progress')"><div class="m-val amber" id="m-ip">0</div><div class="m-lbl">In Progress</div></div>
+    <div class="metric" onclick="nav('s-next-steps')"><div class="m-val blue" id="m-ns">0</div><div class="m-lbl">Next Steps</div></div>
+    <div class="metric" onclick="nav('s-escalated')"><div class="m-val purple" id="m-esc">0</div><div class="m-lbl">Escalated</div></div>
+    <div class="metric" onclick="nav('s-resolved')"><div class="m-val green" id="m-res">0</div><div class="m-lbl">Resolved</div></div>
+    <div class="metric"><div class="m-val warn" id="m-age">0</div><div class="m-lbl">Aging 5+ Days</div></div>
   </div>
 
-  <div class="issues-wrap" id="issues-wrap">
-    <div class="issues-empty">
-      <div class="ei">📋</div>
-      <p>No issues logged yet.<br>Click <strong>+ Log Issue</strong> to add the first one.</p>
-    </div>
+  <div class="issue-scroll" id="issue-scroll">
+    <div class="empty"><div class="empty-icon">📋</div><p>No issues logged yet.<br>Click <strong>+ Log Issue</strong> to get started.</p></div>
   </div>
 </div>
 </div>
 
-<!-- NEW ISSUE MODAL -->
-<div class="modal-overlay" id="new-issue-modal">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h3 id="modal-title">Log New Issue</h3>
-      <button class="modal-close" onclick="closeModal('new-issue-modal')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <label>Issue Title *</label>
-        <input type="text" id="f-title" placeholder="Brief description of the issue">
+<!-- ── NEW ISSUE MODAL ────────────────────────────── -->
+<div class="overlay" id="m-new">
+<div class="modal">
+  <div class="mhdr">
+    <div><h3>Log New Issue</h3><p>Sonja logs · TPG resolves · everyone tracks</p></div>
+    <button class="m-close" onclick="close_('m-new')">×</button>
+  </div>
+  <div class="mbody">
+    <div class="fr"><label>Issue Title *</label><input id="n-title" placeholder="Brief, clear description of the problem"></div>
+    <div class="fg2">
+      <div class="fr"><label>Category *</label>
+        <select id="n-cat">
+          <option value="">— Select —</option>
+          <optgroup label="Schwab">
+            <option value="schwab-new-accounts">Schwab · New Accounts</option>
+            <option value="schwab-account-service">Schwab · Account Service</option>
+            <option value="schwab-trading">Schwab · Trading</option>
+          </optgroup>
+          <optgroup label="Fidelity">
+            <option value="fidelity-new-accounts">Fidelity · New Accounts</option>
+            <option value="fidelity-account-service">Fidelity · Account Service</option>
+            <option value="fidelity-trading">Fidelity · Trading</option>
+          </optgroup>
+          <optgroup label="Platform">
+            <option value="amplify">Amplify</option>
+            <option value="billing">Billing</option>
+            <option value="payments">Payments</option>
+            <option value="compliance">Compliance</option>
+            <option value="other">Other</option>
+          </optgroup>
+        </select>
       </div>
-      <div class="form-grid-2">
-        <div class="form-row">
-          <label>Category *</label>
-          <select id="f-category">
-            <option value="">— Select —</option>
-            <optgroup label="Schwab">
-              <option value="schwab-new-accounts">Schwab · New Accounts</option>
-              <option value="schwab-account-service">Schwab · Account Service</option>
-              <option value="schwab-trading">Schwab · Trading</option>
-            </optgroup>
-            <optgroup label="Fidelity">
-              <option value="fidelity-new-accounts">Fidelity · New Accounts</option>
-              <option value="fidelity-account-service">Fidelity · Account Service</option>
-              <option value="fidelity-trading">Fidelity · Trading</option>
-            </optgroup>
-            <optgroup label="Platform">
-              <option value="amplify">Amplify</option>
-              <option value="billing">Billing</option>
-              <option value="payments">Payments</option>
-              <option value="compliance">Compliance</option>
-              <option value="other">Other</option>
-            </optgroup>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Status *</label>
-          <select id="f-status">
-            <option value="open">🔴 Open</option>
-            <option value="in-progress">🟡 In Progress</option>
-            <option value="next-steps">🔵 Next Steps</option>
-            <option value="escalated">🟣 Escalated</option>
-            <option value="resolved">🟢 Resolved</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-grid-2">
-        <div class="form-row">
-          <label>Assigned to (TPG)</label>
-          <select id="f-assigned">
-            <option value="">— Unassigned —</option>
-            <option value="Chelsie">Chelsie (Operations)</option>
-            <option value="Gary Gordon">Gary Gordon (President)</option>
-            <option value="Chris Lein">Chris Lein (COO)</option>
-            <option value="Greg Rutherford">Greg Rutherford (CEO)</option>
-            <option value="Victoria (Amplify)">Victoria (Amplify)</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Client / Account (optional)</label>
-          <input type="text" id="f-client" placeholder="Client name or account #">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Description</label>
-        <textarea id="f-description" placeholder="What happened? What was communicated? Any relevant dates or amounts?"></textarea>
-      </div>
-      <div class="form-row">
-        <label>Next Steps / Action Required</label>
-        <textarea id="f-nextsteps" placeholder="What needs to happen next? Who is responsible?" style="min-height:60px;"></textarea>
-      </div>
-      <div class="form-row">
-        <label>Logged by</label>
-        <select id="f-loggedby">
-          <option value="Sonja Elia">Sonja Elia</option>
-          <option value="Bob Joel">Bob Joel</option>
-          <option value="Robert O'Quinn">Robert O'Quinn</option>
-          <option value="Pete Freidel">Pete Freidel</option>
+      <div class="fr"><label>Initial Status</label>
+        <select id="n-status">
+          <option value="open">🔴 Open</option>
+          <option value="in-progress">🟡 In Progress</option>
+          <option value="next-steps">🔵 Next Steps</option>
+          <option value="escalated">🟣 Escalated</option>
         </select>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('new-issue-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveIssue()">Save Issue</button>
+    <div class="fg2">
+      <div class="fr"><label>Assigned to (TPG)</label>
+        <select id="n-assign">
+          <option value="">— Unassigned —</option>
+          <option>Chelsie (Operations)</option>
+          <option>Gary Gordon (President)</option>
+          <option>Chris Lein (COO)</option>
+          <option>Greg Rutherford (CEO)</option>
+          <option>Victoria (Amplify)</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="fr"><label>Client / Account</label><input id="n-client" placeholder="Optional — name or account #"></div>
     </div>
+    <div class="fr"><label>Description</label><textarea id="n-desc" placeholder="What happened? Relevant dates, amounts, prior communications?"></textarea></div>
+    <div class="fr"><label>Next Steps / Action Required</label><textarea id="n-next" placeholder="What needs to happen next? Who is responsible?" style="min-height:58px;"></textarea></div>
+    <div class="fr"><label>Logged by</label>
+      <select id="n-by">
+        <option>Sonja Elia</option><option>Bob Joel</option>
+        <option>Robert O'Quinn</option><option>Pete Freidel</option>
+      </select>
+    </div>
+  </div>
+  <div class="mfoot">
+    <button class="btn btn-outline" onclick="close_('m-new')">Cancel</button>
+    <button class="btn btn-dark" onclick="saveNew()">Save Issue</button>
   </div>
 </div>
-
-<!-- UPDATE MODAL -->
-<div class="modal-overlay" id="update-modal">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h3>Update Issue</h3>
-      <button class="modal-close" onclick="closeModal('update-modal')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-row">
-        <label>Issue Title</label>
-        <input type="text" id="u-title">
-      </div>
-      <div class="form-grid-2">
-        <div class="form-row">
-          <label>Status</label>
-          <select id="u-status">
-            <option value="open">🔴 Open</option>
-            <option value="in-progress">🟡 In Progress</option>
-            <option value="next-steps">🔵 Next Steps</option>
-            <option value="escalated">🟣 Escalated</option>
-            <option value="resolved">🟢 Resolved</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label>Assigned to (TPG)</label>
-          <select id="u-assigned">
-            <option value="">— Unassigned —</option>
-            <option value="Chelsie">Chelsie (Operations)</option>
-            <option value="Gary Gordon">Gary Gordon (President)</option>
-            <option value="Chris Lein">Chris Lein (COO)</option>
-            <option value="Greg Rutherford">Greg Rutherford (CEO)</option>
-            <option value="Victoria (Amplify)">Victoria (Amplify)</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Update Note (added to history)</label>
-        <textarea id="u-note" placeholder="What happened since last update? What's the current status?" style="min-height:80px;"></textarea>
-      </div>
-      <div class="form-row">
-        <label>Next Steps / Action Required</label>
-        <textarea id="u-nextsteps" placeholder="What needs to happen next?" style="min-height:60px;"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('update-modal')">Cancel</button>
-      <button class="btn btn-outline" style="color:var(--red);border-color:var(--red);" onclick="deleteIssue()">Delete</button>
-      <button class="btn btn-primary" onclick="saveUpdate()">Save Update</button>
-    </div>
-  </div>
 </div>
 
-<!-- EMAIL MODAL -->
-<div class="modal-overlay" id="email-modal">
-  <div class="modal">
-    <div class="modal-hdr">
-      <h3>✉ Email Summary — Copy &amp; Paste into Outlook</h3>
-      <button class="modal-close" onclick="closeModal('email-modal')">×</button>
-    </div>
-    <div class="modal-body">
-      <p style="font-size:12px;color:var(--text3);margin-bottom:12px;">Copy the text below and paste into a new email to the TPG team. Update the To/CC fields as needed.</p>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;"><strong>To:</strong> Gary Gordon &lt;garygordon@thepartnerswm.com&gt;, Chris Lein &lt;chrislein@thepartnerswm.com&gt;<br><strong>CC:</strong> Sonja Elia &lt;selia@salvuswealth.com&gt;, Bob Joel &lt;bjoel@salvuswealth.com&gt;<br><strong>Subject:</strong> Salvus × TPG — Open Issue Summary <span id="email-date-sub"></span></div>
-      <div class="email-box" id="email-content"></div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
-        <button class="btn btn-primary" onclick="copyEmail()">📋 Copy to Clipboard</button>
-        <span class="copy-success" id="copy-success">✓ Copied!</span>
+<!-- ── UPDATE MODAL ───────────────────────────────── -->
+<div class="overlay" id="m-update">
+<div class="modal">
+  <div class="mhdr">
+    <div><h3>Update Issue</h3><p>Every update is logged with date and author</p></div>
+    <button class="m-close" onclick="close_('m-update')">×</button>
+  </div>
+  <div class="mbody">
+    <div class="fr"><label>Title</label><input id="u-title"></div>
+    <div class="fg2">
+      <div class="fr"><label>Status</label>
+        <select id="u-status">
+          <option value="open">🔴 Open</option>
+          <option value="in-progress">🟡 In Progress</option>
+          <option value="next-steps">🔵 Next Steps</option>
+          <option value="escalated">🟣 Escalated</option>
+          <option value="resolved">🟢 Resolved</option>
+        </select>
+      </div>
+      <div class="fr"><label>Assigned to (TPG)</label>
+        <select id="u-assign">
+          <option value="">— Unassigned —</option>
+          <option>Chelsie (Operations)</option>
+          <option>Gary Gordon (President)</option>
+          <option>Chris Lein (COO)</option>
+          <option>Greg Rutherford (CEO)</option>
+          <option>Victoria (Amplify)</option>
+          <option>Other</option>
+        </select>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('email-modal')">Close</button>
+    <div class="fr"><label>Update Note <span style="font-weight:300;color:var(--t3)">(appended to history)</span></label>
+      <textarea id="u-note" placeholder="What happened since last update? What is the current status?" style="min-height:80px;"></textarea>
     </div>
+    <div class="fr"><label>Next Steps / Action Required</label>
+      <textarea id="u-next" placeholder="What needs to happen next?" style="min-height:58px;"></textarea>
+    </div>
+  </div>
+  <div class="mfoot">
+    <button class="btn btn-outline" onclick="close_('m-update')">Cancel</button>
+    <button class="btn btn-outline" style="color:var(--red);border-color:var(--red-bd);" onclick="del()">Delete</button>
+    <button class="btn btn-dark" onclick="saveUpdate()">Save Update</button>
   </div>
 </div>
+</div>
 
-<!-- FRIDAY VIEW MODAL -->
-<div class="modal-overlay" id="friday-modal">
-  <div class="modal" style="max-width:780px;">
-    <div class="modal-hdr" style="background:var(--navy);border-radius:8px 8px 0 0;">
-      <div>
-        <h3 style="color:white;font-size:16px;">📋 Friday Call View</h3>
-        <p style="color:rgba(255,255,255,0.4);font-size:11px;margin-top:2px;">All open, in-progress, next-steps, and escalated issues — oldest first</p>
-      </div>
-      <button class="modal-close" onclick="closeModal('friday-modal')" style="color:rgba(255,255,255,0.5);">×</button>
+<!-- ── EMAIL MODAL ────────────────────────────────── -->
+<div class="overlay" id="m-email">
+<div class="modal modal-lg">
+  <div class="mhdr">
+    <div><h3>Email Summary</h3><p>Copy and paste into Outlook — ready to send</p></div>
+    <button class="m-close" onclick="close_('m-email')">×</button>
+  </div>
+  <div class="mbody">
+    <div style="background:var(--c0);border:1px solid var(--rule);border-radius:3px;padding:10px 14px;font-size:12px;color:var(--t1);margin-bottom:12px;line-height:1.8;">
+      <strong>To:</strong> Gary Gordon &lt;garygordon@thepartnerswm.com&gt;, Chris Lein &lt;chrislein@thepartnerswm.com&gt;<br>
+      <strong>CC:</strong> Sonja Elia &lt;selia@salvuswealth.com&gt;, Bob Joel &lt;bjoel@salvuswealth.com&gt;<br>
+      <strong>Subject:</strong> Salvus × TPG — Open Issue Summary <span id="email-subj-date"></span>
     </div>
-    <div class="modal-body" style="padding:0;">
-      <div id="friday-content" style="padding:16px 24px;max-height:70vh;overflow-y:auto;"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('friday-modal')">Close</button>
-      <button class="btn btn-primary" onclick="copyFridayView()">📋 Copy for Notes</button>
-      <span class="copy-success" id="friday-copy-success">✓ Copied!</span>
+    <div class="email-box" id="email-body"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+      <button class="btn btn-dark" onclick="copyEmail()">📋 Copy to Clipboard</button>
+      <span class="copy-ok" id="copy-ok">✓ Copied to clipboard</span>
     </div>
   </div>
+  <div class="mfoot"><button class="btn btn-outline" onclick="close_('m-email')">Close</button></div>
+</div>
+</div>
+
+<!-- ── FRIDAY MODAL ───────────────────────────────── -->
+<div class="overlay" id="m-friday">
+<div class="modal modal-lg">
+  <div class="mhdr">
+    <div><h3>Friday Call View</h3><p>All active issues · oldest first · ready for the call</p></div>
+    <button class="m-close" onclick="close_('m-friday')">×</button>
+  </div>
+  <div class="mbody" style="padding:0;">
+    <div id="friday-body" style="padding:16px 22px;max-height:65vh;overflow-y:auto;"></div>
+  </div>
+  <div class="mfoot">
+    <button class="btn btn-outline" onclick="close_('m-friday')">Close</button>
+    <button class="btn btn-dark" onclick="copyFriday()">📋 Copy Notes</button>
+    <span class="copy-ok" id="fri-ok">✓ Copied</span>
+  </div>
+</div>
 </div>
 
 <script>
-// ── STORAGE KEY ──────────────────────────────────
-const STORAGE_KEY = 'salvus_tpg_issues_v1';
-let issues = [];
-let currentFilter = 'all';
-let editingId = null;
+// ── DATA ─────────────────────────────────────────
+const SK = 'swp_tpg_v2';
+let issues = [], cur = 'all', editId = null;
 
-// ── LOAD / SAVE ──────────────────────────────────
-async function loadIssues() {
-  try {
-    const r = await window.storage.get(STORAGE_KEY);
-    if (r && r.value) issues = JSON.parse(r.value);
-  } catch(e) { issues = []; }
-  renderAll();
+const CATS = {
+  'schwab-new-accounts':'Schwab · New Accounts',
+  'schwab-account-service':'Schwab · Account Service',
+  'schwab-trading':'Schwab · Trading',
+  'fidelity-new-accounts':'Fidelity · New Accounts',
+  'fidelity-account-service':'Fidelity · Account Service',
+  'fidelity-trading':'Fidelity · Trading',
+  amplify:'Amplify', billing:'Billing', payments:'Payments',
+  compliance:'Compliance', other:'Other'
+};
+const SLBL = {
+  open:'🔴 Open','in-progress':'🟡 In Progress',
+  'next-steps':'🔵 Next Steps', escalated:'🟣 Escalated', resolved:'🟢 Resolved'
+};
+
+// ── STORAGE ──────────────────────────────────────
+async function load() {
+  try { const r = await window.storage.get(SK); if(r?.value) issues = JSON.parse(r.value); }
+  catch(e){ issues=[]; }
+  all();
+}
+async function save() {
+  try { await window.storage.set(SK, JSON.stringify(issues)); } catch(e){}
 }
 
-async function saveIssues() {
-  try {
-    await window.storage.set(STORAGE_KEY, JSON.stringify(issues));
-  } catch(e) { console.error('Storage error:', e); }
-}
+// ── UTIL ─────────────────────────────────────────
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const days = d => Math.floor((Date.now()-new Date(d))/864e5);
+const fd = d => new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 
-// ── HELPERS ──────────────────────────────────────
-function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
-
-function daysAgo(dateStr) {
-  const d = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
-  return d;
-}
-
-function fmtDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-}
-
-function catLabel(cat) {
-  const map = {
-    'schwab-new-accounts':'Schwab · New Accounts',
-    'schwab-account-service':'Schwab · Account Service',
-    'schwab-trading':'Schwab · Trading',
-    'fidelity-new-accounts':'Fidelity · New Accounts',
-    'fidelity-account-service':'Fidelity · Account Service',
-    'fidelity-trading':'Fidelity · Trading',
-    'amplify':'Amplify',
-    'billing':'Billing',
-    'payments':'Payments',
-    'compliance':'Compliance',
-    'other':'Other'
-  };
-  return map[cat] || cat;
-}
-
-function statusLabel(s) {
-  return {open:'🔴 Open','in-progress':'🟡 In Progress','next-steps':'🔵 Next Steps',escalated:'🟣 Escalated',resolved:'🟢 Resolved'}[s] || s;
-}
-
-function ageBadge(days, status) {
-  if (status === 'resolved') return '';
-  if (days >= 5) return `<span class="ic-age old">${days}d old ⚠</span>`;
-  if (days >= 2) return `<span class="ic-age aging">${days}d old</span>`;
-  return `<span class="ic-age">${days}d old</span>`;
-}
-
-// ── FILTER & RENDER ──────────────────────────────
-function setFilter(f) {
-  currentFilter = f;
-  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
-  const el = document.getElementById('sb-' + f);
-  if (el) el.classList.add('active');
-  updateHeaderTitle(f);
-  renderIssues();
-}
-
-function updateHeaderTitle(f) {
-  const titles = {
-    all:'All Issues','status-open':'Open Issues','status-in-progress':'In Progress',
-    'status-next-steps':'Next Steps','status-escalated':'Escalated','status-resolved':'Resolved',
-    'schwab-new-accounts':'Schwab · New Accounts','schwab-account-service':'Schwab · Account Service',
-    'schwab-trading':'Schwab · Trading','fidelity-new-accounts':'Fidelity · New Accounts',
-    'fidelity-account-service':'Fidelity · Account Service','fidelity-trading':'Fidelity · Trading',
-    amplify:'Amplify',billing:'Billing',payments:'Payments',compliance:'Compliance',other:'Other'
-  };
-  document.getElementById('hdr-title').textContent = titles[f] || f;
-}
-
-function getFiltered() {
+function filtered() {
   let list = [...issues];
-  const hideRes = document.getElementById('hide-resolved')?.checked;
-  if (currentFilter.startsWith('status-')) {
-    const s = currentFilter.replace('status-','');
-    list = list.filter(i => i.status === s);
-  } else if (currentFilter !== 'all') {
-    list = list.filter(i => i.category === currentFilter);
-    if (hideRes) list = list.filter(i => i.status !== 'resolved');
+  const hr = document.getElementById('hide-res')?.checked;
+  if(cur.startsWith('s-')){
+    const s = cur.slice(2); list = list.filter(i=>i.status===s);
+  } else if(cur!=='all'){
+    list = list.filter(i=>i.cat===cur);
+    if(hr) list = list.filter(i=>i.status!=='resolved');
   } else {
-    if (hideRes) list = list.filter(i => i.status !== 'resolved');
+    if(hr) list = list.filter(i=>i.status!=='resolved');
   }
-  const sort = document.getElementById('sort-select')?.value || 'age-desc';
-  if (sort === 'age-desc') list.sort((a,b) => new Date(a.created) - new Date(b.created));
-  else if (sort === 'age-asc') list.sort((a,b) => new Date(b.created) - new Date(a.created));
-  else if (sort === 'status') {
-    const order = {escalated:0,open:1,'in-progress':2,'next-steps':3,resolved:4};
-    list.sort((a,b) => (order[a.status]||5) - (order[b.status]||5));
-  } else if (sort === 'category') list.sort((a,b) => a.category.localeCompare(b.category));
+  const s = document.getElementById('sort-sel')?.value||'age-asc';
+  if(s==='age-asc') list.sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+  else if(s==='age-desc') list.sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+  else if(s==='status'){
+    const o={escalated:0,open:1,'in-progress':2,'next-steps':3,resolved:4};
+    list.sort((a,b)=>(o[a.status]||5)-(o[b.status]||5));
+  } else list.sort((a,b)=>a.cat.localeCompare(b.cat));
   return list;
 }
 
-function renderIssues() {
-  const wrap = document.getElementById('issues-wrap');
-  const list = getFiltered();
-  if (!list.length) {
-    wrap.innerHTML = `<div class="issues-empty"><div class="ei">✓</div><p>No issues in this view.<br>Everything looks clear!</p></div>`;
+// ── RENDER ───────────────────────────────────────
+function render() {
+  counts(); const list = filtered();
+  const wrap = document.getElementById('issue-scroll');
+  if(!list.length){
+    wrap.innerHTML=`<div class="empty"><div class="empty-icon">✓</div><p>No issues in this view — all clear.</p></div>`;
     return;
   }
-  // Group by category if showing all
-  let html = '';
-  if (currentFilter === 'all' || !currentFilter.startsWith('status-')) {
-    const groups = {};
-    list.forEach(i => { if (!groups[i.category]) groups[i.category] = []; groups[i.category].push(i); });
-    Object.entries(groups).forEach(([cat, items]) => {
-      html += `<div class="section-divider"><div class="sd-label">${catLabel(cat)}</div><div class="sd-line"></div><div class="sd-count">${items.length}</div></div>`;
-      items.forEach(i => { html += issueCard(i); });
-    });
-  } else {
-    list.forEach(i => { html += issueCard(i); });
-  }
-  wrap.innerHTML = html;
+  let html='', lastCat='';
+  const grouped = (cur==='all'||!cur.startsWith('s-'));
+  list.forEach(issue=>{
+    if(grouped && issue.cat!==lastCat){
+      html+=`<div class="cat-divider"><div class="cd-label">${CATS[issue.cat]||issue.cat}</div><div class="cd-line"></div><div class="cd-count">${list.filter(i=>i.cat===issue.cat).length}</div></div>`;
+      lastCat=issue.cat;
+    }
+    html+=card(issue);
+  });
+  wrap.innerHTML=html;
 }
 
-function issueCard(issue) {
-  const days = daysAgo(issue.created);
-  const statusClass = issue.status.replace('-','');
-  const dotClass = 'dot-' + issue.status;
-  const badgeClass = 'sb-' + issue.status.replace('-','').replace('nextsteps','next-steps').replace('inprogress','in-progress');
-  const history = (issue.history || []).slice().reverse().map(h =>
-    `<div style="margin-bottom:4px;"><span style="color:var(--text3);font-size:10px;">${fmtDate(h.date)} · ${h.by || ''}</span> — ${h.note}</div>`
+function card(i){
+  const d=days(i.ts), sc='s-'+i.status;
+  const age = d>=5?`<span class="chip chip-age warn">${d}d ⚠</span>`:
+              d>=2?`<span class="chip chip-age aging">${d}d</span>`:
+              `<span class="chip chip-age">${d}d</span>`;
+  const hist=(i.history||[]).slice().reverse().map(h=>
+    `<div class="hist-entry"><div class="hist-meta">${fd(h.ts)} · ${h.by||''}</div><div class="hist-note">${h.note}</div></div>`
   ).join('');
-
-  return `<div class="issue-card ${issue.status}" id="card-${issue.id}">
-    <div class="ic-top">
-      <div class="ic-status-dot ${dotClass}"></div>
-      <div class="ic-main">
-        <div class="ic-title">${issue.title}${issue.client ? ` <span style="font-weight:400;color:var(--text3);">— ${issue.client}</span>` : ''}</div>
-        <div class="ic-meta">
-          <span class="ic-cat">${catLabel(issue.category)}</span>
-          <span class="status-badge ${badgeClass}">${statusLabel(issue.status)}</span>
-          ${ageBadge(days, issue.status)}
-          ${issue.assigned ? `<span class="ic-assigned">→ ${issue.assigned}</span>` : ''}
-        </div>
-      </div>
-      <div class="ic-actions">
-        <button class="btn btn-icon btn-sm" onclick="openUpdate('${issue.id}')">✏ Update</button>
+  return `<div class="icard ${sc}">
+  <div class="ic-row">
+    <div class="ic-body">
+      <div class="ic-title">${i.title}${i.client?` <span class="ic-client">— ${i.client}</span>`:''}</div>
+      <div class="ic-chips">
+        <span class="chip chip-cat">${CATS[i.cat]||i.cat}</span>
+        <span class="chip chip-${i.status}">${SLBL[i.status]}</span>
+        ${age}
+        ${i.assign?`<span class="chip chip-assign">→ ${i.assign}</span>`:''}
       </div>
     </div>
-    ${issue.description || issue.nextSteps || history ? `
-    <div class="ic-detail">
-      ${issue.description ? `<div class="ic-desc">${issue.description}</div>` : ''}
-      ${issue.nextSteps ? `<div class="ic-next"><strong>Next Steps</strong>${issue.nextSteps}</div>` : ''}
-      ${history ? `<div class="ic-history"><strong style="font-size:10px;font-family:'DM Mono',monospace;letter-spacing:0.5px;display:block;margin-bottom:4px;">History</strong>${history}</div>` : ''}
-    </div>` : ''}
+    <div class="ic-actions">
+      <button class="btn btn-ico btn-xs" onclick="openUpdate('${i.id}')">✏ Update</button>
+    </div>
+  </div>
+  ${i.desc?`<div class="ic-desc-strip">${i.desc}</div>`:''}
+  ${i.next?`<div class="ic-next-strip"><strong>Next Steps</strong>${i.next}</div>`:''}
+  ${hist?`<div class="ic-history-strip">${hist}</div>`:''}
   </div>`;
 }
 
-function updateCounts() {
-  const cats = ['schwab-new-accounts','schwab-account-service','schwab-trading',
-    'fidelity-new-accounts','fidelity-account-service','fidelity-trading',
-    'amplify','billing','payments','compliance','other'];
-  const statuses = ['open','in-progress','next-steps','escalated','resolved'];
-  const active = issues.filter(i => i.status !== 'resolved');
-
-  document.getElementById('cnt-all').textContent = issues.length;
-  cats.forEach(c => {
-    const el = document.getElementById('cnt-' + c);
-    if (el) {
-      const n = issues.filter(i => i.category === c && i.status !== 'resolved').length;
-      el.textContent = n;
-      el.className = 'sb-count' + (n > 0 ? ' has-issues' : '');
-    }
+function counts(){
+  const active=issues.filter(i=>i.status!=='resolved');
+  document.getElementById('c-all').textContent=issues.length;
+  Object.keys(CATS).forEach(c=>{
+    const el=document.getElementById('c-'+c);
+    if(!el) return;
+    const n=active.filter(i=>i.cat===c).length;
+    el.textContent=n;
+    el.className='sb-badge'+(n>0?' live':'');
   });
-  statuses.forEach(s => {
-    const el = document.getElementById('cnt-status-' + s);
-    if (el) el.textContent = issues.filter(i => i.status === s).length;
+  ['open','in-progress','next-steps','escalated','resolved'].forEach(s=>{
+    const el=document.getElementById('c-s-'+s);
+    if(el) el.textContent=issues.filter(i=>i.status===s).length;
   });
-
-  // Stats row
-  document.getElementById('stat-open').textContent = issues.filter(i=>i.status==='open').length;
-  document.getElementById('stat-inprog').textContent = issues.filter(i=>i.status==='in-progress').length;
-  document.getElementById('stat-next').textContent = issues.filter(i=>i.status==='next-steps').length;
-  document.getElementById('stat-esc').textContent = issues.filter(i=>i.status==='escalated').length;
-  document.getElementById('stat-res').textContent = issues.filter(i=>i.status==='resolved').length;
-  document.getElementById('stat-aging').textContent = active.filter(i=>daysAgo(i.created)>=5).length;
+  document.getElementById('m-open').textContent=issues.filter(i=>i.status==='open').length;
+  document.getElementById('m-ip').textContent=issues.filter(i=>i.status==='in-progress').length;
+  document.getElementById('m-ns').textContent=issues.filter(i=>i.status==='next-steps').length;
+  document.getElementById('m-esc').textContent=issues.filter(i=>i.status==='escalated').length;
+  document.getElementById('m-res').textContent=issues.filter(i=>i.status==='resolved').length;
+  document.getElementById('m-age').textContent=active.filter(i=>days(i.ts)>=5).length;
 }
 
-function renderAll() { updateCounts(); renderIssues(); }
+function nav(f){
+  cur=f;
+  document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('active'));
+  const el=document.getElementById('nav-'+f);
+  if(el) el.classList.add('active');
+  const titles={all:'All Issues','s-open':'Open Issues','s-in-progress':'In Progress','s-next-steps':'Next Steps','s-escalated':'Escalated','s-resolved':'Resolved'};
+  document.getElementById('view-title').textContent=titles[f]||(CATS[f]||f);
+  render();
+}
 
-// ── NEW ISSUE ─────────────────────────────────────
-function openNewIssue() {
-  editingId = null;
-  document.getElementById('modal-title').textContent = 'Log New Issue';
-  ['f-title','f-description','f-nextsteps','f-client'].forEach(id => {
-    document.getElementById(id).value = '';
+function all(){ counts(); render(); }
+
+// ── NEW ──────────────────────────────────────────
+function openNew(){
+  ['n-title','n-desc','n-next','n-client'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('n-cat').value='';
+  document.getElementById('n-status').value='open';
+  document.getElementById('n-assign').value='';
+  document.getElementById('n-by').value='Sonja Elia';
+  open_('m-new');
+}
+function saveNew(){
+  const t=document.getElementById('n-title').value.trim();
+  const c=document.getElementById('n-cat').value;
+  if(!t||!c){alert('Title and category are required.');return;}
+  issues.unshift({
+    id:uid(), title:t, cat:c,
+    status:document.getElementById('n-status').value,
+    assign:document.getElementById('n-assign').value,
+    client:document.getElementById('n-client').value.trim(),
+    desc:document.getElementById('n-desc').value.trim(),
+    next:document.getElementById('n-next').value.trim(),
+    by:document.getElementById('n-by').value,
+    ts:new Date().toISOString(), history:[]
   });
-  document.getElementById('f-category').value = '';
-  document.getElementById('f-status').value = 'open';
-  document.getElementById('f-assigned').value = '';
-  document.getElementById('f-loggedby').value = 'Sonja Elia';
-  document.getElementById('new-issue-modal').classList.add('open');
+  save(); all(); close_('m-new');
 }
 
-function saveIssue() {
-  const title = document.getElementById('f-title').value.trim();
-  const category = document.getElementById('f-category').value;
-  if (!title || !category) { alert('Please enter a title and category.'); return; }
-  const issue = {
-    id: genId(),
-    title,
-    category,
-    status: document.getElementById('f-status').value,
-    assigned: document.getElementById('f-assigned').value,
-    client: document.getElementById('f-client').value.trim(),
-    description: document.getElementById('f-description').value.trim(),
-    nextSteps: document.getElementById('f-nextsteps').value.trim(),
-    loggedBy: document.getElementById('f-loggedby').value,
-    created: new Date().toISOString(),
-    updated: new Date().toISOString(),
-    history: []
-  };
-  issues.unshift(issue);
-  saveIssues();
-  renderAll();
-  closeModal('new-issue-modal');
+// ── UPDATE ───────────────────────────────────────
+function openUpdate(id){
+  editId=id; const i=issues.find(x=>x.id===id); if(!i) return;
+  document.getElementById('u-title').value=i.title;
+  document.getElementById('u-status').value=i.status;
+  document.getElementById('u-assign').value=i.assign||'';
+  document.getElementById('u-note').value='';
+  document.getElementById('u-next').value=i.next||'';
+  open_('m-update');
 }
-
-// ── UPDATE ISSUE ──────────────────────────────────
-function openUpdate(id) {
-  editingId = id;
-  const issue = issues.find(i => i.id === id);
-  if (!issue) return;
-  document.getElementById('u-title').value = issue.title;
-  document.getElementById('u-status').value = issue.status;
-  document.getElementById('u-assigned').value = issue.assigned || '';
-  document.getElementById('u-note').value = '';
-  document.getElementById('u-nextsteps').value = issue.nextSteps || '';
-  document.getElementById('update-modal').classList.add('open');
-}
-
-function saveUpdate() {
-  const issue = issues.find(i => i.id === editingId);
-  if (!issue) return;
-  const note = document.getElementById('u-note').value.trim();
-  const oldStatus = issue.status;
-  issue.title = document.getElementById('u-title').value.trim() || issue.title;
-  issue.status = document.getElementById('u-status').value;
-  issue.assigned = document.getElementById('u-assigned').value;
-  issue.nextSteps = document.getElementById('u-nextsteps').value.trim();
-  issue.updated = new Date().toISOString();
-  if (note || oldStatus !== issue.status) {
-    const historyNote = note || `Status changed: ${statusLabel(oldStatus)} → ${statusLabel(issue.status)}`;
-    issue.history = issue.history || [];
-    issue.history.push({ date: new Date().toISOString(), note: historyNote, by: 'Sonja Elia' });
+function saveUpdate(){
+  const i=issues.find(x=>x.id===editId); if(!i) return;
+  const note=document.getElementById('u-note').value.trim();
+  const oldS=i.status;
+  i.title=document.getElementById('u-title').value.trim()||i.title;
+  i.status=document.getElementById('u-status').value;
+  i.assign=document.getElementById('u-assign').value;
+  i.next=document.getElementById('u-next').value.trim();
+  i.ts_updated=new Date().toISOString();
+  if(note||oldS!==i.status){
+    i.history=i.history||[];
+    i.history.push({ts:new Date().toISOString(),note:note||(SLBL[oldS]+' → '+SLBL[i.status]),by:'Sonja Elia'});
   }
-  saveIssues();
-  renderAll();
-  closeModal('update-modal');
+  save(); all(); close_('m-update');
+}
+function del(){
+  if(!confirm('Delete this issue permanently?')) return;
+  issues=issues.filter(i=>i.id!==editId);
+  save(); all(); close_('m-update');
 }
 
-function deleteIssue() {
-  if (!confirm('Delete this issue? This cannot be undone.')) return;
-  issues = issues.filter(i => i.id !== editingId);
-  saveIssues();
-  renderAll();
-  closeModal('update-modal');
-}
-
-// ── EMAIL SUMMARY ─────────────────────────────────
-function copyEmailSummary() {
-  generateEmailContent();
-  document.getElementById('email-modal').classList.add('open');
-}
-
-function generateEmailContent() {
-  const active = issues.filter(i => i.status !== 'resolved')
-    .sort((a,b) => new Date(a.created) - new Date(b.created));
-  const today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  document.getElementById('email-date-sub').textContent = `· ${today}`;
-  if (!active.length) {
-    document.getElementById('email-content').textContent = 'No open issues as of ' + today + '. All items resolved. ✓';
-    return;
-  }
-  let text = `Salvus × TPG — Open Issue Summary\n${today}\nLogged by: Sonja Elia\n`;
-  text += '─'.repeat(50) + '\n\n';
-  text += `SUMMARY: ${active.length} open item${active.length!==1?'s':''} requiring attention\n\n`;
-  const byStatus = {
-    escalated: active.filter(i=>i.status==='escalated'),
-    open: active.filter(i=>i.status==='open'),
-    'in-progress': active.filter(i=>i.status==='in-progress'),
-    'next-steps': active.filter(i=>i.status==='next-steps'),
-  };
-  const statusNames = {escalated:'ESCALATED',open:'OPEN — NOT YET ACKNOWLEDGED','in-progress':'IN PROGRESS','next-steps':'NEXT STEPS'};
-  Object.entries(byStatus).forEach(([status, items]) => {
-    if (!items.length) return;
-    text += statusNames[status] + ` (${items.length})\n${'─'.repeat(30)}\n`;
-    items.forEach((issue, idx) => {
-      const days = daysAgo(issue.created);
-      text += `${idx+1}. [${catLabel(issue.category)}] ${issue.title}\n`;
-      if (issue.client) text += `   Client: ${issue.client}\n`;
-      text += `   Logged: ${fmtDate(issue.created)} (${days} day${days!==1?'s':''} ago)\n`;
-      if (issue.assigned) text += `   Assigned to: ${issue.assigned}\n`;
-      if (issue.description) text += `   Issue: ${issue.description}\n`;
-      if (issue.nextSteps) text += `   Next Steps: ${issue.nextSteps}\n`;
-      text += '\n';
+// ── EMAIL ─────────────────────────────────────────
+function showEmail(){
+  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('email-subj-date').textContent='· '+today;
+  const active=issues.filter(i=>i.status!=='resolved').sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+  let txt=`Salvus Wealth Partners × ThePARTNERS\nOpen Issue Summary — ${today}\nPrepared by: Sonja Elia\n${'─'.repeat(48)}\n\n`;
+  if(!active.length){ txt+='No open issues as of today. All items resolved. ✓\n'; }
+  else {
+    txt+=`SUMMARY: ${active.length} open item${active.length!==1?'s':''} requiring attention\n\n`;
+    const order={escalated:0,open:1,'in-progress':2,'next-steps':3};
+    const grps={escalated:'ESCALATED',open:'OPEN — AWAITING ACKNOWLEDGMENT','in-progress':'IN PROGRESS','next-steps':'NEXT STEPS — ACTION REQUIRED'};
+    Object.entries(grps).forEach(([s,lbl])=>{
+      const items=active.filter(i=>i.status===s);
+      if(!items.length) return;
+      txt+=`${lbl} (${items.length})\n${'─'.repeat(32)}\n`;
+      items.forEach((i,n)=>{
+        const d=days(i.ts);
+        txt+=`${n+1}. [${CATS[i.cat]||i.cat}] ${i.title}\n`;
+        if(i.client) txt+=`   Client: ${i.client}\n`;
+        txt+=`   Logged: ${fd(i.ts)} (${d} day${d!==1?'s':''} old)\n`;
+        if(i.assign) txt+=`   Assigned: ${i.assign}\n`;
+        if(i.desc) txt+=`   Issue: ${i.desc}\n`;
+        if(i.next) txt+=`   Next Steps: ${i.next}\n`;
+        txt+='\n';
+      });
     });
-  });
-  text += '─'.repeat(50) + '\n';
-  text += 'Please acknowledge receipt and provide status updates on each item above.\n';
-  text += 'We will review all open items on our Friday morning call.\n\n';
-  text += 'Thank you,\nSonja Elia | Salvus Wealth Partners\nselia@salvuswealth.com';
-  document.getElementById('email-content').textContent = text;
+    txt+=`${'─'.repeat(48)}\n`;
+    txt+=`Please acknowledge receipt and provide status updates.\nWe will review all open items on our Friday morning call.\n\nThank you,\nSonja Elia | Salvus Wealth Partners\nselia@salvuswealth.com`;
+  }
+  document.getElementById('email-body').textContent=txt;
+  open_('m-email');
 }
-
-function copyEmail() {
-  const text = document.getElementById('email-content').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const el = document.getElementById('copy-success');
-    el.style.display = 'inline';
-    setTimeout(() => el.style.display = 'none', 2000);
+function copyEmail(){
+  navigator.clipboard.writeText(document.getElementById('email-body').textContent).then(()=>{
+    const el=document.getElementById('copy-ok');
+    el.style.display='inline';setTimeout(()=>el.style.display='none',2200);
   });
 }
 
-// ── FRIDAY VIEW ───────────────────────────────────
-function showFridayView() {
-  const active = issues.filter(i => ['open','in-progress','next-steps','escalated'].includes(i.status))
-    .sort((a,b) => new Date(a.created) - new Date(b.created));
-  const today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  let html = `<div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:16px;">Friday Call · ${today} · ${active.length} open item${active.length!==1?'s':''}</div>`;
-  if (!active.length) {
-    html += `<div style="text-align:center;padding:40px;color:var(--text3);">✓ No open issues — clean slate for the call!</div>`;
+// ── FRIDAY ───────────────────────────────────────
+function showFriday(){
+  const active=issues.filter(i=>['open','in-progress','next-steps','escalated'].includes(i.status))
+    .sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  let html=`<div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--rule);">Friday Call · ${today} · ${active.length} active item${active.length!==1?'s':''}</div>`;
+  if(!active.length){
+    html+=`<div class="empty"><div class="empty-icon">✓</div><p>No open items — clean slate for the call!</p></div>`;
   } else {
-    active.forEach((issue, idx) => {
-      const days = daysAgo(issue.created);
-      const isOld = days >= 5;
-      const badgeClass = 'sb-' + issue.status;
-      html += `<div style="border:1px solid var(--rule);border-radius:4px;padding:12px 16px;margin-bottom:8px;border-left:3px solid ${
-        issue.status==='escalated'?'var(--purple)':issue.status==='open'?'var(--red)':issue.status==='in-progress'?'var(--amber)':'var(--blue)'
-      }">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;">
-          <div style="font-size:13px;font-weight:600;color:var(--navy);">${idx+1}. ${issue.title}${issue.client?` <span style="font-weight:400;color:var(--text3);">— ${issue.client}</span>`:''}</div>
-          <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
-            <span class="status-badge sb-${issue.status.replace('-','')}">${statusLabel(issue.status)}</span>
-            ${isOld?`<span style="font-size:10px;color:var(--red);font-weight:700;font-family:'DM Mono',monospace;">${days}d ⚠</span>`:`<span style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;">${days}d</span>`}
+    active.forEach((i,n)=>{
+      const d=days(i.ts);
+      html+=`<div class="fri-card s-${i.status}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div class="fri-ttl">${n+1}. ${i.title}${i.client?` <span style="font-weight:400;color:var(--t2);">— ${i.client}</span>`:''}</div>
+          <div style="display:flex;gap:5px;align-items:center;flex-shrink:0;">
+            <span class="chip chip-${i.status}" style="font-size:9px;">${SLBL[i.status]}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:9px;color:${d>=5?'var(--red)':'var(--t3)'};">${d}d${d>=5?' ⚠':''}</span>
           </div>
         </div>
-        <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:6px;">${catLabel(issue.category)}${issue.assigned?' · '+issue.assigned:''} · Logged ${fmtDate(issue.created)}</div>
-        ${issue.nextSteps?`<div style="font-size:12px;color:var(--blue);background:var(--blue2);border:1px solid var(--blue3);border-radius:3px;padding:5px 8px;"><strong style="font-size:10px;display:block;font-family:'DM Mono',monospace;">Next Steps</strong>${issue.nextSteps}</div>`:''}
+        <div class="fri-meta">${CATS[i.cat]||i.cat}${i.assign?' · '+i.assign:''} · ${fd(i.ts)}</div>
+        ${i.next?`<div class="ic-next-strip" style="font-size:11px;"><strong>Next Steps</strong>${i.next}</div>`:''}
       </div>`;
     });
   }
-  document.getElementById('friday-content').innerHTML = html;
-  document.getElementById('friday-modal').classList.add('open');
+  document.getElementById('friday-body').innerHTML=html;
+  open_('m-friday');
 }
-
-function copyFridayView() {
-  const active = issues.filter(i => ['open','in-progress','next-steps','escalated'].includes(i.status))
-    .sort((a,b) => new Date(a.created) - new Date(b.created));
-  const today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  let text = `SALVUS × TPG — FRIDAY CALL AGENDA\n${today}\n${'═'.repeat(40)}\n\n`;
-  if (!active.length) { text += 'No open issues. ✓\n'; }
-  else {
-    active.forEach((issue, idx) => {
-      const days = daysAgo(issue.created);
-      text += `${idx+1}. [${statusLabel(issue.status)}] ${issue.title}\n`;
-      text += `   Category: ${catLabel(issue.category)}\n`;
-      if (issue.client) text += `   Client: ${issue.client}\n`;
-      text += `   Age: ${days} day${days!==1?'s':''} (logged ${fmtDate(issue.created)})\n`;
-      if (issue.assigned) text += `   Assigned: ${issue.assigned}\n`;
-      if (issue.nextSteps) text += `   Next Steps: ${issue.nextSteps}\n`;
-      text += '\n';
-    });
-  }
-  navigator.clipboard.writeText(text).then(() => {
-    const el = document.getElementById('friday-copy-success');
-    el.style.display = 'inline';
-    setTimeout(() => el.style.display = 'none', 2000);
+function copyFriday(){
+  const active=issues.filter(i=>['open','in-progress','next-steps','escalated'].includes(i.status))
+    .sort((a,b)=>new Date(a.ts)-new Date(b.ts));
+  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  let txt=`SALVUS × THEPARTNERS — FRIDAY CALL\n${today}\n${'═'.repeat(40)}\n\n`;
+  if(!active.length){ txt+='No open items. ✓\n'; }
+  else active.forEach((i,n)=>{
+    const d=days(i.ts);
+    txt+=`${n+1}. [${SLBL[i.status]}] ${i.title}\n`;
+    txt+=`   Category: ${CATS[i.cat]||i.cat}\n`;
+    if(i.client) txt+=`   Client: ${i.client}\n`;
+    txt+=`   Age: ${d} day${d!==1?'s':''} (logged ${fd(i.ts)})\n`;
+    if(i.assign) txt+=`   Assigned: ${i.assign}\n`;
+    if(i.next) txt+=`   Next Steps: ${i.next}\n`;
+    txt+='\n';
+  });
+  navigator.clipboard.writeText(txt).then(()=>{
+    const el=document.getElementById('fri-ok');
+    el.style.display='inline';setTimeout(()=>el.style.display='none',2000);
   });
 }
 
-// ── MODAL ────────────────────────────────────────
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
-});
+// ── MODAL HELPERS ─────────────────────────────────
+function open_(id){document.getElementById(id).classList.add('open');}
+function close_(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
 // ── DATE ─────────────────────────────────────────
-function setDate() {
-  const d = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
-  const el = document.getElementById('live-date');
-  if (el) el.textContent = d;
-}
+document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
 
 // ── INIT ─────────────────────────────────────────
-setDate();
-loadIssues();
+load();
 </script>
 </body>
 </html>
