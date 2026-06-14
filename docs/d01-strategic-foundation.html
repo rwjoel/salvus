@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Salvus — Domain 01: Strategic Foundation 2026–2031</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+:root{
+  --navy:#0b1929;--navy2:#122035;--navy3:#1c2f48;
+  --gold:#b8892a;--gold2:#d4a843;--gold3:#f0cc7a;
+  --cream:#f7f3ec;--cream2:#ede8df;--rule:#d9cfc0;
+  --text:#2a3d52;--text2:#4a6070;--text3:#7a8f9a;
+  --green:#1a6b40;--green2:#27ae60;--teal:#0d7272;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.7;}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;}
+
+/* COVER */
+.cover{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.cover-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 80% 20%,rgba(184,137,42,0.07),transparent 60%),radial-gradient(ellipse 40% 70% at 10% 85%,rgba(13,114,114,0.05),transparent 50%);}
+.cover-inner{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;padding:64px 80px;}
+.cover-top{flex:0;}
+.cover-mid{flex:1;display:flex;align-items:center;padding:60px 0 40px;}
+.cover-bot{flex:0;border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;}
+.firm-mark{display:flex;align-items:center;gap:14px;}
+.fm-line{width:36px;height:2px;background:var(--gold);}
+.fm-name{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);font-weight:300;}
+.domain-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;padding:6px 14px;border:1px solid rgba(255,255,255,0.12);border-radius:2px;}
+.db-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold2);letter-spacing:2px;}
+.db-sep{width:1px;height:12px;background:rgba(255,255,255,0.15);}
+.db-name{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:300;}
+.cover-title{font-size:62px;font-weight:300;line-height:1.05;color:white;margin-bottom:8px;}
+.cover-title em{font-style:italic;color:var(--gold3);}
+.cover-rule{width:56px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));margin:24px 0;}
+.cover-sub{font-size:14px;color:rgba(255,255,255,0.38);font-weight:300;max-width:500px;line-height:1.9;}
+.cover-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.cm-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.22);letter-spacing:0.5px;}
+.cm-conf{font-size:10px;color:rgba(255,255,255,0.18);font-style:italic;}
+
+/* SECTION HEADER */
+.sec-hdr{background:var(--navy);padding:48px 80px;position:relative;overflow:hidden;}
+.sec-hdr::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,42,0.08),transparent 70%);}
+.sh-eye{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;}
+.sh-title{font-size:38px;font-weight:300;color:white;line-height:1.1;}
+.sh-title em{font-style:italic;color:var(--gold3);}
+.sh-sub{font-size:13px;color:rgba(255,255,255,0.38);max-width:600px;margin-top:10px;font-weight:300;line-height:1.9;}
+
+/* LAYOUT */
+.section{max-width:1060px;margin:0 auto;padding:64px 48px;}
+hr.div{border:none;border-top:1px solid var(--rule);margin:48px 0;}
+hr.div-sm{border:none;border-top:1px solid var(--rule);margin:28px 0;}
+
+/* TYPOGRAPHY */
+.sl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:var(--navy);line-height:1.15;margin-bottom:10px;}
+.st em{font-style:italic;color:var(--gold);}
+.lead{font-size:15px;color:var(--text);font-weight:300;line-height:1.95;max-width:720px;margin-bottom:24px;}
+.prose p{font-size:13.5px;color:var(--text2);line-height:1.9;margin-bottom:14px;font-weight:300;}
+.prose p strong{color:var(--text);font-weight:600;}
+
+/* PULL QUOTE */
+.pq{border-left:3px solid var(--gold);padding:16px 24px;background:#fdf8f0;border-radius:0 4px 4px 0;margin:28px 0;}
+.pq p{font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;color:var(--navy2);line-height:1.65;}
+.pq cite{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-top:8px;font-style:normal;}
+
+/* CALLOUT */
+.callout{border-radius:4px;padding:16px 22px;margin:20px 0;font-size:13px;line-height:1.75;}
+.callout.gold{background:#fdf8f0;border:1px solid #e8c97a;color:#5a3a00;}
+.callout.navy{background:var(--navy);color:rgba(255,255,255,0.7);padding:20px 28px;}
+.callout.navy strong{color:white;}
+.callout.green{background:#edf7f2;border:1px solid #a8d8be;color:#0a3a1a;}
+.callout strong{display:block;margin-bottom:4px;}
+
+/* PRINCIPLE CARDS */
+.principles{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);border-radius:6px;overflow:hidden;margin:20px 0;}
+.prin{display:flex;align-items:flex-start;gap:0;border-bottom:1px solid var(--rule);}
+.prin:last-child{border:none;}
+.prin-num{width:56px;flex-shrink:0;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:16px 0;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--gold2);}
+.prin-body{flex:1;padding:14px 20px;}
+.prin-title{font-weight:600;font-size:13px;color:var(--navy);margin-bottom:3px;}
+.prin-sub{font-size:12px;color:var(--text2);line-height:1.6;}
+.prin.gold-row{background:#fdf8f0;}
+.prin.gold-row .prin-num{background:var(--gold);color:white;}
+
+/* STAT CARDS */
+.stats{display:grid;gap:12px;margin:20px 0;}
+.s4{grid-template-columns:repeat(4,1fr);}
+.s3{grid-template-columns:repeat(3,1fr);}
+.s2{grid-template-columns:repeat(2,1fr);}
+.stat{background:white;border:1px solid var(--rule);border-radius:4px;padding:18px 20px;border-top:3px solid var(--gold);}
+.stat.g{border-top-color:var(--green);}
+.stat.n{border-top-color:var(--navy);}
+.stat.t{border-top-color:var(--teal);}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:6px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;color:var(--navy);line-height:1;}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.5;}
+
+/* ANSWER BLOCKS */
+.qa-grid{display:flex;flex-direction:column;gap:0;}
+.qa{display:flex;gap:0;border-bottom:1px solid var(--cream2);}
+.qa:last-child{border:none;}
+.qa-q{width:220px;flex-shrink:0;padding:18px 20px 18px 0;font-size:12px;font-weight:600;color:var(--navy);line-height:1.5;}
+.qa-q span{font-family:'DM Mono',monospace;font-size:9px;font-weight:400;color:var(--text3);display:block;margin-bottom:4px;letter-spacing:1px;}
+.qa-a{flex:1;padding:18px 0;font-size:13px;color:var(--text2);line-height:1.8;font-weight:300;}
+.qa-a strong{color:var(--text);font-weight:600;}
+
+/* RISK ITEMS */
+.risk-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--cream2);}
+.risk-item:last-child{border:none;}
+.risk-tag{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px;font-family:'DM Mono',monospace;margin-top:2px;}
+.tag-r{background:#fdf0ee;color:#8a0a00;border:1px solid #e8a090;}
+.tag-y{background:#fdf8f0;color:#6a3800;border:1px solid #e8c870;}
+.tag-g{background:#edf7f2;color:#0a4a1a;border:1px solid #a0d4b8;}
+.risk-title{font-weight:600;font-size:13px;color:var(--navy);margin-bottom:3px;}
+.risk-desc{font-size:12px;color:var(--text2);line-height:1.65;}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:0;margin:28px 0;}
+.tl-track{position:absolute;left:110px;top:0;bottom:0;width:2px;background:var(--rule);}
+.tl-item{display:flex;gap:0;align-items:flex-start;margin-bottom:24px;position:relative;}
+.tl-yr{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--gold);width:100px;flex-shrink:0;padding-top:3px;text-align:right;}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--gold);flex-shrink:0;margin:4px 16px 0;z-index:1;border:2px solid white;box-shadow:0 0 0 2px var(--gold);}
+.tl-dot.g{background:var(--green);box-shadow:0 0 0 2px var(--green);}
+.tl-dot.t{background:var(--teal);box-shadow:0 0 0 2px var(--teal);}
+.tl-dot.n{background:var(--navy);box-shadow:0 0 0 2px var(--navy);}
+.tl-content{flex:1;padding-left:12px;}
+.tl-event{font-weight:600;font-size:13px;color:var(--navy);margin-bottom:3px;}
+.tl-desc{font-size:12px;color:var(--text2);line-height:1.65;}
+
+/* PHILOSOPHY SVG */
+.phil-wrap{margin:24px 0;}
+
+/* ACTION ITEMS */
+.ai-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px;}
+.ai-card{background:white;border:1px solid var(--rule);border-radius:4px;overflow:hidden;}
+.ai-hdr{padding:12px 18px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:white;}
+.ai-body{padding:4px 0;}
+.ai-item{display:flex;gap:10px;align-items:flex-start;padding:9px 18px;border-bottom:1px solid var(--cream2);font-size:12px;line-height:1.55;color:var(--text2);}
+.ai-item:last-child{border:none;}
+.ai-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
+.ai-dot.r{background:var(--red,#c0392b);}
+.ai-dot.g{background:var(--green);}
+
+/* FOOTER */
+.doc-footer{background:var(--navy);color:rgba(255,255,255,0.22);padding:20px 80px;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.5px;}
+
+/* UTILITY */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.mt24{margin-top:24px;} .mt16{margin-top:16px;} .mt32{margin-top:32px;}
+.mb8{margin-bottom:8px;} .mb16{margin-bottom:16px;}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);text-decoration:none;padding:10px 0;margin-bottom:32px;}
+.back-link:hover{color:var(--gold3);}
+
+@media(max-width:860px){
+  .s4,.s3,.s2,.g2,.ai-grid{grid-template-columns:1fr;}
+  .section{padding:40px 24px;}
+  .sec-hdr{padding:36px 28px;}
+  .cover-inner{padding:40px 28px;}
+  .cover-title{font-size:40px;}
+  .qa{flex-direction:column;}
+  .qa-q{width:100%;padding-bottom:4px;}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-inner">
+    <div class="cover-top">
+      <div class="firm-mark"><div class="fm-line"></div><div class="fm-name">Salvus Wealth Partners</div></div>
+    </div>
+    <div class="cover-mid">
+      <div>
+        <div class="domain-badge">
+          <span class="db-num">DOMAIN 01</span>
+          <span class="db-sep"></span>
+          <span class="db-name">Strategic Foundation</span>
+        </div>
+        <h1 class="cover-title">Who We Are.<br>Where We're <em>Going.</em><br>Why It Matters.</h1>
+        <div class="cover-rule"></div>
+        <p class="cover-sub">The foundational answers to the questions every wealth management firm must confront at an inflection point: purpose, differentiation, philosophy, growth, and legacy. Completed June 14, 2026 through a structured Q&A session with Robert W. Joel, CFP.</p>
+      </div>
+    </div>
+    <div class="cover-bot">
+      <div class="cover-meta">
+        <div class="cm-date">Salvus Legacy 24 LLC · DBA Salvus Wealth Partners · Jacksonville FL · June 2026</div>
+        <div class="cm-conf">Private · Internal Use Only</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: MISSION -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 01 — Mission & Purpose</div>
+  <h2 class="sh-title">What Salvus <em>Actually Is</em></h2>
+  <p class="sh-sub">Not a portfolio manager. Not a financial planner. Something more fundamental — and rarer.</p>
+</div>
+
+<div class="section">
+  <a class="back-link" href="../index.html">← Operating Manual</a>
+
+  <div class="sl">The Core Answer</div>
+  <h2 class="st">The <em>Trusted Advisor</em> — Everything Else Is Secondary</h2>
+
+  <p class="lead">Salvus Wealth Partners exists to be each client's trusted advisor — the person they believe will oversee their financial life with honesty, integrity, and true fiduciary duty. Portfolio management, financial planning, tax coordination, reporting — all of these are important and must be executed with excellence. But they are the means, not the end. The end is the client's certainty that someone genuinely trustworthy is watching over their financial life.</p>
+
+  <div class="pq">
+    <p>"Everything we do — portfolio management, financial planning, all of it — is simply to support our ability to be the trusted advisor. All very important to do well, but those are actions to support the goal."</p>
+    <cite>— Robert W. Joel, CFP · June 2026</cite>
+  </div>
+
+  <div class="callout gold">
+    <strong>Why this distinction matters:</strong> Most RIAs lead with what they <em>do</em> — portfolio construction, financial planning, tax coordination. Salvus leads with what it <em>is</em> — the trusted advisor. This is not a marketing position. It is an operating philosophy that shapes every hiring decision, every client interaction, every service standard, and every transition decision made between now and Bob's exit in 2031.
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">The Proof of Mission</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:16px;">The Dinner Table <em>Test</em></h3>
+
+  <p style="font-size:13.5px;color:var(--text2);line-height:1.9;max-width:680px;margin-bottom:20px;">The success of Salvus's mission produces a single measurable outcome: a client who says the following unprompted at dinner with friends:</p>
+
+  <div class="callout navy">
+    <strong style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;font-style:italic;">"He is great because I trust him explicitly and he has really helped me and our family — you should give him a call."</strong>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);margin-top:12px;letter-spacing:1px;">THREE ELEMENTS: Explicit trust earned over time · Tangible help delivered to the family unit · Unprompted referral advocacy</div>
+  </div>
+
+  <p style="font-size:13px;color:var(--text2);line-height:1.85;max-width:680px;margin-top:20px;">This is the complete business model. Everything Salvus does — the investment management, the financial planning, the reporting, the communication cadence, the service model, the hiring decisions — is in service of generating that dinner conversation. When Salvus succeeds, clients don't just stay. They recruit for you.</p>
+</div>
+
+<!-- SECTION 2: IDEAL CLIENT -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 02 — The Ideal Client</div>
+  <h2 class="sh-title">Who Salvus <em>Serves</em></h2>
+  <p class="sh-sub">Not a demographic profile. A description of a person and what they need.</p>
+</div>
+
+<div class="section">
+  <div class="sl">Client Definition</div>
+  <h2 class="st">Trust First. <em>Assets Second.</em></h2>
+  <p class="lead">The ideal Salvus client is someone who wants genuine oversight of their financial life and has come to believe that Salvus will act only in their interest — not Salvus's. They have liquid investable assets sufficient for Salvus to provide meaningful ongoing advisory value. But the defining characteristic is not the size of the account. It is the desire for a relationship of trust with someone who genuinely knows them.</p>
+
+  <div class="stats s3">
+    <div class="stat n">
+      <div class="stat-lbl">Current Minimum AUM</div>
+      <div class="stat-val">$500K</div>
+      <div class="stat-sub">Present floor · transitioning upward</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Strategic Target Minimum</div>
+      <div class="stat-val">$1M+</div>
+      <div class="stat-sub">Liquid assets · the future standard</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-lbl">Why Moving Upmarket</div>
+      <div class="stat-val">Service</div>
+      <div class="stat-sub">Quality protection · not revenue optimization</div>
+    </div>
+  </div>
+
+  <div class="callout gold mt24">
+    <strong>The service quality rationale:</strong> The move toward a $1M minimum is not about revenue — it is about protecting the trusted advisor experience. Smaller relationships consume disproportionate time and resources. With Robert O'Quinn's 50+ client relationships adding operational load and Pete Freidel still in the relationship-building phase, Salvus cannot afford to let the quality of its advisory experience dilute. The $1M minimum is a service quality decision masquerading as a pricing decision.
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">What the Ideal Client Believes</div>
+  <div class="prose mt16">
+    <p>The ideal Salvus client has arrived at a belief — not a transaction. They believe that Salvus will act only in their interest. They believe that what Salvus recommends is driven by what is right for them, not by what generates fees or commissions. They believe, in short, that they can extend trust and it will not be exploited.</p>
+    <p>This belief is earned slowly and lost quickly. Chuck Woolston has been the trusted CPA for many of his clients for <strong>30+ years</strong> before they became Salvus clients. Bob Joel has been advising his primary clients for <strong>15+ years</strong>. The relationship precedes the advisory mandate — and it is what makes the mandate possible.</p>
+    <p>This is why the client minimum, the service model, and the transition plan all flow from the same source: the mission. Everything that protects the ability to be the trusted advisor is worth doing. Everything that threatens it — including taking on too many small relationships, diluting advisor attention, or rushing a succession — is a risk to the entire model.</p>
+  </div>
+</div>
+
+<!-- SECTION 3: DIFFERENTIATION -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 03 — Differentiation</div>
+  <h2 class="sh-title">What Makes Salvus <em>Different</em></h2>
+  <p class="sh-sub">The real answer — not the marketing answer.</p>
+</div>
+
+<div class="section">
+  <div class="sl">The Honest Answer</div>
+  <h2 class="st">It's the <em>People</em> — Specifically, These People</h2>
+  <p class="lead">Salvus's differentiation is not a process, a technology, or a strategy. It is decades-long personal relationships with specific, trusted individuals. Chuck Woolston as their CPA for 30 years before becoming their advisor. Bob Joel as their investment manager for 15 years. Sonja Elia as the operational anchor clients genuinely love. Ann Marie Rogers as the 25-year institutional presence in New Jersey. These are not interchangeable. They are the product.</p>
+
+  <div class="g2 mt24">
+    <div>
+      <div class="sl">The People</div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="background:white;border:1px solid var(--rule);border-radius:4px;padding:14px 18px;">
+          <div style="font-weight:600;font-size:12px;color:var(--navy);margin-bottom:3px;">Robert W. Joel, CFP</div>
+          <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:6px;">CO-FOUNDER · CIO · 30+ YRS EXPERIENCE</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6;">Investment decisions, financial planning, manager selection, client relationships. 15+ year relationships with primary clients. Calls all the shots on portfolio and planning.</div>
+        </div>
+        <div style="background:white;border:1px solid var(--rule);border-radius:4px;padding:14px 18px;">
+          <div style="font-weight:600;font-size:12px;color:var(--navy);margin-bottom:3px;">Charles T. Woolston, CPA, MST</div>
+          <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:6px;">CO-FOUNDER · CEO · 45+ YRS EXPERIENCE</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6;">Tax law, trust & estate, executive financial counseling. 30-year CPA relationships that pre-date Salvus. The original relationship warmth for his client base.</div>
+        </div>
+        <div style="background:white;border:1px solid var(--rule);border-radius:4px;padding:14px 18px;">
+          <div style="font-weight:600;font-size:12px;color:var(--navy);margin-bottom:3px;">Sonja M. Elia, ChFC, RICP</div>
+          <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:6px;">CCO · OPERATIONS DIRECTOR · 25 YRS</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6;">Clients genuinely love working with Sonja. She is the operational backbone and the trusted face for day-to-day client interaction.</div>
+        </div>
+        <div style="background:white;border:1px solid var(--rule);border-radius:4px;padding:14px 18px;">
+          <div style="font-weight:600;font-size:12px;color:var(--navy);margin-bottom:3px;">Robert O'Quinn, CFP</div>
+          <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:6px;">PARTNER · PRIVATE MARKET STRATEGIES</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6;">Uncorrelated private market strategies typically reserved for family offices and endowments. Proven asset gatherer. Natural heir apparent alongside Pete Freidel.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sl">The Differentiators</div>
+      <div class="callout navy" style="margin-bottom:14px;">
+        <strong>"We eat our own cooking."</strong><br>
+        <span style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;">Salvus invests in exactly the same managers and strategies as its clients. As Warren Buffett says — we eat our own cooking. This is one of the most powerful fiduciary signals available to any advisor, and most advisors cannot credibly make it.</span>
+      </div>
+      <div class="callout gold" style="margin-bottom:14px;">
+        <strong>Decades-long personal relationships</strong><br>
+        <span style="font-size:12px;color:#5a3a00;line-height:1.7;">Chuck's clients didn't hire Salvus. They hired Chuck, who had been their CPA for 30 years. Bob's clients didn't hire an RIA. They hired Bob Joel, who has been making financial decisions alongside them for 15 years. The relationship precedes and enables the mandate.</span>
+      </div>
+      <div style="background:white;border:1px solid var(--rule);border-radius:4px;padding:14px 18px;margin-bottom:14px;">
+        <div style="font-weight:600;font-size:12px;color:var(--navy);margin-bottom:6px;">Solid investment performance + planning outcomes</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;">Returns have been solid. Financial plans have performed as expected. The combination of relationship trust and actual results is what earns the dinner table referral.</div>
+      </div>
+      <div style="background:white;border:1px solid var(--rule);border-radius:4px;padding:14px 18px;">
+        <div style="font-weight:600;font-size:12px;color:var(--navy);margin-bottom:6px;">Access to institutional-quality strategies</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;">Through O'Quinn: uncorrelated private market strategies historically reserved for family offices, endowments, and pensions. Clients access what previously required $50M+ minimums.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout gold mt24">
+    <strong>The transition risk:</strong> Salvus's differentiation is entirely people-driven — which is both its greatest strength and its most significant transition risk. When Chuck Woolston exits by 2029, something real leaves with him. The immediate next step is ensuring Bob is already on every important client call (he is), then systematically introducing Robert O'Quinn and Pete Freidel to Chuck's primary clients during the 2027–2029 window.
+  </div>
+</div>
+
+<!-- SECTION 4: INVESTMENT PHILOSOPHY -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 04 — Investment Philosophy</div>
+  <h2 class="sh-title">The Seven <em>Principles</em></h2>
+  <p class="sh-sub">What Salvus believes about markets, risk, and portfolio construction — the intellectual foundation behind every investment decision.</p>
+</div>
+
+<div class="section">
+  <div class="sl">The Golden Rule</div>
+  <h2 class="st">Preservation of Capital — <em>Win by Not Losing</em></h2>
+  <p class="lead">Salvus's investment philosophy rests on a single conviction: the most reliable path to long-term wealth creation is not to lose it in the first place. This is not pessimism — it is the mathematics of compounding. A 50% loss requires a 100% gain to recover. Avoiding catastrophic loss is more valuable than chasing marginal upside.</p>
+
+  <div class="principles mt24">
+    <div class="prin gold-row">
+      <div class="prin-num">I</div>
+      <div class="prin-body">
+        <div class="prin-title">Win by not losing — preservation of capital above all else</div>
+        <div class="prin-sub">The golden rule. The portfolio's primary job is to protect what clients have built, then grow it. Risk management and downside protection are central — not an afterthought.</div>
+      </div>
+    </div>
+    <div class="prin">
+      <div class="prin-num">II</div>
+      <div class="prin-body">
+        <div class="prin-title">Long-term time horizon increases probability of investment success</div>
+        <div class="prin-sub">Short-term market noise is irrelevant. Clients who can remain invested through cycles are fundamentally advantaged over those who react to quarterly returns.</div>
+      </div>
+    </div>
+    <div class="prin">
+      <div class="prin-num">III</div>
+      <div class="prin-body">
+        <div class="prin-title">Never try to time the market</div>
+        <div class="prin-sub">Market timing destroys more wealth than it creates. Salvus does not predict market direction. It builds portfolios designed to perform across cycles.</div>
+      </div>
+    </div>
+    <div class="prin">
+      <div class="prin-num">IV</div>
+      <div class="prin-body">
+        <div class="prin-title">In the absence of value, price is everything</div>
+        <div class="prin-sub">Valuation discipline matters. Paying too much for a good asset is still a mistake. Salvus does not chase momentum or pay up for consensus crowding.</div>
+      </div>
+    </div>
+    <div class="prin">
+      <div class="prin-num">V</div>
+      <div class="prin-body">
+        <div class="prin-title">Only invest in something you fully understand</div>
+        <div class="prin-sub">Complexity is not sophistication. If the investment cannot be explained clearly, it probably should not be in the portfolio. Every holding has a clear thesis.</div>
+      </div>
+    </div>
+    <div class="prin">
+      <div class="prin-num">VI</div>
+      <div class="prin-body">
+        <div class="prin-title">Never confuse activity with progress</div>
+        <div class="prin-sub">Frequent trading and portfolio changes are usually fees masquerading as diligence. Salvus holds conviction positions. Turnover is low by design.</div>
+      </div>
+    </div>
+    <div class="prin">
+      <div class="prin-num">VII</div>
+      <div class="prin-body">
+        <div class="prin-title">Allocate capital to specialized boutique managers</div>
+        <div class="prin-sub">The symphony conductor model. Salvus selects the best expert musicians — specialized boutique managers — and allocates accordingly. We are not trying to play every instrument.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">Manager Selection Framework</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:16px;">The 3P Framework — <em>How Salvus Selects Managers</em></h3>
+
+  <div class="stats s4 mt16">
+    <div class="stat n">
+      <div class="stat-lbl">People</div>
+      <div class="stat-val" style="font-size:22px;">Who</div>
+      <div class="stat-sub">Character, ownership, alignment. Firm owners with skin in the game. They eat their own cooking too.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Philosophy</div>
+      <div class="stat-val" style="font-size:22px;">How</div>
+      <div class="stat-sub">Value bias, long-term focus, genuine conviction. Disciplined through cycles, not reactive.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Process</div>
+      <div class="stat-val" style="font-size:22px;">Why</div>
+      <div class="stat-sub">Repeatable, disciplined, research-driven decisions. Not discretionary or personality-dependent.</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-lbl">Performance</div>
+      <div class="stat-val" style="font-size:22px;">Track</div>
+      <div class="stat-sub">Strong absolute and relative returns. Upside/downside capture. Consistency through volatility.</div>
+    </div>
+  </div>
+
+  <div class="callout gold mt24">
+    <strong>Why boutique managers specifically:</strong> Boutique managers manage a smaller, more focused pool of assets. They have fewer decision-makers — typically firm owners with genuine skin in the game. They are niche-oriented with deep domain expertise. And they eat their own cooking. These are exactly the qualities Salvus looks for in a partner — because they are the same qualities Salvus's clients look for in Salvus.
+  </div>
+
+  <div class="pq mt24">
+    <p>"Your Wealth. Preserved. Grown. Passed On."</p>
+    <cite>— Salvus Wealth Partners Tagline · The investment philosophy in six words</cite>
+  </div>
+</div>
+
+<!-- SECTION 5: GROWTH -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 05 — Growth Strategy</div>
+  <h2 class="sh-title">The Path to <em>$1 Billion</em></h2>
+  <p class="sh-sub">From $475M today to $1B by 2031 — what it requires and what's at stake.</p>
+</div>
+
+<div class="section">
+  <div class="stats s3">
+    <div class="stat n">
+      <div class="stat-lbl">Current Combined AUM</div>
+      <div class="stat-val">$475M</div>
+      <div class="stat-sub">SWM $330M + O'Quinn $145M (2027)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Target AUM at Bob's Exit</div>
+      <div class="stat-val">$1B</div>
+      <div class="stat-sub">By 2031 · doubles the firm in 5 years</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-lbl">Required CAGR</div>
+      <div class="stat-val">~16%</div>
+      <div class="stat-sub">Markets + net new assets every year</div>
+    </div>
+  </div>
+
+  <p style="font-size:13.5px;color:var(--text2);line-height:1.9;max-width:700px;margin:20px 0;">At 7% annual market returns, $475M grows to approximately $670M by 2031 without a single new client. The gap — roughly $330M in net new assets over 5 years — must come from new clients and referrals. That's approximately $66M in new AUM per year, every year, starting now.</p>
+
+  <div class="sl mt24">The Growth Engines</div>
+  <div class="timeline mt16">
+    <div class="tl-track"></div>
+    <div class="tl-item">
+      <div class="tl-yr">Primary</div>
+      <div class="tl-dot g"></div>
+      <div class="tl-content">
+        <div class="tl-event">Robert O'Quinn — Proven Asset Gatherer</div>
+        <div class="tl-desc">O'Quinn has demonstrated the ability to attract and retain significant AUM. His private market strategies access differentiates Salvus in competitive situations. He is the primary new-business engine for the 2027–2031 period.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">Developing</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-event">Pete Freidel — High Potential, Constrained by Internal Demand</div>
+        <div class="tl-desc">Pete has genuine BD potential — strong connections, some clients who followed him, a natural ability with prospects. But he is currently consumed by internal execution (eMoney plans, client service, operations). No protected time for external development exists. This must change — Pete's planning competency is actually a BD tool: a personalized eMoney plan is one of the most compelling things you can put in front of a prospect.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">At Risk</div>
+      <div class="tl-dot" style="background:#c0392b;box-shadow:0 0 0 2px #c0392b;"></div>
+      <div class="tl-content">
+        <div class="tl-event">Chuck's CPA Referral Network — Closing by 2029</div>
+        <div class="tl-desc">Chuck's tax client network has been the primary source of new Salvus clients for over a decade. When Chuck exits by 2029 — and if Aimee Jensen's CPA firm does not continue — this referral pipeline closes. No systematic replacement has been built yet. This is the central challenge for Domain 02 Business Development.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">Opportunity</div>
+      <div class="tl-dot t"></div>
+      <div class="tl-content">
+        <div class="tl-event">TPG Platform — If They Execute</div>
+        <div class="tl-desc">If ThePARTNERS delivers on its operational and technology promises, the platform leverage could meaningfully reduce internal load and free advisors for client-facing activity. The Schwab institutional relationship is critical to O'Quinn's book. Addepar and reporting infrastructure could improve the client experience. All conditional on TPG performing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <strong>The Pete Freidel decision:</strong> Salvus faces a classic early-stage partner dilemma. Pete is the best relationship builder and the best executor simultaneously. Internal demand always wins because it is immediate and urgent. External BD is always deferred because it is important but not urgent. Without a structural change — protected time, accountability, a clear quota — Pete will never reach his BD potential. This is not a Pete problem. It is a systems problem.
+  </div>
+</div>
+
+<!-- SECTION 6: STRATEGIC RISKS -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 06 — Strategic Risks</div>
+  <h2 class="sh-title">What Keeps <em>Bob Up at Night</em></h2>
+  <p class="sh-sub">The real risks — not the hypothetical ones.</p>
+</div>
+
+<div class="section">
+
+  <div class="risk-item">
+    <div class="risk-tag tag-r">Critical</div>
+    <div>
+      <div class="risk-title">TPG Execution Capacity</div>
+      <div class="risk-desc">Rutherford is focused on recruiting new advisors nationally. His existing team may be understaffed and under-skilled to service a $475M+ relationship. Salvus's growth ambitions depend partly on TPG's operational leverage. If TPG cannot deliver, the 7% platform fee is pure cost with no offsetting benefit. Rutherford continues to provide assurances — proof will come in the first 90 days post-close. A written Service Level Agreement with fee reduction triggers must be signed before the August 2026 close.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-r">Critical</div>
+    <div>
+      <div class="risk-title">Chuck's Client Retention Through Transition</div>
+      <div class="risk-desc">The 60 trust accounts ($100M AUM) where Chuck serves as trustee are the most exposed asset in the firm. If trustee succession is not formally documented before Chuck exits, this AUM could leave at the death of the underlying clients. The window is 2027–2029 — not after Chuck retires. An estate attorney must be engaged in 2027 to formally designate successor trustees and preserve Salvus as investment advisor in the trust documents.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-y">Important</div>
+    <div>
+      <div class="risk-title">TPG Financing Certainty</div>
+      <div class="risk-desc">Whether Rutherford has secured sufficient capital to complete at least the 30% SPM purchase as structured. If financing falls short or the deal terms change late in the process, the entire 2027 transaction cascade — Chuck's down payment, O'Quinn's admission, Pete's path to equity — is disrupted. This is a pre-close due diligence item that needs clarity before August.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-y">Personal</div>
+    <div>
+      <div class="risk-title">Bob's Work/Life Balance — The 5-Year Risk</div>
+      <div class="risk-desc">The next 5 years risk being all-consuming. Bob values balance and models it for the team — but has not had it personally. Managing the ownership transition, the TPG relationship, Chuck's exit, O'Quinn's integration, Pete's development, client continuity, and the firm's $1B growth ambition simultaneously is a significant personal load. The transition plan must include explicit protection of Bob's time — or burnout becomes an operational risk in its own right.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SECTION 7: TPG AS STRATEGIC ASSET -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 07 — The TPG Partnership</div>
+  <h2 class="sh-title">The Partners Group — <em>Financial and Strategic</em></h2>
+  <p class="sh-sub">Why the deal makes sense — and what it requires to deliver value beyond the check.</p>
+</div>
+
+<div class="section">
+
+  <div class="g2">
+    <div>
+      <div class="sl">The Financial Case</div>
+      <div class="callout navy">
+        <strong>Chips off the table at 8× revenue.</strong>
+        <div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:8px;line-height:1.75;">8× revenue is an exceptional valuation for a wealth management firm of Salvus's size. It is not easy to find. For Bob, taking $1.84M off the table in 2026 — with another $1.04M potential from the additional 10% option in 2027 — provides meaningful household financial security regardless of what happens to the firm over the next 5 years. Given Bob's personal health history and family considerations, this is smart financial planning, not just a business decision.</div>
+      </div>
+    </div>
+    <div>
+      <div class="sl">The Strategic Case</div>
+      <div class="callout gold">
+        <strong>Operational leverage — if they deliver.</strong>
+        <div style="font-size:12px;color:#5a3a00;margin-top:8px;line-height:1.75;">If TPG executes, the platform frees advisors for client-facing activity rather than back-office management. Specific assets: Addepar reporting infrastructure, deep Schwab institutional relationship (critical to O'Quinn's book), investment resources, and technology infrastructure Salvus couldn't build independently.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pq mt24">
+    <p>"I really like Rutherford and the team — but they must perform. The relationship's value is entirely conditional on ThePARTNERS delivering what they've promised."</p>
+    <cite>— Robert W. Joel, CFP · June 2026</cite>
+  </div>
+
+</div>
+
+<!-- SECTION 8: SUCCESS DEFINITION -->
+<div class="sec-hdr">
+  <div class="sh-eye">Section 08 — The Legacy</div>
+  <h2 class="sh-title">What Success <em>Looks Like</em></h2>
+  <p class="sh-sub">The real definition — at handoff, at exit, and after.</p>
+</div>
+
+<div class="section">
+
+  <div class="sl">Bob's Definition of Success at Exit (2031)</div>
+  <div class="callout navy" style="margin-bottom:28px;">
+    <strong style="font-size:15px;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;">"Knowing that I did it right at every step. Clients are comfortable with the transition. Salvus continues taking care of clients. And Salvus is in great financial and operational shape."</strong>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);margin-top:12px;letter-spacing:1px;">— Robert W. Joel, CFP · June 14, 2026</div>
+  </div>
+
+  <div class="prose">
+    <p>This answer — entirely about others — tells you something important about what motivates Bob Joel. Nothing in his definition of success is about his financial outcome (he called that "adequate"). Nothing is about recognition. Everything is about whether clients were cared for, whether the transition was done with integrity, and whether the firm he leaves behind is healthy and capable of continuing what he built.</p>
+    <p><strong>This is the north star.</strong> Every decision about the TPG deal, Chuck's exit, O'Quinn and Pete's development, client communication, and succession timing should be tested against this definition. If it serves the clients, protects the firm's financial health, and is done with integrity — it belongs in the plan. If it shortcuts any of those three things — it doesn't.</p>
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">The Succession Vision</div>
+
+  <div class="qa-grid">
+    <div class="qa">
+      <div class="qa-q"><span>Q 09</span>O'Quinn & Freidel's Role</div>
+      <div class="qa-a">Robert O'Quinn and Pete Freidel are the <strong>natural heir apparents</strong> to running Salvus over time — O'Quinn leads, Freidel grows into it. O'Quinn has had an explicit conversation with Bob about this. He knows he is not simply buying a job; he is inheriting the stewardship of a firm being built toward $1B AUM.</div>
+    </div>
+    <div class="qa">
+      <div class="qa-q"><span>Q 10</span>Success at Handoff</div>
+      <div class="qa-a">Doing it right at every step. Clients comfortable. Salvus continues serving them. Firm is in great financial and operational shape. <strong>The financial outcome for Bob is secondary.</strong> The legacy of the firm and the welfare of its clients is the measure.</div>
+    </div>
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl mt24">Action Items from Domain 01</div>
+  <div class="ai-grid">
+    <div class="ai-card">
+      <div class="ai-hdr" style="background:#c0392b;">Urgent — Before August Close</div>
+      <div class="ai-body">
+        <div class="ai-item"><div class="ai-dot r"></div><div>TPG Service Level Agreement — define written performance standards, fee reduction triggers, dedicated contact. Complete before August close.</div></div>
+        <div class="ai-item"><div class="ai-dot r"></div><div>Chuck conversation — Scenario A vs. B, Aimee & Ann Marie equity structure, trustee succession documentation (60 accounts, $100M AUM).</div></div>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-hdr" style="background:var(--gold);">2027 Priority</div>
+      <div class="ai-body">
+        <div class="ai-item"><div class="ai-dot"></div><div>Build protected BD time for Pete Freidel — define minimum external-facing hours per week, create accountability structure.</div></div>
+        <div class="ai-item"><div class="ai-dot"></div><div>Begin systematic introduction of O'Quinn and Freidel to Chuck's primary clients — 2027–2029 is the only window.</div></div>
+        <div class="ai-item"><div class="ai-dot"></div><div>Engage estate attorney for trustee succession documentation on Chuck's 60 trust accounts.</div></div>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-hdr" style="background:var(--navy);">Domain 02 Handoff</div>
+      <div class="ai-body">
+        <div class="ai-item"><div class="ai-dot g"></div><div>Build formal BD strategy to replace Chuck's CPA referral pipeline — primary new client source closing by 2029.</div></div>
+        <div class="ai-item"><div class="ai-dot g"></div><div>Model the path to $1B AUM by 2031 — what does $66M in net new AUM per year require in terms of advisor time, referral sources, and marketing?</div></div>
+        <div class="ai-item"><div class="ai-dot g"></div><div>Define Pete's BD activation plan — specific targets, protected time, accountability cadence.</div></div>
+      </div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-hdr" style="background:var(--teal);">Personal — Bob</div>
+      <div class="ai-body">
+        <div class="ai-item"><div class="ai-dot"></div><div>Build explicit personal time protection into the 2026–2031 operating plan — the transition must not consume Bob entirely or it becomes an operational risk.</div></div>
+        <div class="ai-item"><div class="ai-dot"></div><div>Build non-qualified liquid assets toward $2–3M target before 2031 exit — currently ~$1.14M gap.</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="doc-footer">
+  <div>SALVUS LEGACY 24 LLC · DOMAIN 01: STRATEGIC FOUNDATION · JUNE 14, 2026</div>
+  <div>PRIVATE · INTERNAL USE ONLY · NOT FOR DISTRIBUTION</div>
+</div>
+
+</body>
+</html>
