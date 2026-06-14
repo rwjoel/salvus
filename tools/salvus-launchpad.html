@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salvus Advisor Launchpad</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:#1A2E4A; --navy-lt:#EEF2F7; --gold:#C8972A; --gold-lt:#FEF9EC;
+  --lgray:#F4F6F9; --mgray:#D0D5DC; --dgray:#374151; --white:#FFFFFF;
+  --green:#16713A; --red:#B91C1C; --slate:#64748B;
+  --us-eq:#3B82F6; --intl-eq:#10B981; --fi:#8B5CF6; --cash:#F59E0B; --pref:#F97316; --alt:#EC4899;
+  --sidebar-w:210px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--lgray);color:var(--dgray);min-height:100vh;display:flex;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy);display:flex;flex-direction:column;height:100vh;overflow-y:auto;position:sticky;top:0;align-self:flex-start;}
+.sb-brand{padding:18px 14px 14px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;}
+.logo-box{width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:var(--navy);flex-shrink:0;}
+.brand-title{font-size:14px;font-weight:800;color:white;}
+.brand-sub{font-size:10px;color:rgba(255,255,255,.5);}
+.nav-grp{padding:12px 8px 4px;}
+.nav-grp-label{font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);text-transform:uppercase;padding:0 8px;margin-bottom:5px;}
+.nav-item{width:100%;display:flex;align-items:center;gap:9px;padding:9px 10px;border:none;background:transparent;color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;border-radius:7px;transition:all .15s;text-align:left;margin-bottom:2px;}
+.nav-item:hover{background:rgba(255,255,255,.08);color:white;}
+.nav-item.active{background:var(--gold);color:var(--navy);}
+.nav-icon{font-size:15px;flex-shrink:0;}
+.sb-footer{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.3);line-height:1.5;}
+
+/* ── MAIN ── */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;height:100vh;}
+.tab-panel{display:none;flex:1;flex-direction:column;height:100%;overflow:hidden;}
+.tab-panel.active{display:flex;}
+
+/* ── PANEL HEADER ── */
+.ph{background:white;border-bottom:1px solid var(--mgray);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ph-left h2{font-size:17px;font-weight:700;color:var(--navy);}
+.ph-left p{font-size:12px;color:var(--slate);margin-top:2px;}
+.ph-right{display:flex;gap:8px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:7px;font-size:12px;font-weight:600;border:none;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn-gold{background:var(--gold);color:var(--navy);}  .btn-gold:hover{background:#b5841f;}
+.btn-navy{background:var(--navy);color:white;}        .btn-navy:hover{background:#142540;}
+.btn-outline{background:transparent;color:var(--slate);border:1.5px solid var(--mgray);}.btn-outline:hover{background:var(--lgray);}
+.btn-green{background:var(--green);color:white;}      .btn-green:hover{background:#0f5a2c;}
+.btn-red{background:var(--red);color:white;}
+.btn-sm{padding:5px 10px;font-size:11px;}
+
+/* ══════════════════════════
+   ALLOCATION PLANNER
+══════════════════════════ */
+.alloc-body{display:flex;flex:1;overflow:hidden;}
+
+/* Left panel */
+.alloc-left{width:450px;min-width:450px;background:white;border-right:1px solid var(--mgray);display:flex;flex-direction:column;overflow:hidden;}
+.asec{padding:14px 18px;border-bottom:1px solid #EEF2F8;flex-shrink:0;}
+.asec h3{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--navy);margin-bottom:8px;}
+
+/* Portfolio toggle */
+.pt{display:flex;border:2px solid var(--navy);border-radius:8px;overflow:hidden;margin-bottom:7px;}
+.pt-btn{flex:1;padding:9px 6px;border:none;cursor:pointer;font-size:12px;font-weight:700;transition:all .15s;background:white;color:var(--slate);display:flex;align-items:center;justify-content:center;gap:5px;}
+.pt-btn.curr{background:#DBEAFE;color:#1D4ED8;}
+.pt-btn.prop{background:#D1FAE5;color:#065F46;}
+.pt-hint{font-size:11px;color:var(--slate);line-height:1.4;}
+.copy-btn{width:100%;padding:6px;border:1.5px dashed var(--mgray);border-radius:6px;background:var(--lgray);color:var(--slate);font-size:11px;font-weight:600;cursor:pointer;margin-top:6px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:4px;}
+.copy-btn:hover{background:var(--navy-lt);color:var(--navy);border-color:var(--navy);}
+
+/* Form fields */
+.fr{display:flex;gap:8px;margin-bottom:8px;}
+.fg{display:flex;flex-direction:column;flex:1;}
+.fg label{font-size:10px;font-weight:700;color:var(--slate);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
+.fg input,.fg select{padding:6px 9px;border:1.5px solid var(--mgray);border-radius:6px;font-size:12px;color:var(--dgray);background:var(--lgray);width:100%;}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--navy);background:white;}
+
+/* AUM row */
+.aum-row{display:flex;align-items:center;gap:8px;background:var(--lgray);padding:9px 12px;border-radius:8px;}
+.aum-row label{font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap;}
+.aum-row input{flex:1;padding:6px 9px;border:1.5px solid var(--mgray);border-radius:6px;font-size:14px;font-weight:700;color:var(--navy);text-align:right;background:white;max-width:150px;}
+.aum-row input:focus{outline:none;border-color:var(--gold);}
+.mt{display:flex;border:1.5px solid var(--mgray);border-radius:6px;overflow:hidden;}
+.mt button{padding:6px 12px;border:none;background:white;color:var(--slate);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;}
+.mt button.active{background:var(--navy);color:white;}
+
+/* Search */
+.add-row{display:flex;gap:6px;align-items:flex-end;}
+.sw{position:relative;flex:1;}
+.sw input{width:100%;padding:7px 11px;border:1.5px solid var(--mgray);border-radius:7px;font-size:12px;color:var(--dgray);background:white;}
+.sw input:focus{outline:none;border-color:var(--navy);}
+.ddl{position:absolute;top:calc(100% + 3px);left:0;right:0;background:white;border:1.5px solid var(--navy);border-radius:8px;max-height:220px;overflow-y:auto;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.15);display:none;}
+.ddl.open{display:block;}
+.ddi{padding:8px 12px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--lgray);transition:background .1s;}
+.ddi:last-child{border-bottom:none;}
+.ddi:hover{background:var(--lgray);}
+.it{font-weight:700;font-size:10px;color:var(--navy);background:#EEF2F8;padding:2px 5px;border-radius:3px;white-space:nowrap;}
+.in{flex:1;color:var(--dgray);font-size:11px;}
+.ic{font-size:10px;font-weight:700;padding:2px 6px;border-radius:8px;white-space:nowrap;}
+
+/* Holdings table */
+.hs{flex:1;overflow-y:auto;min-height:0;}
+.ht{width:100%;border-collapse:collapse;}
+.ht thead th{position:sticky;top:0;z-index:10;background:var(--navy);color:white;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:7px 9px;text-align:left;}
+.hr td{padding:7px 9px;border-bottom:1px solid #EEF2F8;font-size:12px;vertical-align:middle;}
+.hr:hover td{background:#F8FAFC;}
+.ht-tick{font-weight:700;font-size:10px;color:var(--navy);background:#EEF2F8;padding:2px 5px;border-radius:3px;display:inline-block;}
+.ht-name{font-size:10px;color:var(--slate);margin-top:2px;}
+.cb{font-size:10px;font-weight:700;padding:2px 6px;border-radius:8px;white-space:nowrap;display:inline-block;}
+.aic{display:flex;align-items:center;gap:4px;}
+/* KEY FIX: alloc-input is sized for multi-digit numbers */
+.alloc-input{width:76px;padding:5px 7px;border:1.5px solid var(--mgray);border-radius:5px;font-size:14px;font-weight:700;text-align:right;color:var(--navy);background:white;-moz-appearance:textfield;}
+.alloc-input::-webkit-outer-spin-button,.alloc-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.alloc-input:focus{outline:none;border-color:var(--navy);background:#F0F7FF;}
+.au{font-size:11px;color:var(--slate);font-weight:600;}
+.cv{font-size:10px;color:var(--slate);margin-top:2px;}
+.del-btn{width:22px;height:22px;border:none;background:#FEE2E2;color:var(--red);border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.del-btn:hover{background:var(--red);color:white;}
+
+/* Total bar */
+.tb{padding:11px 18px;background:white;border-top:2px solid var(--mgray);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tp{font-size:18px;font-weight:900;color:var(--navy);}
+.tp.over{color:var(--red);}
+.tp.exact{color:var(--green);}
+.tl{font-size:10px;color:var(--slate);margin-top:1px;}
+.tw{font-size:11px;padding:4px 9px;border-radius:5px;font-weight:600;}
+.tw.ok{background:#D1FAE5;color:var(--green);}
+.tw.over{background:#FEE2E2;color:var(--red);}
+.tw.under{background:#FEF3C7;color:#92400E;}
+
+/* Right panel */
+.alloc-right{flex:1;padding:18px 22px;overflow-y:auto;display:flex;flex-direction:column;gap:18px;}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.chart-card{background:white;border-radius:10px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.chart-card h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);margin-bottom:8px;text-align:center;}
+.chart-wrap{position:relative;height:190px;}
+.ct{text-align:center;font-size:10px;color:var(--slate);margin-top:5px;}
+.sum-card,.hold-card{background:white;border-radius:10px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);margin-bottom:10px;}
+.csr{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--lgray);}
+.csr:last-child{border-bottom:none;}
+.cd{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.cnc{flex:1;font-size:12px;font-weight:600;color:var(--dgray);}
+.cpc{font-size:12px;font-weight:800;color:var(--navy);width:42px;text-align:right;}
+.cac{font-size:11px;color:var(--slate);width:85px;text-align:right;}
+.cbw{width:100px;height:6px;background:var(--lgray);border-radius:3px;overflow:hidden;}
+.cbf{height:100%;border-radius:3px;transition:width .3s;}
+.hsr{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--lgray);font-size:11px;}
+.hsr:last-child{border-bottom:none;}
+.hsr-t{font-weight:700;color:var(--navy);width:90px;}
+.hsr-n{flex:1;color:var(--slate);}
+.hsr-p{font-weight:700;color:var(--navy);width:38px;text-align:right;}
+.hsr-a{color:var(--slate);width:80px;text-align:right;}
+.hsr-b{width:60px;height:5px;background:var(--lgray);border-radius:2px;overflow:hidden;}
+.hsr-bf{height:100%;border-radius:2px;}
+.exp-row{display:flex;gap:8px;justify-content:flex-end;}
+.es{text-align:center;padding:24px;color:var(--slate);font-size:12px;}
+
+/* Category badges */
+.cat-US-Equity{background:#DBEAFE;color:#1D4ED8;}
+.cat-Intl-Equity{background:#D1FAE5;color:#065F46;}
+.cat-Fixed-Income{background:#EDE9FE;color:#5B21B6;}
+.cat-Cash{background:#FEF9C3;color:#854D0E;}
+.cat-Preferred{background:#FCE7F3;color:#831843;}
+.cat-Alternative{background:#F3F4F6;color:#374151;}
+
+/* ══════════════════════════
+   MEETING PREP
+══════════════════════════ */
+.prep-body{flex:1;display:flex;gap:20px;padding:20px;overflow-y:auto;}
+.prep-col{flex:1;display:flex;flex-direction:column;gap:14px;}
+.card{background:white;border-radius:10px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.card-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.fgrp{margin-bottom:10px;}
+.fgrp label{display:block;font-size:10px;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.fgrp input,.fgrp select,.fgrp textarea{width:100%;padding:7px 9px;border:1.5px solid var(--mgray);border-radius:6px;font-size:12px;color:var(--dgray);background:var(--lgray);}
+.fgrp input:focus,.fgrp select:focus,.fgrp textarea:focus{outline:none;border-color:var(--navy);background:white;}
+.fgrp textarea{resize:vertical;min-height:72px;font-family:inherit;line-height:1.5;}
+.cl-item{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid var(--lgray);}
+.cl-item:last-child{border-bottom:none;}
+.cl-item input[type=checkbox]{width:15px;height:15px;margin-top:1px;cursor:pointer;accent-color:var(--navy);flex-shrink:0;}
+.cl-label{font-size:12px;color:var(--dgray);flex:1;line-height:1.4;}
+.cl-label.done{text-decoration:line-through;color:var(--slate);}
+.ag-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--lgray);border-radius:6px;margin-bottom:5px;}
+.ag-num{font-size:11px;font-weight:700;color:var(--navy);width:20px;}
+.ag-min{font-size:10px;color:var(--slate);width:32px;white-space:nowrap;}
+.ag-text{flex:1;font-size:12px;color:var(--dgray);}
+.ag-edit{border:none;background:transparent;color:var(--slate);cursor:pointer;font-size:14px;padding:0 2px;}
+.ai-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--lgray);}
+.ai-row:last-child{border-bottom:none;}
+.ai-label{flex:1;font-size:12px;color:var(--dgray);}
+.ai-own{font-size:10px;font-weight:700;color:var(--navy);background:var(--navy-lt);padding:2px 7px;border-radius:3px;white-space:nowrap;}
+.ai-due{font-size:10px;color:var(--slate);width:75px;text-align:right;}
+.tp-item{font-size:12px;color:var(--dgray);padding:5px 0;border-bottom:1px solid var(--lgray);display:flex;gap:7px;line-height:1.5;}
+.tp-item:last-child{border-bottom:none;}
+.tp-dot{color:var(--gold);font-weight:900;flex-shrink:0;}
+
+/* ══════════════════════════
+   CLIENT NOTES
+══════════════════════════ */
+.notes-body{flex:1;display:flex;gap:20px;padding:20px;overflow-y:auto;}
+.notes-sb{width:240px;display:flex;flex-direction:column;gap:12px;}
+.cl-list{display:flex;flex-direction:column;gap:5px;max-height:280px;overflow-y:auto;}
+.cl-item2{padding:9px 11px;border:1.5px solid var(--mgray);border-radius:7px;cursor:pointer;transition:all .15s;background:white;}
+.cl-item2:hover{border-color:var(--navy);}
+.cl-item2.active{border-color:var(--gold);background:var(--gold-lt);}
+.cl-name{font-size:12px;font-weight:700;color:var(--dgray);}
+.cl-sub{font-size:10px;color:var(--slate);margin-top:2px;}
+.notes-main{flex:1;display:flex;flex-direction:column;gap:14px;}
+.facts-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.fact{background:var(--lgray);border-radius:7px;padding:9px 11px;}
+.fact-lbl{font-size:9px;font-weight:700;text-transform:uppercase;color:var(--slate);letter-spacing:.4px;margin-bottom:3px;}
+.fact-inp{width:100%;border:none;background:transparent;font-size:12px;font-weight:600;color:var(--navy);outline:none;}
+
+/* ══════════════════════════
+   QUICK TOOLS
+══════════════════════════ */
+.tools-body{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px;overflow-y:auto;align-content:start;}
+.tc{background:white;border-radius:10px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.tc-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.tc-desc{font-size:11px;color:var(--slate);margin-bottom:14px;}
+.tf{margin-bottom:9px;}
+.tf label{display:block;font-size:10px;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.tf input,.tf select{width:100%;padding:7px 9px;border:1.5px solid var(--mgray);border-radius:6px;font-size:12px;color:var(--dgray);background:var(--lgray);}
+.tf input:focus,.tf select:focus{outline:none;border-color:var(--navy);background:white;}
+.tr2{margin-top:12px;background:var(--navy);color:white;border-radius:8px;padding:12px 14px;display:none;}
+.tr2-lbl{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px;}
+.tr2-val{font-size:22px;font-weight:900;color:var(--gold);margin-top:3px;}
+.tr2-note{font-size:10px;color:rgba(255,255,255,.55);margin-top:5px;line-height:1.4;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;}
+
+@media print{.sidebar,.ph-right,.add-row,.del-btn,.exp-row,.pt,.copy-btn{display:none!important;}body{background:white;}}
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div class="logo-box">SW</div>
+    <div>
+      <div class="brand-title">Salvus</div>
+      <div class="brand-sub">Advisor Launchpad</div>
+    </div>
+  </div>
+  <div class="nav-grp">
+    <div class="nav-grp-label">Tools</div>
+    <button class="nav-item active" id="nav-alloc" onclick="switchTab('alloc')">
+      <span class="nav-icon">📊</span> Allocation Planner
+    </button>
+    <button class="nav-item" id="nav-prep" onclick="switchTab('prep')">
+      <span class="nav-icon">📋</span> Meeting Prep
+    </button>
+    <button class="nav-item" id="nav-notes" onclick="switchTab('notes')">
+      <span class="nav-icon">👤</span> Client Notes
+    </button>
+    <button class="nav-item" id="nav-calc" onclick="switchTab('calc')">
+      <span class="nav-icon">📐</span> Quick Tools
+    </button>
+  </div>
+  <div class="sb-footer">
+    Salvus Wealth Management<br>Internal Use Only · v2.0
+  </div>
+</nav>
+
+<!-- ══ MAIN AREA ══ -->
+<div class="main-area">
+
+<!-- ══════════════════════════════════════════
+     TAB 1 — ALLOCATION PLANNER
+══════════════════════════════════════════ -->
+<div id="tab-alloc" class="tab-panel active">
+  <div class="ph">
+    <div class="ph-left">
+      <h2>Allocation Planner</h2>
+      <p>Enter current &amp; proposed portfolios — charts update instantly</p>
+    </div>
+    <div class="ph-right">
+      <button class="btn btn-outline btn-sm" onclick="clearActivePort()">✕ Clear</button>
+      <button class="btn btn-outline btn-sm" onclick="window.print()">⎙ Print</button>
+      <button class="btn btn-gold" onclick="openSummaryModal()">📄 Summary</button>
+    </div>
+  </div>
+  <div class="alloc-body">
+
+    <!-- LEFT PANEL -->
+    <div class="alloc-left">
+
+      <!-- Portfolio Toggle -->
+      <div class="asec">
+        <h3>Step 1 — Which Portfolio?</h3>
+        <div class="pt">
+          <button class="pt-btn curr" id="ptBtn-curr" onclick="switchPort('current')">
+            📂 Current Portfolio
+          </button>
+          <button class="pt-btn" id="ptBtn-prop" onclick="switchPort('proposed')">
+            🎯 Proposed Portfolio
+          </button>
+        </div>
+        <div class="pt-hint" id="portHint">
+          You are editing the <strong>Current Portfolio</strong> — enter your holdings as they are today.
+        </div>
+        <button class="copy-btn" onclick="copyPortfolio()">
+          ⇒ Copy Current → Proposed (start from today's holdings)
+        </button>
+      </div>
+
+      <!-- Client Info -->
+      <div class="asec">
+        <h3>Client Information</h3>
+        <div class="fr">
+          <div class="fg">
+            <label>Client Name</label>
+            <input type="text" id="clientName" placeholder="e.g. Arrandale Family" />
+          </div>
+          <div class="fg" style="max-width:120px;">
+            <label>Date</label>
+            <input type="date" id="planDate" />
+          </div>
+        </div>
+        <div class="fr">
+          <div class="fg">
+            <label>Account / Portfolio</label>
+            <input type="text" id="acctName" placeholder="e.g. IRA Rollover – Fidelity" />
+          </div>
+          <div class="fg" style="max-width:120px;">
+            <label>Risk Profile</label>
+            <select id="riskProfile">
+              <option value="">— select —</option>
+              <option>Conservative</option>
+              <option>Moderate-Conservative</option>
+              <option>Moderate</option>
+              <option>Moderate-Aggressive</option>
+              <option>Aggressive</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUM + Mode -->
+      <div class="asec">
+        <h3>Step 2 — Portfolio Size &amp; Entry Mode</h3>
+        <div class="aum-row">
+          <label>Total AUM</label>
+          <input type="text" id="totalAum" placeholder="$0" oninput="onAumChange()" />
+          <div class="mt">
+            <button id="modeBtn-pct" class="active" onclick="setMode('pct')">%</button>
+            <button id="modeBtn-dol" onclick="setMode('dol')">$</button>
+          </div>
+        </div>
+        <div style="margin-top:6px;font-size:10px;color:var(--slate);">
+          Enter allocations as <strong id="modeLabel">percentages</strong>. Dollar values compute automatically.
+        </div>
+      </div>
+
+      <!-- Add Security -->
+      <div class="asec">
+        <h3>Step 3 — Add Holdings</h3>
+        <div class="add-row">
+          <div class="sw">
+            <input type="text" id="secSearch" placeholder="Search ticker, fund name, manager…"
+              autocomplete="off" oninput="onSearch(this.value)" onkeydown="onSearchKey(event)" />
+            <div class="ddl" id="dropList"></div>
+          </div>
+          <button class="btn btn-navy btn-sm" onclick="addCustom()">+ Add</button>
+        </div>
+        <div style="margin-top:4px;font-size:10px;color:var(--slate);">90+ securities · DFA · ETFs · Timucuan · WCM · Cliffwater · MMFs</div>
+      </div>
+
+      <!-- Holdings Table -->
+      <div class="hs">
+        <table class="ht">
+          <thead>
+            <tr>
+              <th>Security / Manager</th>
+              <th>Category</th>
+              <th id="allocHeader">Alloc %</th>
+              <th style="width:28px;"></th>
+            </tr>
+          </thead>
+          <tbody id="holdingsTbody">
+            <tr><td colspan="4" class="es">No holdings yet — search above to add</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Total Bar -->
+      <div class="tb">
+        <div>
+          <div class="tp" id="totalPctDisplay">0%</div>
+          <div class="tl" id="totalDolDisplay">$0 allocated</div>
+        </div>
+        <span class="tw under" id="totalWarn">0% allocated</span>
+      </div>
+    </div><!-- end alloc-left -->
+
+    <!-- RIGHT PANEL -->
+    <div class="alloc-right">
+
+      <!-- Two charts side by side -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <h4>📂 Current Portfolio</h4>
+          <div class="chart-wrap"><canvas id="chartCurrent"></canvas></div>
+          <div class="ct" id="currLabel">Enter current holdings in the left panel</div>
+        </div>
+        <div class="chart-card">
+          <h4>🎯 Proposed Portfolio</h4>
+          <div class="chart-wrap"><canvas id="chartProposed"></canvas></div>
+          <div class="ct" id="propLabel">Switch to Proposed tab to enter changes</div>
+        </div>
+      </div>
+
+      <!-- Category Summary -->
+      <div class="sum-card">
+        <div class="card-title" id="catSumTitle">Asset Class Summary — Current Portfolio</div>
+        <div id="catSummary"><div class="es">Add holdings to see breakdown</div></div>
+      </div>
+
+      <!-- Holdings Breakdown -->
+      <div class="hold-card">
+        <div class="card-title" id="holdSumTitle">Holdings Breakdown — Current Portfolio</div>
+        <div id="holdSummary"><div class="es">Add holdings to see detail</div></div>
+      </div>
+
+      <div class="exp-row">
+        <button class="btn btn-outline" onclick="copyToClipboard()">📋 Copy</button>
+        <button class="btn btn-gold" onclick="openSummaryModal()">📄 View Summary</button>
+      </div>
+    </div><!-- end alloc-right -->
+  </div><!-- end alloc-body -->
+</div><!-- end tab-alloc -->
+
+<!-- ══════════════════════════════════════════
+     TAB 2 — MEETING PREP
+══════════════════════════════════════════ -->
+<div id="tab-prep" class="tab-panel">
+  <div class="ph">
+    <div class="ph-left">
+      <h2>Meeting Prep</h2>
+      <p>Build agendas, checklists, and action items before client meetings</p>
+    </div>
+    <div class="ph-right">
+      <button class="btn btn-gold" onclick="window.print()">⎙ Print Prep Sheet</button>
+    </div>
+  </div>
+  <div class="prep-body">
+    <div class="prep-col">
+
+      <!-- Meeting Details -->
+      <div class="card">
+        <div class="card-h">📅 Meeting Details</div>
+        <div class="fr" style="gap:8px;">
+          <div class="fg"><label>Client Name</label><input type="text" id="prepClient" placeholder="e.g. Arrandale Family" /></div>
+          <div class="fg" style="max-width:120px;"><label>Meeting Date</label><input type="date" id="prepDate" /></div>
+        </div>
+        <div class="fr" style="gap:8px;">
+          <div class="fg">
+            <label>Meeting Type</label>
+            <select id="prepType">
+              <option>Quarterly Review</option><option>Annual Planning</option>
+              <option>Ad-hoc Update</option><option>New Account Setup</option>
+              <option>Estate / Tax Planning</option>
+            </select>
+          </div>
+          <div class="fg" style="max-width:120px;"><label>Location</label><input type="text" id="prepLoc" placeholder="Zoom / Office" /></div>
+        </div>
+        <div class="fgrp"><label>Primary Advisor</label><input type="text" id="prepAdv" value="Bob Joel, CIO — Salvus Wealth Management" /></div>
+      </div>
+
+      <!-- Pre-Meeting Checklist -->
+      <div class="card">
+        <div class="card-h">✅ Pre-Meeting Checklist</div>
+        <div id="checklistEl"></div>
+      </div>
+
+      <!-- Advisor Notes -->
+      <div class="card">
+        <div class="card-h">💬 Advisor Notes</div>
+        <div class="fgrp">
+          <label>Warm-up / Personal Topics</label>
+          <textarea id="warmupNotes" placeholder="Family updates, news, personal topics to mention before diving into numbers…"></textarea>
+        </div>
+        <div class="fgrp">
+          <label>Concerns to Address</label>
+          <textarea id="concernNotes" placeholder="Questions or concerns raised since last meeting…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="prep-col">
+      <!-- Agenda Builder -->
+      <div class="card">
+        <div class="card-h">📋 Meeting Agenda</div>
+        <div id="agendaEl"></div>
+        <div style="margin-top:10px;display:flex;gap:7px;">
+          <button class="btn btn-outline btn-sm" onclick="addAgendaItem()">+ Item</button>
+          <button class="btn btn-outline btn-sm" onclick="resetAgenda()">↺ Reset</button>
+        </div>
+      </div>
+
+      <!-- Action Items -->
+      <div class="card">
+        <div class="card-h">⚡ Action Items</div>
+        <div id="actionEl"></div>
+        <div style="margin-top:9px;">
+          <button class="btn btn-navy btn-sm" onclick="addActionItem()">+ Add Action Item</button>
+        </div>
+      </div>
+
+      <!-- Market Talking Points -->
+      <div class="card">
+        <div class="card-h">💡 Market Talking Points</div>
+        <div id="talkingPts"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- end tab-prep -->
+
+<!-- ══════════════════════════════════════════
+     TAB 3 — CLIENT NOTES
+══════════════════════════════════════════ -->
+<div id="tab-notes" class="tab-panel">
+  <div class="ph">
+    <div class="ph-left">
+      <h2>Client Notes</h2>
+      <p>Quick-reference client profiles — saved locally in this browser</p>
+    </div>
+    <div class="ph-right">
+      <button class="btn btn-outline btn-sm" onclick="deleteClient()">🗑 Delete</button>
+      <button class="btn btn-green" onclick="saveClientNotes()">💾 Save</button>
+      <button class="btn btn-navy" onclick="newClient()">+ New Client</button>
+    </div>
+  </div>
+  <div class="notes-body">
+    <div class="notes-sb">
+      <div class="card">
+        <div class="card-h" style="margin-bottom:9px;">Saved Clients</div>
+        <div class="cl-list" id="clientList">
+          <div style="font-size:11px;color:var(--slate);padding:6px;">No saved clients yet.</div>
+        </div>
+      </div>
+    </div>
+    <div class="notes-main">
+      <div class="card">
+        <div class="card-h">Client Profile</div>
+        <div class="fr">
+          <div class="fg"><label>Client / Household Name</label><input type="text" id="noteClient" placeholder="e.g. Arrandale Family" /></div>
+          <div class="fg" style="max-width:140px;">
+            <label>Risk Profile</label>
+            <select id="noteRisk">
+              <option value="">— select —</option>
+              <option>Conservative</option><option>Moderate-Conservative</option>
+              <option>Moderate</option><option>Moderate-Aggressive</option><option>Aggressive</option>
+            </select>
+          </div>
+        </div>
+        <div class="facts-grid">
+          <div class="fact"><div class="fact-lbl">Primary Contact</div><input class="fact-inp" id="notePrimary" placeholder="Name · phone" /></div>
+          <div class="fact"><div class="fact-lbl">Email</div><input class="fact-inp" id="noteEmail" placeholder="email@example.com" /></div>
+          <div class="fact"><div class="fact-lbl">Custodian / Account #</div><input class="fact-inp" id="noteCust" placeholder="Fidelity · xxx-1234" /></div>
+          <div class="fact"><div class="fact-lbl">AUM (approx)</div><input class="fact-inp" id="noteAum" placeholder="$0" /></div>
+          <div class="fact"><div class="fact-lbl">Important Dates</div><input class="fact-inp" id="noteDates" placeholder="DOB, anniversary, tax due" /></div>
+          <div class="fact"><div class="fact-lbl">Next Review</div><input class="fact-inp" type="date" id="noteNextRev" /></div>
+        </div>
+      </div>
+      <div class="card" style="flex:1;">
+        <div class="card-h">Notes &amp; History</div>
+        <textarea id="noteText" style="width:100%;min-height:180px;border:1.5px solid var(--mgray);border-radius:7px;padding:10px;font-size:12px;line-height:1.6;color:var(--dgray);font-family:inherit;resize:vertical;" placeholder="Free-form notes, family info, preferences, prior meeting summaries…"></textarea>
+      </div>
+    </div>
+  </div>
+</div><!-- end tab-notes -->
+
+<!-- ══════════════════════════════════════════
+     TAB 4 — QUICK TOOLS
+══════════════════════════════════════════ -->
+<div id="tab-calc" class="tab-panel">
+  <div class="ph">
+    <div class="ph-left">
+      <h2>Quick Tools</h2>
+      <p>Fast financial calculators for client conversations</p>
+    </div>
+  </div>
+  <div class="tools-body">
+
+    <!-- RMD Calculator -->
+    <div class="tc">
+      <div class="tc-title">📅 RMD Calculator</div>
+      <div class="tc-desc">Required Minimum Distribution — IRS Uniform Lifetime Table</div>
+      <div class="tf"><label>Account Balance (Prior Year-End)</label><input type="number" id="rmdBal" placeholder="e.g. 850000" oninput="calcRMD()" /></div>
+      <div class="tf"><label>Client Age (as of Dec 31 this year)</label><input type="number" id="rmdAge" placeholder="e.g. 74" min="72" max="115" oninput="calcRMD()" /></div>
+      <div class="tr2" id="rmdRes">
+        <div class="tr2-lbl">Annual RMD Amount</div>
+        <div class="tr2-val" id="rmdAmt">—</div>
+        <div class="tr2-note" id="rmdNote"></div>
+      </div>
+    </div>
+
+    <!-- Roth Conversion -->
+    <div class="tc">
+      <div class="tc-title">🔄 Roth Conversion</div>
+      <div class="tc-desc">Estimate tax cost and break-even for a Roth conversion</div>
+      <div class="tf"><label>Conversion Amount ($)</label><input type="number" id="rothAmt" placeholder="e.g. 100000" oninput="calcRoth()" /></div>
+      <div class="tf"><label>Marginal Tax Rate (%)</label><input type="number" id="rothRate" placeholder="e.g. 24" min="0" max="60" oninput="calcRoth()" /></div>
+      <div class="tf"><label>Expected Annual Growth Rate (%)</label><input type="number" id="rothGrow" placeholder="e.g. 7" min="0" max="20" oninput="calcRoth()" /></div>
+      <div class="tr2" id="rothRes">
+        <div class="tr2-lbl">Upfront Tax Cost</div>
+        <div class="tr2-val" id="rothTax">—</div>
+        <div class="tr2-note" id="rothNote"></div>
+      </div>
+    </div>
+
+    <!-- Withdrawal Rate -->
+    <div class="tc">
+      <div class="tc-title">💰 Withdrawal Rate Check</div>
+      <div class="tc-desc">Calculate the portfolio withdrawal rate and assess sustainability</div>
+      <div class="tf"><label>Portfolio Value ($)</label><input type="number" id="wrPort" placeholder="e.g. 1500000" oninput="calcWR()" /></div>
+      <div class="tf"><label>Annual Withdrawal ($)</label><input type="number" id="wrWith" placeholder="e.g. 60000" oninput="calcWR()" /></div>
+      <div class="tr2" id="wrRes">
+        <div class="tr2-lbl">Withdrawal Rate</div>
+        <div class="tr2-val" id="wrRate">—</div>
+        <div class="tr2-note" id="wrNote"></div>
+      </div>
+    </div>
+
+    <!-- Portfolio Projector -->
+    <div class="tc">
+      <div class="tc-title">📈 Portfolio Projector</div>
+      <div class="tc-desc">Project portfolio value with annual return and net contributions</div>
+      <div class="tf"><label>Current Portfolio Value ($)</label><input type="number" id="prjStart" placeholder="e.g. 1000000" oninput="calcProj()" /></div>
+      <div class="tf"><label>Annual Return (%)</label><input type="number" id="prjRet" placeholder="e.g. 7" oninput="calcProj()" /></div>
+      <div class="tf"><label>Annual Contribution (negative = withdrawal)</label><input type="number" id="prjContr" placeholder="e.g. 0 or -50000" oninput="calcProj()" /></div>
+      <div class="tf"><label>Years</label><input type="number" id="prjYrs" placeholder="e.g. 10" min="1" max="50" oninput="calcProj()" /></div>
+      <div class="tr2" id="prjRes">
+        <div class="tr2-lbl">Projected Value</div>
+        <div class="tr2-val" id="prjVal">—</div>
+        <div class="tr2-note" id="prjNote"></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- end tab-calc -->
+
+</div><!-- end main-area -->
+
+<!-- ══ SUMMARY MODAL ══ -->
+<div id="sumModal" class="modal-bg">
+  <div style="background:white;border-radius:14px;padding:26px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <h3 style="color:var(--navy);font-size:15px;">Allocation Summary</h3>
+      <button onclick="document.getElementById('sumModal').style.display='none'" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--slate);">×</button>
+    </div>
+    <pre id="summaryText" style="font-family:monospace;font-size:11px;line-height:1.7;color:var(--dgray);white-space:pre-wrap;"></pre>
+    <div style="margin-top:14px;display:flex;gap:9px;justify-content:flex-end;">
+      <button class="btn btn-gold" onclick="navigator.clipboard.writeText(document.getElementById('summaryText').innerText)">Copy Text</button>
+      <button class="btn btn-outline" onclick="document.getElementById('sumModal').style.display='none'">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  TAB SWITCHING
+// ══════════════════════════════════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  SECURITIES DATABASE
+// ══════════════════════════════════════════════════════════════
+const CATEGORY_META = {
+  'US Equity':    {key:'us',   color:'#3B82F6', label:'US Equity',       cls:'cat-US-Equity'},
+  'Intl Equity':  {key:'intl', color:'#10B981', label:'Intl Equity',      cls:'cat-Intl-Equity'},
+  'Fixed Income': {key:'fi',   color:'#8B5CF6', label:'Fixed Income',     cls:'cat-Fixed-Income'},
+  'Cash':         {key:'cash', color:'#F59E0B', label:'Cash / MM',        cls:'cat-Cash'},
+  'Preferred':    {key:'pref', color:'#F97316', label:'Preferred/Hybrid', cls:'cat-Preferred'},
+  'Alternative':  {key:'alt',  color:'#EC4899', label:'Alternative',      cls:'cat-Alternative'},
+};
+
+const SECURITIES_DB = [
+  // ── Separate Account Managers ──
+  {ticker:'TIMUCUAN', name:'Timucuan Asset Management',        cat:'US Equity',    type:'sma'},
+  {ticker:'SDP',      name:'Salvus Dividend Portfolio',         cat:'US Equity',    type:'sma'},
+  {ticker:'WCM',      name:'WCM Global Growth',                 cat:'Intl Equity',  type:'sma'},
+  {ticker:'DFA-US',   name:'DFA US Core Equity',                cat:'US Equity',    type:'sma'},
+  {ticker:'DFA-INT',  name:'DFA International Core',            cat:'Intl Equity',  type:'sma'},
+  {ticker:'DFA-EM',   name:'DFA Emerging Markets',              cat:'Intl Equity',  type:'sma'},
+  {ticker:'DFA-BOND', name:'DFA Investment Grade Bond',         cat:'Fixed Income', type:'sma'},
+  {ticker:'CUSTOM',   name:'Custom / Other Manager',            cat:'US Equity',    type:'sma'},
+  // ── Cliffwater / Alts ──
+  {ticker:'CCLFX',    name:'Cliffwater Corp Lending Fund',      cat:'Fixed Income', type:'fund'},
+  {ticker:'CELFX',    name:'Cliffwater Enhanced Lending Fund',  cat:'Fixed Income', type:'fund'},
+  {ticker:'CRDIX',    name:'Cliffwater Direct Lending',         cat:'Alternative',  type:'fund'},
+  // ── Money Market / Cash ──
+  {ticker:'FDRXX',    name:'Fidelity Govt Cash Reserves',       cat:'Cash', type:'mmkt'},
+  {ticker:'SPAXX',    name:'Fidelity Govt Money Market',        cat:'Cash', type:'mmkt'},
+  {ticker:'VMFXX',    name:'Vanguard Federal Money Market',     cat:'Cash', type:'mmkt'},
+  {ticker:'SWVXX',    name:'Schwab Value Adv Money Market',     cat:'Cash', type:'mmkt'},
+  {ticker:'SPRXX',    name:'Fidelity Prime MMF',                cat:'Cash', type:'mmkt'},
+  // ── Preferred / Hybrid ──
+  {ticker:'PSEC',     name:'Prospect Capital Corp',             cat:'Preferred', type:'etf'},
+  {ticker:'PSEC-M5',  name:'Prospect Capital Preferred M5',     cat:'Preferred', type:'fund'},
+  {ticker:'PFF',      name:'iShares Preferred & Income ETF',    cat:'Preferred', type:'etf'},
+  {ticker:'PGX',      name:'Invesco Preferred ETF',             cat:'Preferred', type:'etf'},
+  {ticker:'PFFD',     name:'Global X US Preferred ETF',         cat:'Preferred', type:'etf'},
+  // ── US Equity ETFs ──
+  {ticker:'SPY',      name:'SPDR S&P 500 ETF',                  cat:'US Equity', type:'etf'},
+  {ticker:'IVV',      name:'iShares Core S&P 500 ETF',          cat:'US Equity', type:'etf'},
+  {ticker:'VOO',      name:'Vanguard S&P 500 ETF',              cat:'US Equity', type:'etf'},
+  {ticker:'VTI',      name:'Vanguard Total Stock Market ETF',   cat:'US Equity', type:'etf'},
+  {ticker:'SCHB',     name:'Schwab US Broad Market ETF',        cat:'US Equity', type:'etf'},
+  {ticker:'QQQ',      name:'Invesco QQQ (NASDAQ-100)',           cat:'US Equity', type:'etf'},
+  {ticker:'VUG',      name:'Vanguard Growth ETF',               cat:'US Equity', type:'etf'},
+  {ticker:'VTV',      name:'Vanguard Value ETF',                cat:'US Equity', type:'etf'},
+  {ticker:'SCHD',     name:'Schwab US Dividend Equity ETF',     cat:'US Equity', type:'etf'},
+  {ticker:'VIG',      name:'Vanguard Dividend Appreciation ETF',cat:'US Equity', type:'etf'},
+  {ticker:'DVY',      name:'iShares Select Dividend ETF',       cat:'US Equity', type:'etf'},
+  {ticker:'SDY',      name:'SPDR S&P Dividend ETF',             cat:'US Equity', type:'etf'},
+  {ticker:'DGRO',     name:'iShares Core Dividend Growth ETF',  cat:'US Equity', type:'etf'},
+  {ticker:'NOBL',     name:'ProShares S&P 500 Dividend Aristocrats',cat:'US Equity',type:'etf'},
+  {ticker:'VYM',      name:'Vanguard High Dividend Yield ETF',  cat:'US Equity', type:'etf'},
+  {ticker:'IWM',      name:'iShares Russell 2000 ETF',          cat:'US Equity', type:'etf'},
+  {ticker:'IJR',      name:'iShares Core S&P Small-Cap ETF',    cat:'US Equity', type:'etf'},
+  {ticker:'IWB',      name:'iShares Russell 1000 ETF',          cat:'US Equity', type:'etf'},
+  {ticker:'MGK',      name:'Vanguard Mega Cap Growth ETF',      cat:'US Equity', type:'etf'},
+  {ticker:'QUAL',     name:'iShares MSCI USA Quality Factor ETF',cat:'US Equity',type:'etf'},
+  // ── International Equity ETFs ──
+  {ticker:'VXUS',     name:'Vanguard Total Intl Stock ETF',     cat:'Intl Equity', type:'etf'},
+  {ticker:'EFA',      name:'iShares MSCI EAFE ETF',             cat:'Intl Equity', type:'etf'},
+  {ticker:'VEA',      name:'Vanguard FTSE Developed Markets ETF',cat:'Intl Equity',type:'etf'},
+  {ticker:'SCHF',     name:'Schwab Intl Equity ETF',            cat:'Intl Equity', type:'etf'},
+  {ticker:'EEM',      name:'iShares MSCI Emerging Markets ETF', cat:'Intl Equity', type:'etf'},
+  {ticker:'VWO',      name:'Vanguard FTSE Emerging Markets ETF',cat:'Intl Equity', type:'etf'},
+  {ticker:'IEMG',     name:'iShares Core MSCI Emerging Markets',cat:'Intl Equity', type:'etf'},
+  {ticker:'GEM',      name:'Goldman Sachs ActiveBeta EM ETF',   cat:'Intl Equity', type:'etf'},
+  {ticker:'VPL',      name:'Vanguard FTSE Pacific ETF',         cat:'Intl Equity', type:'etf'},
+  {ticker:'VGK',      name:'Vanguard FTSE Europe ETF',          cat:'Intl Equity', type:'etf'},
+  {ticker:'FEZ',      name:'SPDR EURO STOXX 50 ETF',            cat:'Intl Equity', type:'etf'},
+  {ticker:'EWJ',      name:'iShares MSCI Japan ETF',            cat:'Intl Equity', type:'etf'},
+  // ── Fixed Income ETFs ──
+  {ticker:'AGG',      name:'iShares Core US Aggregate Bond ETF',cat:'Fixed Income', type:'etf'},
+  {ticker:'BND',      name:'Vanguard Total Bond Market ETF',    cat:'Fixed Income', type:'etf'},
+  {ticker:'SCHZ',     name:'Schwab US Aggregate Bond ETF',      cat:'Fixed Income', type:'etf'},
+  {ticker:'LQD',      name:'iShares iBoxx Investment Grade ETF',cat:'Fixed Income', type:'etf'},
+  {ticker:'VCIT',     name:'Vanguard Intermediate Corp Bond ETF',cat:'Fixed Income',type:'etf'},
+  {ticker:'VCSH',     name:'Vanguard Short-Term Corp Bond ETF', cat:'Fixed Income', type:'etf'},
+  {ticker:'BSV',      name:'Vanguard Short-Term Bond ETF',      cat:'Fixed Income', type:'etf'},
+  {ticker:'BIV',      name:'Vanguard Intermediate-Term Bond ETF',cat:'Fixed Income',type:'etf'},
+  {ticker:'BLV',      name:'Vanguard Long-Term Bond ETF',       cat:'Fixed Income', type:'etf'},
+  {ticker:'BNDX',     name:'Vanguard Total Intl Bond ETF',      cat:'Fixed Income', type:'etf'},
+  {ticker:'EMB',      name:'iShares J.P. Morgan EM Bond ETF',   cat:'Fixed Income', type:'etf'},
+  {ticker:'HYG',      name:'iShares iBoxx High Yield Corp ETF', cat:'Fixed Income', type:'etf'},
+  {ticker:'JNK',      name:'SPDR Bloomberg High Yield Bond ETF',cat:'Fixed Income', type:'etf'},
+  {ticker:'MUB',      name:'iShares National Muni Bond ETF',    cat:'Fixed Income', type:'etf'},
+  {ticker:'VTEB',     name:'Vanguard Tax-Exempt Bond ETF',      cat:'Fixed Income', type:'etf'},
+  {ticker:'TIP',      name:'iShares TIPS Bond ETF',             cat:'Fixed Income', type:'etf'},
+  {ticker:'VTIP',     name:'Vanguard Short-Term Inflation-Protected ETF',cat:'Fixed Income',type:'etf'},
+  {ticker:'SHY',      name:'iShares 1-3 Year Treasury Bond ETF',cat:'Fixed Income', type:'etf'},
+  {ticker:'IEF',      name:'iShares 7-10 Year Treasury Bond ETF',cat:'Fixed Income',type:'etf'},
+  {ticker:'TLT',      name:'iShares 20+ Year Treasury Bond ETF',cat:'Fixed Income', type:'etf'},
+  // ── Multi-Asset / Alternatives ──
+  {ticker:'GLD',      name:'SPDR Gold Shares',                  cat:'Alternative', type:'etf'},
+  {ticker:'IAU',      name:'iShares Gold Trust',                cat:'Alternative', type:'etf'},
+  {ticker:'VNQ',      name:'Vanguard Real Estate ETF',          cat:'Alternative', type:'etf'},
+  {ticker:'IYR',      name:'iShares US Real Estate ETF',        cat:'Alternative', type:'etf'},
+  {ticker:'ABRN',     name:'Aberdeen Diversified Income & Growth',cat:'Alternative',type:'fund'},
+  // ── DFA Mutual Funds ──
+  {ticker:'DFLVX',    name:'DFA US Large Cap Value Fund',       cat:'US Equity', type:'fund'},
+  {ticker:'DFSVX',    name:'DFA US Small Cap Value Fund',       cat:'US Equity', type:'fund'},
+  {ticker:'DFCEX',    name:'DFA Continental Small Company',     cat:'Intl Equity', type:'fund'},
+  {ticker:'DFIEX',    name:'DFA International Small Cap',       cat:'Intl Equity', type:'fund'},
+  {ticker:'DFEMX',    name:'DFA Emerging Markets Core Equity',  cat:'Intl Equity', type:'fund'},
+  {ticker:'DFCPX',    name:'DFA US Core Equity 2',              cat:'US Equity', type:'fund'},
+  {ticker:'DFSTX',    name:'DFA US Small Cap Portfolio',        cat:'US Equity', type:'fund'},
+  {ticker:'DFLCX',    name:'DFA US Large Company Portfolio',    cat:'US Equity', type:'fund'},
+  {ticker:'DFTIX',    name:'DFA Inflation-Protected Securities',cat:'Fixed Income', type:'fund'},
+  {ticker:'DFGBX',    name:'DFA Intermediate Government',       cat:'Fixed Income', type:'fund'},
+  {ticker:'DFGFX',    name:'DFA Global Bond Portfolio',         cat:'Fixed Income', type:'fund'},
+];
+
+// ══════════════════════════════════════════════════════════════
+//  ALLOCATION PLANNER STATE
+// ══════════════════════════════════════════════════════════════
+let currentHoldings  = [];
+let proposedHoldings = [];
+let allocPort = 'current';
+let nextId    = 1;
+let inputMode = 'pct';
+let chartCurr, chartProp;
+
+function getHoldings()     { return allocPort === 'current' ? currentHoldings : proposedHoldings; }
+function getHoldingById(id){ return getHoldings().find(h => h.id===id); }
+
+// ── Portfolio switching ──────────────────────────────────────
+function switchPort(port) {
+  allocPort = port;
+  const isCurr = port === 'current';
+  document.getElementById('ptBtn-curr').className = 'pt-btn' + (isCurr ? ' curr' : '');
+  document.getElementById('ptBtn-prop').className = 'pt-btn' + (!isCurr ? ' prop' : '');
+  document.getElementById('portHint').innerHTML = isCurr
+    ? 'You are editing the <strong>Current Portfolio</strong> — enter holdings as they are today.'
+    : 'You are editing the <strong>Proposed Portfolio</strong> — enter your recommended changes.';
+  document.getElementById('catSumTitle').textContent  = `Asset Class Summary — ${isCurr?'Current':'Proposed'} Portfolio`;
+  document.getElementById('holdSumTitle').textContent = `Holdings Breakdown — ${isCurr?'Current':'Proposed'} Portfolio`;
+  renderAll();
+}
+
+function copyPortfolio() {
+  if (proposedHoldings.length && !confirm('This will replace the Proposed Portfolio with the current holdings. Continue?')) return;
+  proposedHoldings = currentHoldings.map(h => ({...h, id: nextId++}));
+  alert('✓ Current portfolio copied to Proposed. Switch to the Proposed tab to make changes.');
+  switchPort('proposed');
+}
+
+// ── AUM / Mode ───────────────────────────────────────────────
+function getAUM() { return parseFloat(document.getElementById('totalAum').value.replace(/[^0-9.]/g,'')) || 0; }
+
+function onAumChange() {
+  // Don't rebuild table — just refresh computed values and charts
+  refreshComputedDisplays();
+  renderTotals();
+  renderCharts();
+  renderCatSummary();
+  renderHoldSummary();
+}
+
+function setMode(m) {
+  inputMode = m;
+  document.getElementById('modeBtn-pct').className = m==='pct' ? 'active' : '';
+  document.getElementById('modeBtn-dol').className = m==='dol' ? 'active' : '';
+  document.getElementById('modeLabel').textContent  = m==='pct' ? 'percentages' : 'dollar amounts';
+  document.getElementById('allocHeader').textContent = m==='pct' ? 'Alloc %' : 'Alloc $';
+  renderAll(); // mode switch requires full re-render to swap unit labels
+}
+
+// ── Percent / Dollar helpers ─────────────────────────────────
+function getPct(h) {
+  const aum = getAUM();
+  return inputMode==='pct' ? h.alloc : (aum > 0 ? (h.alloc / aum * 100) : 0);
+}
+function getDol(h) {
+  const aum = getAUM();
+  return inputMode==='dol' ? h.alloc : aum * (h.alloc / 100);
+}
+function totalPct() { return getHoldings().reduce((s,h) => s + getPct(h), 0); }
+function totalDol() { return getHoldings().reduce((s,h) => s + getDol(h), 0); }
+
+function fmt$(n) {
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + Math.round(n).toLocaleString();
+  return '$' + n.toFixed(0);
+}
+function fmtPct(n) { return n.toFixed(1) + '%'; }
+function catMeta(cat) { return CATEGORY_META[cat] || {color:'#94A3B8', label:cat, cls:''}; }
+
+// ── Search / Dropdown ────────────────────────────────────────
+let searchResults = [];
+let selIdx = -1;
+
+function onSearch(q) {
+  q = q.trim().toUpperCase();
+  if (!q) { closeDD(); return; }
+  searchResults = SECURITIES_DB.filter(s =>
+    s.ticker.toUpperCase().includes(q) ||
+    s.name.toUpperCase().includes(q)   ||
+    s.cat.toUpperCase().includes(q)
+  ).slice(0, 12);
+  const dl = document.getElementById('dropList');
+  if (!searchResults.length) { closeDD(); return; }
+  dl.innerHTML = searchResults.map((s,i) => {
+    const m = CATEGORY_META[s.cat] || {};
+    return `<div class="ddi" onclick="selectSecurity(${i})" id="ddi-${i}">
+      <span class="it">${s.ticker}</span>
+      <span class="in">${s.name}</span>
+      <span class="ic ${m.cls||''}" style="font-size:9px;">${s.cat}</span>
+    </div>`;
+  }).join('');
+  dl.classList.add('open');
+  selIdx = -1;
+}
+
+function onSearchKey(e) {
+  const dl = document.getElementById('dropList');
+  if (!dl.classList.contains('open')) return;
+  if (e.key==='ArrowDown') { selIdx = Math.min(selIdx+1, searchResults.length-1); hlItem(); }
+  else if (e.key==='ArrowUp') { selIdx = Math.max(selIdx-1, 0); hlItem(); }
+  else if (e.key==='Enter') { e.preventDefault(); if (selIdx>=0) selectSecurity(selIdx); else addCustom(); }
+  else if (e.key==='Escape') closeDD();
+}
+function hlItem() {
+  document.querySelectorAll('.ddi').forEach((el,i) => el.style.background = i===selIdx ? 'var(--lgray)' : '');
+}
+function closeDD() { document.getElementById('dropList').classList.remove('open'); searchResults=[]; selIdx=-1; }
+
+function selectSecurity(idx) {
+  const s = searchResults[idx];
+  if (!s) return;
+  addHolding(s.ticker, s.name, s.cat, s.type);
+  document.getElementById('secSearch').value = '';
+  closeDD();
+}
+
+function addCustom() {
+  const val = document.getElementById('secSearch').value.trim();
+  if (!val) return;
+  const match = SECURITIES_DB.find(s => s.ticker.toUpperCase()===val.toUpperCase());
+  if (match) {
+    addHolding(match.ticker, match.name, match.cat, match.type);
+  } else {
+    const cats = Object.keys(CATEGORY_META);
+    const choice = prompt(`Select category for "${val}":\n` +
+      cats.map((c,i) => `${i+1}. ${c}`).join('\n') + '\n\nEnter number 1–' + cats.length + ':');
+    const n = parseInt(choice);
+    if (n>=1 && n<=cats.length) addHolding(val.toUpperCase(), val, cats[n-1], 'custom');
+  }
+  document.getElementById('secSearch').value = '';
+  closeDD();
+}
+
+// ── Holdings CRUD ────────────────────────────────────────────
+function addHolding(ticker, name, cat, type) {
+  const arr = getHoldings();
+  if (arr.find(h => h.ticker===ticker)) { alert(`${ticker} is already in this portfolio.`); return; }
+  arr.push({id: nextId++, ticker, name, cat, type, alloc: 0});
+  renderAll();
+}
+
+function removeHolding(id) {
+  if (allocPort==='current') currentHoldings  = currentHoldings.filter(h => h.id!==id);
+  else                       proposedHoldings = proposedHoldings.filter(h => h.id!==id);
+  renderAll();
+}
+
+// ── KEY FIX: Update allocation WITHOUT rebuilding the table ──
+// This keeps the input focused so you can type multi-digit numbers
+function updateAllocValue(id, val) {
+  const h = getHoldingById(id);
+  if (!h) return;
+  h.alloc = parseFloat(val) || 0;
+
+  // Update only the computed display for this specific row
+  const aum = getAUM();
+  const pct = getPct(h);
+  const dol = getDol(h);
+  const compEl = document.getElementById('acomp-'+id);
+  if (compEl) {
+    compEl.textContent = inputMode==='pct'
+      ? (aum>0 ? fmt$(dol) : '—')
+      : (aum>0 ? fmtPct(pct) : '—');
+  }
+
+  // Update totals, charts, and summaries — but NOT the table
+  renderTotals();
+  renderCharts();
+  renderCatSummary();
+  renderHoldSummary();
+}
+
+// Refresh computed cells without rebuilding rows (used by AUM change)
+function refreshComputedDisplays() {
+  const aum = getAUM();
+  getHoldings().forEach(h => {
+    const pct = getPct(h);
+    const dol = getDol(h);
+    const el  = document.getElementById('acomp-'+h.id);
+    if (el) el.textContent = inputMode==='pct'
+      ? (aum>0 ? fmt$(dol) : '—')
+      : (aum>0 ? fmtPct(pct) : '—');
+  });
+}
+
+// ── Render table (called only on add/remove/mode switch) ─────
+function renderTable() {
+  const tbody = document.getElementById('holdingsTbody');
+  const hs    = getHoldings();
+  const aum   = getAUM();
+
+  if (!hs.length) {
+    tbody.innerHTML = `<tr><td colspan="4" class="es">No holdings — search above to add securities</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = hs.map(h => {
+    const meta     = catMeta(h.cat);
+    const pct      = getPct(h);
+    const dol      = getDol(h);
+    const unit     = inputMode==='pct' ? '%' : '$';
+    const computed = inputMode==='pct'
+      ? (aum>0 ? fmt$(dol) : '—')
+      : (aum>0 ? fmtPct(pct) : '—');
+
+    return `<tr class="hr" id="hrow-${h.id}">
+      <td>
+        <div class="ht-tick">${h.ticker}</div>
+        <div class="ht-name">${h.name}</div>
+      </td>
+      <td>
+        <span class="cb ${meta.cls}">${meta.label}</span>
+      </td>
+      <td>
+        <div class="aic">
+          <input class="alloc-input" type="number" id="ainput-${h.id}"
+            min="0" step="${inputMode==='pct'?'0.5':'1000'}"
+            value="${h.alloc || ''}"
+            placeholder="0"
+            oninput="updateAllocValue(${h.id}, this.value)" />
+          <span class="au">${unit}</span>
+        </div>
+        <div class="cv" id="acomp-${h.id}">${computed}</div>
+      </td>
+      <td><button class="del-btn" onclick="removeHolding(${h.id})">×</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Render totals bar ────────────────────────────────────────
+function renderTotals() {
+  const aum = getAUM();
+  const tp  = totalPct();
+  const td  = totalDol();
+  const dispEl = document.getElementById('totalPctDisplay');
+  const dolEl  = document.getElementById('totalDolDisplay');
+  const warnEl = document.getElementById('totalWarn');
+
+  dispEl.textContent = fmtPct(tp);
+  dolEl.textContent  = aum>0 ? `${fmt$(td)} of ${fmt$(aum)} allocated` : `${fmtPct(tp)} allocated`;
+  dispEl.className = 'tp';
+  warnEl.className = 'tw';
+
+  if (Math.abs(tp-100) < 0.1) {
+    dispEl.classList.add('exact'); warnEl.classList.add('ok');
+    warnEl.textContent = '✓ Fully allocated';
+  } else if (tp > 100.05) {
+    dispEl.classList.add('over'); warnEl.classList.add('over');
+    warnEl.textContent = `⚠ Over by ${fmtPct(tp-100)}`;
+  } else {
+    warnEl.classList.add('under');
+    warnEl.textContent = `${fmtPct(100-tp)} remaining`;
+  }
+}
+
+// ── Render charts (BOTH always update) ──────────────────────
+function catRollupFor(hs) {
+  const roll = {};
+  for (const h of hs) {
+    if (!roll[h.cat]) roll[h.cat] = {pct:0, dol:0};
+    roll[h.cat].pct += getPct(h);
+    roll[h.cat].dol += getDol(h);
+  }
+  return roll;
+}
+
+function updateChartFor(chart, hs, labelEl) {
+  const roll = catRollupFor(hs);
+  const cats = Object.keys(CATEGORY_META).filter(c => roll[c]);
+  const aum  = getAUM();
+
+  if (!cats.length) {
+    chart.data = {labels:['No data'], datasets:[{data:[1], backgroundColor:['#E2E8F0'], borderWidth:0}]};
+    chart.update();
+    labelEl.textContent = 'No holdings entered';
+    return;
+  }
+  const labels = cats.map(c => CATEGORY_META[c].label);
+  const data   = cats.map(c => roll[c].pct);
+  const colors = cats.map(c => CATEGORY_META[c].color);
+  chart.data = {labels, datasets:[{data, backgroundColor:colors, borderWidth:2, borderColor:'#fff', hoverOffset:5}]};
+  chart.update();
+  const tp = cats.reduce((s,c)=>s+roll[c].pct, 0);
+  const td = cats.reduce((s,c)=>s+roll[c].dol, 0);
+  labelEl.textContent = `${fmtPct(tp)} allocated${aum>0?' · '+fmt$(td):''}`;
+}
+
+function renderCharts() {
+  updateChartFor(chartCurr, currentHoldings,  document.getElementById('currLabel'));
+  updateChartFor(chartProp, proposedHoldings, document.getElementById('propLabel'));
+}
+
+// ── Render category summary (active portfolio) ───────────────
+function renderCatSummary() {
+  const roll = catRollupFor(getHoldings());
+  const aum  = getAUM();
+  const el   = document.getElementById('catSummary');
+  const cats = Object.keys(CATEGORY_META).filter(c => roll[c]);
+
+  if (!cats.length) { el.innerHTML = '<div class="es">Add holdings to see breakdown</div>'; return; }
+  el.innerHTML = cats.map(cat => {
+    const meta = CATEGORY_META[cat];
+    const pct  = roll[cat].pct;
+    const dol  = roll[cat].dol;
+    return `<div class="csr">
+      <div class="cd" style="background:${meta.color};"></div>
+      <div class="cnc">${meta.label}</div>
+      <div class="cpc">${fmtPct(pct)}</div>
+      <div class="cac">${aum>0?fmt$(dol):'—'}</div>
+      <div class="cbw"><div class="cbf" style="width:${Math.min(pct,100)}%;background:${meta.color};"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── Render holdings summary (active portfolio) ───────────────
+function renderHoldSummary() {
+  const hs  = getHoldings();
+  const aum = getAUM();
+  const el  = document.getElementById('holdSummary');
+  if (!hs.length) { el.innerHTML = '<div class="es">Add holdings to see detail</div>'; return; }
+
+  const sorted = [...hs].sort((a,b) => getPct(b)-getPct(a));
+  el.innerHTML = sorted.map(h => {
+    const meta = catMeta(h.cat);
+    const pct  = getPct(h);
+    const dol  = getDol(h);
+    return `<div class="hsr">
+      <div class="hsr-t"><span class="ht-tick">${h.ticker}</span></div>
+      <div class="hsr-n">${h.name}</div>
+      <div class="hsr-p">${fmtPct(pct)}</div>
+      <div class="hsr-a">${aum>0?fmt$(dol):'—'}</div>
+      <div class="hsr-b"><div class="hsr-bf" style="width:${Math.min(pct,100)}%;background:${meta.color};"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── Master render ────────────────────────────────────────────
+function renderAll() {
+  renderTable();
+  renderTotals();
+  renderCharts();
+  renderCatSummary();
+  renderHoldSummary();
+}
+
+function clearActivePort() {
+  const label = allocPort === 'current' ? 'current' : 'proposed';
+  if (getHoldings().length && !confirm(`Clear all ${label} portfolio holdings?`)) return;
+  if (allocPort==='current') currentHoldings=[]; else proposedHoldings=[];
+  renderAll();
+}
+
+// ── Charts init ──────────────────────────────────────────────
+function initCharts() {
+  const empty = {labels:['No data'], datasets:[{data:[1], backgroundColor:['#E2E8F0'], borderWidth:0}]};
+  const opts  = () => ({
+    responsive:true, maintainAspectRatio:false, cutout:'55%',
+    plugins:{
+      legend:{position:'bottom', labels:{boxWidth:10, font:{size:10}, padding:7}},
+      tooltip:{callbacks:{label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%`}}
+    }
+  });
+  chartCurr = new Chart(document.getElementById('chartCurrent'),  {type:'doughnut', data:empty, options:opts()});
+  chartProp = new Chart(document.getElementById('chartProposed'), {type:'doughnut', data:empty, options:opts()});
+}
+
+// ── Summary modal ────────────────────────────────────────────
+function buildSummaryText(hs, label) {
+  const client = document.getElementById('clientName').value || '—';
+  const acct   = document.getElementById('acctName').value   || '—';
+  const risk   = document.getElementById('riskProfile').value|| '—';
+  const date   = document.getElementById('planDate').value   || '—';
+  const aum    = getAUM();
+  const roll   = catRollupFor(hs);
+  const tp     = hs.reduce((s,h) => s + getPct(h), 0);
+  const td     = hs.reduce((s,h) => s + getDol(h), 0);
+
+  const lines = [
+    '═══════════════════════════════════════════════════',
+    `   SALVUS WEALTH — ${label.toUpperCase()} ALLOCATION`,
+    '═══════════════════════════════════════════════════',
+    `Client:   ${client}`,
+    `Account:  ${acct}`,
+    `Date:     ${date}`,
+    `Risk:     ${risk}`,
+    `AUM:      ${aum>0?fmt$(aum):'Not set'}`,
+    '',
+    'ASSET CLASS SUMMARY',
+    '───────────────────────────────────────────────────',
+  ];
+  for (const [cat,r] of Object.entries(roll)) {
+    const meta = CATEGORY_META[cat];
+    lines.push(`  ${(meta.label+'                ').slice(0,18)} ${fmtPct(r.pct).padStart(6)}${aum>0?'  '+fmt$(r.dol):''}`);
+  }
+  lines.push(`  ${'TOTAL                    '.slice(0,18)} ${fmtPct(tp).padStart(6)}${aum>0?'  '+fmt$(td):''}`);
+  lines.push('');
+  lines.push('HOLDINGS DETAIL');
+  lines.push('───────────────────────────────────────────────────');
+  [...hs].sort((a,b)=>getPct(b)-getPct(a)).forEach(h => {
+    const pct = getPct(h);
+    const dol = getDol(h);
+    lines.push(`  ${(h.ticker+'            ').slice(0,12)} ${(h.name+'                              ').slice(0,28)} ${fmtPct(pct).padStart(6)}${aum>0?'  '+fmt$(dol):''}`);
+  });
+  lines.push('═══════════════════════════════════════════════════');
+  lines.push('Generated by Salvus Advisor Launchpad');
+  return lines.join('\n');
+}
+
+function openSummaryModal() {
+  const both = currentHoldings.length>0 || proposedHoldings.length>0;
+  let text = '';
+  if (currentHoldings.length)  text += buildSummaryText(currentHoldings, 'Current Portfolio') + '\n\n';
+  if (proposedHoldings.length) text += buildSummaryText(proposedHoldings, 'Proposed Portfolio');
+  if (!text) text = 'No holdings entered yet.';
+  document.getElementById('summaryText').textContent = text.trim();
+  document.getElementById('sumModal').style.display = 'flex';
+}
+function copyToClipboard() {
+  const hs    = getHoldings();
+  const label = allocPort==='current' ? 'Current Portfolio' : 'Proposed Portfolio';
+  const text  = hs.length ? buildSummaryText(hs, label) : 'No holdings entered yet.';
+  navigator.clipboard.writeText(text)
+    .then(() => alert('✓ Summary copied to clipboard!'))
+    .catch(() => { document.getElementById('summaryText').textContent = text; document.getElementById('sumModal').style.display = 'flex'; });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  MEETING PREP
+// ══════════════════════════════════════════════════════════════
+const DEFAULT_CHECKLIST = [
+  {text:'Review performance reports and account statements',   done:false},
+  {text:'Pull up current allocation vs. target',               done:false},
+  {text:'Check for upcoming RMD requirements or distributions',done:false},
+  {text:'Review tax-loss harvesting opportunities',            done:false},
+  {text:'Prepare market update talking points',                done:false},
+  {text:'Review notes and action items from last meeting',     done:false},
+  {text:'Confirm all beneficiary designations are current',    done:false},
+  {text:'Send meeting agenda to client in advance',            done:false},
+];
+const DEFAULT_AGENDA = [
+  {time:5,  text:'Welcome, personal update, warm-up conversation'},
+  {time:10, text:'Portfolio performance review vs. benchmark'},
+  {time:10, text:'Market update & economic outlook'},
+  {time:10, text:'Allocation review — current vs. target'},
+  {time:10, text:'Tax, estate, and planning discussion'},
+  {time:5,  text:'Action items, next steps, and scheduling'},
+];
+const DEFAULT_ACTIONS = [
+  {label:'Send updated account statements to client', owner:'Advisor', due:''},
+  {label:'Schedule next quarterly review',            owner:'Advisor', due:''},
+  {label:'Review investment policy statement',        owner:'Advisor', due:''},
+];
+const TALKING_POINTS = [
+  'Fed policy remains data-dependent; rate environment gradually normalizing as inflation cools toward 2% target.',
+  'US equity markets resilient in 2025–26 despite volatility; valuations elevated but earnings growth supportive.',
+  'Fixed income now offers attractive real yields after multi-year drought; laddered bond positions adding value.',
+  'International equities (ex-US) have outperformed YTD on weak dollar + European recovery tailwinds.',
+  'Geopolitical risks (tariffs, global supply chains) add near-term uncertainty; diversification is key defense.',
+  '"Win by not losing" — risk management and downside protection remain central to Salvus philosophy.',
+];
+
+let prepChecklist = DEFAULT_CHECKLIST.map(x=>({...x}));
+let prepAgenda    = DEFAULT_AGENDA.map(x=>({...x}));
+let prepActions   = DEFAULT_ACTIONS.map(x=>({...x}));
+
+function renderChecklist() {
+  document.getElementById('checklistEl').innerHTML = prepChecklist.map((item,i) =>
+    `<div class="cl-item">
+      <input type="checkbox" ${item.done?'checked':''} onchange="toggleCheck(${i})" />
+      <span class="cl-label ${item.done?'done':''}">${item.text}</span>
+    </div>`
+  ).join('');
+}
+function toggleCheck(i) {
+  prepChecklist[i].done = !prepChecklist[i].done;
+  renderChecklist();
+}
+function renderAgenda() {
+  document.getElementById('agendaEl').innerHTML = prepAgenda.map((item,i) =>
+    `<div class="ag-item">
+      <span class="ag-num">${i+1}.</span>
+      <span class="ag-min">${item.time}m</span>
+      <span class="ag-text">${item.text}</span>
+    </div>`
+  ).join('');
+}
+function addAgendaItem() {
+  const text = prompt('Enter agenda item:');
+  const mins = parseInt(prompt('Minutes allocated:') || '5');
+  if (text) { prepAgenda.push({time:mins||5, text}); renderAgenda(); }
+}
+function resetAgenda() { prepAgenda = DEFAULT_AGENDA.map(x=>({...x})); renderAgenda(); }
+
+function renderActionItems() {
+  document.getElementById('actionEl').innerHTML = prepActions.map((item,i) =>
+    `<div class="ai-row">
+      <span class="ai-label">${item.label}</span>
+      <span class="ai-own">${item.owner}</span>
+      <span class="ai-due">${item.due||'TBD'}</span>
+    </div>`
+  ).join('');
+}
+function addActionItem() {
+  const label = prompt('Action item description:');
+  const owner = prompt('Owner (Advisor / Client / Both):', 'Advisor');
+  const due   = prompt('Due date (or leave blank for TBD):', '');
+  if (label) { prepActions.push({label, owner:owner||'Advisor', due}); renderActionItems(); }
+}
+function renderTalkingPoints() {
+  document.getElementById('talkingPts').innerHTML = TALKING_POINTS.map(t =>
+    `<div class="tp-item"><span class="tp-dot">◆</span><span>${t}</span></div>`
+  ).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CLIENT NOTES
+// ══════════════════════════════════════════════════════════════
+let savedClients = {};
+let activeClient = null;
+
+function loadClientNotes() {
+  try { savedClients = JSON.parse(localStorage.getItem('salvus_clients') || '{}'); }
+  catch(e) { savedClients = {}; }
+  renderClientList();
+}
+function saveClientNotes() {
+  const name = document.getElementById('noteClient').value.trim();
+  if (!name) { alert('Please enter a client name first.'); return; }
+  savedClients[name] = {
+    name,
+    risk:    document.getElementById('noteRisk').value,
+    primary: document.getElementById('notePrimary').value,
+    email:   document.getElementById('noteEmail').value,
+    cust:    document.getElementById('noteCust').value,
+    aum:     document.getElementById('noteAum').value,
+    dates:   document.getElementById('noteDates').value,
+    nextRev: document.getElementById('noteNextRev').value,
+    notes:   document.getElementById('noteText').value,
+  };
+  localStorage.setItem('salvus_clients', JSON.stringify(savedClients));
+  activeClient = name;
+  renderClientList();
+  alert(`✓ "${name}" saved.`);
+}
+function deleteClient() {
+  const name = document.getElementById('noteClient').value.trim();
+  if (!name || !savedClients[name]) { alert('No saved client with that name.'); return; }
+  if (!confirm(`Delete "${name}"?`)) return;
+  delete savedClients[name];
+  localStorage.setItem('salvus_clients', JSON.stringify(savedClients));
+  activeClient = null;
+  newClient();
+  renderClientList();
+}
+function selectClient(name) {
+  const c = savedClients[name];
+  if (!c) return;
+  activeClient = name;
+  document.getElementById('noteClient').value  = c.name    || '';
+  document.getElementById('noteRisk').value    = c.risk    || '';
+  document.getElementById('notePrimary').value = c.primary || '';
+  document.getElementById('noteEmail').value   = c.email   || '';
+  document.getElementById('noteCust').value    = c.cust    || '';
+  document.getElementById('noteAum').value     = c.aum     || '';
+  document.getElementById('noteDates').value   = c.dates   || '';
+  document.getElementById('noteNextRev').value = c.nextRev || '';
+  document.getElementById('noteText').value    = c.notes   || '';
+  renderClientList();
+}
+function newClient() {
+  activeClient = null;
+  ['noteClient','notePrimary','noteEmail','noteCust','noteAum','noteDates','noteNextRev','noteText'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('noteRisk').value = '';
+  renderClientList();
+}
+function renderClientList() {
+  const el = document.getElementById('clientList');
+  const names = Object.keys(savedClients);
+  if (!names.length) { el.innerHTML = '<div style="font-size:11px;color:var(--slate);padding:6px;">No saved clients yet.</div>'; return; }
+  el.innerHTML = names.sort().map(name => {
+    const c = savedClients[name];
+    return `<div class="cl-item2 ${activeClient===name?'active':''}" onclick="selectClient('${name.replace(/'/g,"\\'")}')">
+      <div class="cl-name">${name}</div>
+      <div class="cl-sub">${c.risk||'—'} · ${c.aum||'—'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  QUICK TOOLS
+// ══════════════════════════════════════════════════════════════
+// IRS Uniform Lifetime Table (2022+ regs)
+const RMD_TABLE = {
+  72:27.4, 73:26.5, 74:25.5, 75:24.6, 76:23.7, 77:22.9, 78:22.0,
+  79:21.1, 80:20.2, 81:19.4, 82:18.5, 83:17.7, 84:16.8, 85:16.0,
+  86:15.2, 87:14.4, 88:13.7, 89:12.9, 90:12.2, 91:11.5, 92:10.8,
+  93:10.1, 94:9.5, 95:8.9, 96:8.4, 97:7.8, 98:7.3, 99:6.8, 100:6.4,
+};
+
+function fmtMoney(n) {
+  if (n>=1e6) return '$' + (n/1e6).toFixed(3) + 'M';
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function calcRMD() {
+  const bal = parseFloat(document.getElementById('rmdBal').value)||0;
+  const age = parseInt(document.getElementById('rmdAge').value)||0;
+  const el  = document.getElementById('rmdRes');
+  if (!bal || !age) { el.style.display='none'; return; }
+  const factor = RMD_TABLE[Math.min(age, 100)] || RMD_TABLE[100];
+  if (!factor) { el.style.display='none'; return; }
+  const rmd = bal / factor;
+  el.style.display = 'block';
+  document.getElementById('rmdAmt').textContent  = fmtMoney(rmd);
+  document.getElementById('rmdNote').textContent =
+    `IRS divisor for age ${age}: ${factor}. Monthly = ${fmtMoney(rmd/12)}.` +
+    (age < 72 ? ' Note: RMDs not yet required.' : ' Must be taken by Dec 31.');
+}
+
+function calcRoth() {
+  const amt  = parseFloat(document.getElementById('rothAmt').value)||0;
+  const rate = parseFloat(document.getElementById('rothRate').value)||0;
+  const grow = parseFloat(document.getElementById('rothGrow').value)||7;
+  const el   = document.getElementById('rothRes');
+  if (!amt || !rate) { el.style.display='none'; return; }
+  const taxCost = amt * (rate/100);
+  const breakEvenYrs = (grow>0) ? Math.log(1/(1-(rate/100))) / Math.log(1+grow/100) : Infinity;
+  el.style.display = 'block';
+  document.getElementById('rothTax').textContent  = fmtMoney(taxCost);
+  document.getElementById('rothNote').textContent =
+    `Converting ${fmtMoney(amt)} at ${rate}% marginal rate = ${fmtMoney(taxCost)} tax due. ` +
+    (isFinite(breakEvenYrs)
+      ? `Break-even vs. taxable growth: ~${breakEvenYrs.toFixed(1)} years (assuming ${grow}% annual growth).`
+      : 'Cannot calculate break-even without growth rate.');
+}
+
+function calcWR() {
+  const port = parseFloat(document.getElementById('wrPort').value)||0;
+  const wd   = parseFloat(document.getElementById('wrWith').value)||0;
+  const el   = document.getElementById('wrRes');
+  if (!port || !wd) { el.style.display='none'; return; }
+  const rate = (wd / port) * 100;
+  el.style.display = 'block';
+  document.getElementById('wrRate').textContent = rate.toFixed(2) + '%';
+  let note = '';
+  if (rate <= 3) note = `✅ Conservative (≤3%). Very sustainable for long-term retirement.`;
+  else if (rate <= 4) note = `✅ Moderate (3–4%). Generally considered sustainable (the "4% rule").`;
+  else if (rate <= 5) note = `⚠️ Elevated (4–5%). Sustainable in good markets; monitor regularly.`;
+  else if (rate <= 7) note = `⚠️ High (5–7%). Risk of portfolio depletion in adverse markets.`;
+  else note = `❌ Very high (>${rate.toFixed(1)}%). Significant depletion risk without adjustments.`;
+  document.getElementById('wrNote').textContent = note;
+}
+
+function calcProj() {
+  const start = parseFloat(document.getElementById('prjStart').value)||0;
+  const ret   = parseFloat(document.getElementById('prjRet').value)||0;
+  const contr = parseFloat(document.getElementById('prjContr').value)||0;
+  const yrs   = parseInt(document.getElementById('prjYrs').value)||0;
+  const el    = document.getElementById('prjRes');
+  if (!start || !yrs) { el.style.display='none'; return; }
+  let val = start;
+  const r = ret/100;
+  for (let i=0; i<yrs; i++) { val = val*(1+r) + contr; }
+  el.style.display = 'block';
+  document.getElementById('prjVal').textContent  = fmtMoney(Math.max(val,0));
+  const gain = val - start - (contr*yrs);
+  document.getElementById('prjNote').textContent =
+    `${yrs}-year projection at ${ret}% annual return. ` +
+    `Net contributions: ${fmtMoney(contr*yrs)}. ` +
+    `Investment gain: ${fmtMoney(gain)}.`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Set today's date on date fields
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('planDate').value = today;
+  document.getElementById('prepDate').value = today;
+
+  // Init allocation planner
+  initCharts();
+  renderAll();
+
+  // Init meeting prep
+  renderChecklist();
+  renderAgenda();
+  renderActionItems();
+  renderTalkingPoints();
+
+  // Init client notes
+  loadClientNotes();
+});
+</script>
+</body>
+</html>

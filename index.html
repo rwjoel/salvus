@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Salvus Operating Manual</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+:root {
+  --navy:   #0b1929;
+  --navy2:  #122035;
+  --navy3:  #1c2f48;
+  --gold:   #b8892a;
+  --gold2:  #d4a843;
+  --gold3:  #f0cc7a;
+  --cream:  #f7f3ec;
+  --cream2: #ede8df;
+  --rule:   #d9cfc0;
+  --text:   #2a3d52;
+  --text2:  #4a6070;
+  --text3:  #7a8f9a;
+  --green:  #1a6b40;
+  --green2: #27ae60;
+  --amber:  #c07820;
+  --red:    #c0392b;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--navy);color:white;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* ── PIN SCREEN ─────────────────────────────── */
+#pin-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--navy);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;
+}
+.pin-logo{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:white;letter-spacing:2px;margin-bottom:6px;}
+.pin-sub{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);margin-bottom:48px;}
+.pin-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+.pin-dots{display:flex;gap:12px;margin-bottom:28px;}
+.pin-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);transition:all 0.2s;}
+.pin-dot.filled{background:var(--gold);border-color:var(--gold);}
+.pin-grid{display:grid;grid-template-columns:repeat(3,72px);gap:10px;}
+.pin-btn{
+  height:72px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);color:white;
+  font-family:'Jost',sans-serif;font-size:22px;font-weight:300;
+  cursor:pointer;transition:all 0.15s;
+}
+.pin-btn:hover{background:rgba(255,255,255,0.09);border-color:rgba(255,255,255,0.2);}
+.pin-btn:active{background:rgba(184,137,42,0.2);border-color:var(--gold);}
+.pin-btn.del{font-size:16px;color:var(--text3);}
+.pin-error{color:#e74c3c;font-size:12px;margin-top:16px;letter-spacing:1px;height:16px;text-align:center;}
+
+/* ── MAIN LAYOUT ─────────────────────────────── */
+#main{display:none;}
+.topbar{
+  background:var(--navy2);border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:0 40px;height:56px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.tb-brand{display:flex;align-items:center;gap:12px;}
+.tb-mark{width:28px;height:28px;border:1.5px solid var(--gold);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:var(--gold);}
+.tb-name{font-size:13px;font-weight:500;letter-spacing:0.5px;}
+.tb-sub{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;}
+.tb-right{display:flex;align-items:center;gap:20px;}
+.tb-date{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:0.5px;}
+.tb-lock{font-size:12px;color:var(--text3);cursor:pointer;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:3px;background:none;color:var(--text3);font-family:'Jost',sans-serif;font-size:11px;}
+.tb-lock:hover{border-color:rgba(255,255,255,0.25);color:white;}
+
+.wrap{max-width:1200px;margin:0 auto;padding:40px 40px 80px;}
+
+/* ── HEADER ──────────────────────────────────── */
+.hero{margin-bottom:48px;}
+.hero-eye{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1.1;margin-bottom:6px;}
+.hero-title em{font-style:italic;color:var(--gold3);}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.4);font-weight:300;max-width:560px;line-height:1.8;}
+
+/* ── PROGRESS STATS ──────────────────────────── */
+.progress-bar-wrap{background:rgba(255,255,255,0.05);border-radius:2px;height:3px;width:100%;max-width:400px;margin:20px 0 40px;}
+.progress-bar{height:3px;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width 0.5s ease;}
+
+/* ── SECTION LABELS ──────────────────────────── */
+.sec-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.07);}
+
+/* ── ACTION ITEMS BANNER ─────────────────────── */
+.action-banner{
+  background:rgba(184,137,42,0.08);border:1px solid rgba(184,137,42,0.2);
+  border-radius:6px;padding:20px 24px;margin-bottom:40px;
+}
+.ab-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.ab-title{font-size:12px;font-weight:600;color:var(--gold2);letter-spacing:0.5px;}
+.ab-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+.ab-items{display:flex;flex-direction:column;gap:8px;}
+.ab-item{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:rgba(255,255,255,0.65);line-height:1.55;}
+.ab-bullet{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:5px;}
+.ab-urgent{background:rgba(192,57,43,0.12);border-color:rgba(192,57,43,0.3);}
+.ab-urgent .ab-title{color:#e74c3c;}
+.ab-urgent .ab-bullet{background:#e74c3c;}
+
+/* ── DOMAIN GRID ─────────────────────────────── */
+.domain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:48px;}
+.domain-card{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  border-radius:6px;overflow:hidden;transition:all 0.2s;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.domain-card:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.14);}
+.domain-card.complete{border-color:rgba(26,107,64,0.3);}
+.domain-card.complete:hover{border-color:rgba(26,107,64,0.5);}
+.domain-card.partial{border-color:rgba(184,137,42,0.2);}
+.domain-card.partial:hover{border-color:rgba(184,137,42,0.4);}
+.dc-top{padding:16px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.dc-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);flex-shrink:0;margin-top:2px;}
+.dc-info{flex:1;}
+.dc-title{font-size:13px;font-weight:600;color:white;margin-bottom:3px;}
+.dc-sub{font-size:11px;color:var(--text3);line-height:1.5;}
+.dc-status{flex-shrink:0;}
+.status-dot{width:8px;height:8px;border-radius:50%;}
+.status-dot.complete{background:var(--green2);}
+.status-dot.partial{background:var(--gold);}
+.status-dot.pending{background:rgba(255,255,255,0.15);}
+.dc-links{padding:0 18px 14px;display:flex;flex-wrap:wrap;gap:6px;}
+.dc-link{
+  font-size:10px;font-family:'DM Mono',monospace;
+  padding:4px 10px;border-radius:2px;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.5);cursor:pointer;text-decoration:none;
+  transition:all 0.15s;white-space:nowrap;
+}
+.dc-link:hover{background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.2);}
+.dc-link.ready{color:var(--gold2);border-color:rgba(184,137,42,0.3);background:rgba(184,137,42,0.06);}
+.dc-link.ready:hover{background:rgba(184,137,42,0.12);border-color:rgba(184,137,42,0.5);}
+.dc-link.green{color:#7adaaa;border-color:rgba(26,107,64,0.4);background:rgba(26,107,64,0.07);}
+.dc-link.green:hover{background:rgba(26,107,64,0.14);}
+.dc-updated{padding:8px 18px;border-top:1px solid rgba(255,255,255,0.05);font-size:9px;font-family:'DM Mono',monospace;color:rgba(255,255,255,0.2);}
+
+/* ── TOOLS GRID ──────────────────────────────── */
+.tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px;}
+.tool-card{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  border-radius:6px;padding:16px 18px;transition:all 0.2s;cursor:pointer;
+  text-decoration:none;display:block;
+}
+.tool-card:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.14);}
+.tc-icon{font-size:20px;margin-bottom:8px;}
+.tc-title{font-size:12px;font-weight:600;color:white;margin-bottom:3px;}
+.tc-sub{font-size:10px;color:var(--text3);line-height:1.5;}
+
+/* ── CHUCK AGENDA ────────────────────────────── */
+.agenda-card{
+  background:rgba(26,168,168,0.06);border:1px solid rgba(26,168,168,0.2);
+  border-radius:6px;padding:20px 24px;margin-bottom:40px;
+}
+.agenda-items{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+.agenda-item{display:flex;gap:12px;align-items:flex-start;font-size:12px;color:rgba(255,255,255,0.65);line-height:1.6;}
+.agenda-num{font-family:'DM Mono',monospace;font-size:10px;color:#1aa8a8;flex-shrink:0;margin-top:2px;width:16px;}
+
+/* ── FOOTER ──────────────────────────────────── */
+.footer{border-top:1px solid rgba(255,255,255,0.06);padding:20px 40px;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.5px;}
+
+@media(max-width:860px){
+  .domain-grid,.tools-grid{grid-template-columns:1fr;}
+  .wrap{padding:24px 20px 60px;}
+  .topbar{padding:0 20px;}
+  .hero-title{font-size:32px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── PIN SCREEN ──────────────────────────────── -->
+<div id="pin-screen">
+  <div class="pin-logo">SALVUS</div>
+  <div class="pin-sub">Operating Manual · Private</div>
+  <div class="pin-label">Enter PIN to access</div>
+  <div class="pin-dots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-grid">
+    <button class="pin-btn" onclick="pinKey('1')">1</button>
+    <button class="pin-btn" onclick="pinKey('2')">2</button>
+    <button class="pin-btn" onclick="pinKey('3')">3</button>
+    <button class="pin-btn" onclick="pinKey('4')">4</button>
+    <button class="pin-btn" onclick="pinKey('5')">5</button>
+    <button class="pin-btn" onclick="pinKey('6')">6</button>
+    <button class="pin-btn" onclick="pinKey('7')">7</button>
+    <button class="pin-btn" onclick="pinKey('8')">8</button>
+    <button class="pin-btn" onclick="pinKey('9')">9</button>
+    <button class="pin-btn" style="opacity:0;pointer-events:none"></button>
+    <button class="pin-btn" onclick="pinKey('0')">0</button>
+    <button class="pin-btn del" onclick="pinDel()">⌫</button>
+  </div>
+  <div class="pin-error" id="pin-error"></div>
+</div>
+
+<!-- ── MAIN CONTENT ────────────────────────────── -->
+<div id="main">
+
+<div class="topbar">
+  <div class="tb-brand">
+    <div class="tb-mark">SW</div>
+    <div>
+      <div class="tb-name">Salvus Operating Manual</div>
+      <div class="tb-sub">Private · Robert W. Joel, CFP · June 2026</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-date" id="live-date"></div>
+    <button class="tb-lock" onclick="lockScreen()">⟵ Lock</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eye">Salvus Legacy 24 LLC · Strategic Operating Manual</div>
+    <h1 class="hero-title">The Salvus<br><em>Operating Manual</em></h1>
+    <p class="hero-sub">A living document covering all 10 strategic domains — from firm identity and business development to the complete ownership transition and exit plan. Updated continuously as each domain session completes.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" style="width:18%"></div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);">2 of 10 domains complete · 18% · Last updated June 14, 2026</div>
+  </div>
+
+  <!-- URGENT ACTION ITEMS -->
+  <div class="sec-label">Urgent — Before August TPG Close</div>
+  <div class="action-banner ab-urgent" style="margin-bottom:14px;">
+    <div class="ab-hdr">
+      <div class="ab-title">⚠ Critical Pre-Close Items</div>
+      <div class="ab-count">Must complete before ~August 2026</div>
+    </div>
+    <div class="ab-items">
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>MIPA Amendment</strong> — Cap TPG additional option at 29% (not 30%), fill blank notice windows, clarify deferred payment clawback. Send to John Suender immediately.</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>SL24 Operating Agreement</strong> — All 20 Q&A answers complete. Schedule attorney drafting session with John Suender.</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>Non-Compete / Non-Solicit Agreements</strong> — Robert O'Quinn and Pete Freidel both sign simultaneously with OA. Same attorney, same closing.</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>TPG Service Level Agreement</strong> — Written performance expectations, dedicated contact, response standards, fee reduction triggers. Dedicated session needed.</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>O'Quinn Bank Pre-Qualification</strong> — Contact Oak Street Funding or PPC Loan. Describe tranched succession structure. Get preliminary term sheet.</div></div>
+    </div>
+  </div>
+
+  <!-- ONGOING ACTION ITEMS -->
+  <div class="action-banner" style="margin-bottom:40px;">
+    <div class="ab-hdr">
+      <div class="ab-title">Active Action Items</div>
+      <div class="ab-count">2026–2027</div>
+    </div>
+    <div class="ab-items">
+      <div class="ab-item"><div class="ab-bullet"></div><div>Resolve 13 client accounts with uncollected fees + Schwab NAA execution + Fidelity billing gaps before valuation baseline is set</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div>Build non-qualified liquid assets toward $2–3M target (currently ~$1.14M gap) before 2031 exit</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div>Begin trustee succession documentation for 60 Chuck trust accounts ($100M AUM) — estate attorney needed</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div>Introduce Robert O'Quinn and Pete Freidel to Chuck's primary clients during 2027–2029 window</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div>Define protected BD time for Pete Freidel — internal demand currently consumes all available hours</div></div>
+    </div>
+  </div>
+
+  <!-- CHUCK CONVERSATION AGENDA -->
+  <div class="sec-label">Chuck Woolston — Conversation Agenda</div>
+  <div class="agenda-card" style="margin-bottom:40px;">
+    <div class="ab-hdr">
+      <div class="ab-title" style="color:#1aa8a8;">Items Requiring Direct Conversation with Chuck</div>
+      <div class="ab-count">Before 2027 transactions</div>
+    </div>
+    <div class="agenda-items">
+      <div class="agenda-item"><div class="agenda-num">1</div><div><strong>Scenario A vs. B:</strong> Does Chuck understand Scenario B means cash at close (~$3.93M), not a 6-year seller note? Confirm his preference.</div></div>
+      <div class="agenda-item"><div class="agenda-num">2</div><div><strong>Aimee & Ann Marie equity:</strong> Does Chuck understand the proposed structure means they receive cash at closing, not ongoing equity ownership? They would be bought out immediately as part of the normal tranche.</div></div>
+      <div class="agenda-item"><div class="agenda-num">3</div><div><strong>Trustee succession:</strong> 60 trust accounts, $100M AUM need formal legal documentation before 2029 — not at retirement. Estate attorney must be engaged in 2027.</div></div>
+      <div class="agenda-item"><div class="agenda-num">4</div><div><strong>Client introduction plan:</strong> Systematic handoff of primary client relationships to Bob, Robert O'Quinn, and Pete Freidel before exit. 2027–2029 is the window.</div></div>
+      <div class="agenda-item"><div class="agenda-num">5</div><div><strong>Ann Marie post-exit role:</strong> Separate retainer conversation based on ongoing value — not a condition of the equity arrangement. Keep clean.</div></div>
+    </div>
+  </div>
+
+  <!-- 10 DOMAINS -->
+  <div class="sec-label">The 10 Strategic Domains</div>
+  <div class="domain-grid">
+
+    <!-- D01 -->
+    <div class="domain-card complete">
+      <div class="dc-top">
+        <div class="dc-num">01</div>
+        <div class="dc-info">
+          <div class="dc-title">Strategic Foundation</div>
+          <div class="dc-sub">Mission · ideal client · differentiation · investment philosophy · $1B AUM target · Bob's exit vision</div>
+        </div>
+        <div class="dc-status"><div class="status-dot complete"></div></div>
+      </div>
+      <div class="dc-links">
+        <a class="dc-link green" href="docs/d01-strategic-foundation.html" target="_blank">Strategic Foundation Doc →</a>
+      </div>
+      <div class="dc-updated">Completed June 14, 2026</div>
+    </div>
+
+    <!-- D02 -->
+    <div class="domain-card">
+      <div class="dc-top">
+        <div class="dc-num">02</div>
+        <div class="dc-info">
+          <div class="dc-title">Business Development</div>
+          <div class="dc-sub">Path to $1B AUM · referral strategy · O'Quinn & Freidel BD activation · Chuck pipeline replacement</div>
+        </div>
+        <div class="dc-status"><div class="status-dot pending"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Session not yet started</span>
+      </div>
+      <div class="dc-updated">Pending</div>
+    </div>
+
+    <!-- D03 -->
+    <div class="domain-card partial">
+      <div class="dc-top">
+        <div class="dc-num">03</div>
+        <div class="dc-info">
+          <div class="dc-title">Branding &amp; Marketing</div>
+          <div class="dc-sub">Salvus Wealth Partners DBA · tagline · fee schedule review · minimum client positioning</div>
+        </div>
+        <div class="dc-status"><div class="status-dot partial"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Partial — session needed</span>
+      </div>
+      <div class="dc-updated">Partial</div>
+    </div>
+
+    <!-- D04 -->
+    <div class="domain-card partial">
+      <div class="dc-top">
+        <div class="dc-num">04</div>
+        <div class="dc-info">
+          <div class="dc-title">Technology Stack</div>
+          <div class="dc-sub">Addepar · Amplify · Schwab · Fidelity · Redtail · eMoney · CRM decision pending</div>
+        </div>
+        <div class="dc-status"><div class="status-dot partial"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Partial — session needed</span>
+      </div>
+      <div class="dc-updated">Partial</div>
+    </div>
+
+    <!-- D05 -->
+    <div class="domain-card partial">
+      <div class="dc-top">
+        <div class="dc-num">05</div>
+        <div class="dc-info">
+          <div class="dc-title">Portfolio Management</div>
+          <div class="dc-sub">22-holding model · boutique manager framework · 3P selection · alternatives via O'Quinn</div>
+        </div>
+        <div class="dc-status"><div class="status-dot partial"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Partial — session needed</span>
+      </div>
+      <div class="dc-updated">Partial</div>
+    </div>
+
+    <!-- D06 -->
+    <div class="domain-card">
+      <div class="dc-top">
+        <div class="dc-num">06</div>
+        <div class="dc-info">
+          <div class="dc-title">Financial Planning</div>
+          <div class="dc-sub">eMoney framework · client planning standards · Freidel's role · NJ vs. FL tax considerations</div>
+        </div>
+        <div class="dc-status"><div class="status-dot pending"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Session not yet started</span>
+      </div>
+      <div class="dc-updated">Pending</div>
+    </div>
+
+    <!-- D07 -->
+    <div class="domain-card partial">
+      <div class="dc-top">
+        <div class="dc-num">07</div>
+        <div class="dc-info">
+          <div class="dc-title">Operations &amp; Finance</div>
+          <div class="dc-sub">Billing · Sonja's role · expense management · Fidelity transition · revenue recognition</div>
+        </div>
+        <div class="dc-status"><div class="status-dot partial"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Partial — session needed</span>
+      </div>
+      <div class="dc-updated">Partial</div>
+    </div>
+
+    <!-- D08 -->
+    <div class="domain-card partial">
+      <div class="dc-top">
+        <div class="dc-num">08</div>
+        <div class="dc-info">
+          <div class="dc-title">Human Resources</div>
+          <div class="dc-sub">O'Quinn · Freidel · Sonja · Ann Marie · Aimee · team structure · compensation · non-competes</div>
+        </div>
+        <div class="dc-status"><div class="status-dot partial"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Partial — session needed</span>
+      </div>
+      <div class="dc-updated">Partial</div>
+    </div>
+
+    <!-- D09 -->
+    <div class="domain-card">
+      <div class="dc-top">
+        <div class="dc-num">09</div>
+        <div class="dc-info">
+          <div class="dc-title">Client Experience</div>
+          <div class="dc-sub">Service model · communication standards · reporting · $1M minimum transition · client segmentation</div>
+        </div>
+        <div class="dc-status"><div class="status-dot pending"></div></div>
+      </div>
+      <div class="dc-links">
+        <span class="dc-link">Session not yet started</span>
+      </div>
+      <div class="dc-updated">Pending</div>
+    </div>
+
+    <!-- D10 -->
+    <div class="domain-card complete">
+      <div class="dc-top">
+        <div class="dc-num">10</div>
+        <div class="dc-info">
+          <div class="dc-title">Exit &amp; Transition Planning</div>
+          <div class="dc-sub">TPG deal · Chuck exit · O'Quinn admission · Pete road to partnership · firm survivability 2026–2038</div>
+        </div>
+        <div class="dc-status"><div class="status-dot complete"></div></div>
+      </div>
+      <div class="dc-links">
+        <a class="dc-link green" href="tools/exec-summary.html" target="_blank">Executive Summary →</a>
+        <a class="dc-link green" href="tools/succession-dashboard.html" target="_blank">12-Tab Dashboard →</a>
+        <a class="dc-link ready" href="tools/sl24-oa-answers.html" target="_blank">SL24 OA Answers →</a>
+        <a class="dc-link ready" href="tools/chuck-buyout.html" target="_blank">Chuck Buyout →</a>
+        <a class="dc-link ready" href="tools/pete-criteria.html" target="_blank">Pete Criteria →</a>
+        <a class="dc-link ready" href="tools/bank-financing.html" target="_blank">Bank Financing →</a>
+      </div>
+      <div class="dc-updated">Substantially complete · June 14, 2026</div>
+    </div>
+
+  </div>
+
+  <!-- TOOLS & RESOURCES -->
+  <div class="sec-label">Tools &amp; Interactive Resources</div>
+  <div class="tools-grid">
+    <a class="tool-card" href="tools/succession-dashboard.html" target="_blank">
+      <div class="tc-icon">📊</div>
+      <div class="tc-title">Ownership & Economics Dashboard</div>
+      <div class="tc-sub">12-tab interactive model · 2026–2038 · all sliders · firm waterfall · partner breakdown</div>
+    </a>
+    <a class="tool-card" href="tools/exec-summary.html" target="_blank">
+      <div class="tc-icon">📋</div>
+      <div class="tc-title">Succession Executive Summary</div>
+      <div class="tc-sub">8-section branded document · Chuck exit · O'Quinn · Pete · firm survivability · next steps</div>
+    </a>
+    <a class="tool-card" href="tools/sl24-oa-answers.html" target="_blank">
+      <div class="tc-icon">⚖️</div>
+      <div class="tc-title">SL24 OA Q&A — Attorney Brief</div>
+      <div class="tc-sub">All 20 governance questions answered · ready for attorney drafting</div>
+    </a>
+    <a class="tool-card" href="tools/chuck-buyout.html" target="_blank">
+      <div class="tc-icon">🤝</div>
+      <div class="tc-title">Chuck Woolston Buyout Framework</div>
+      <div class="tc-sub">Valuation · hybrid bank financing · scenario A vs. B · tranche schedule</div>
+    </a>
+    <a class="tool-card" href="tools/pete-criteria.html" target="_blank">
+      <div class="tc-icon">📈</div>
+      <div class="tc-title">Pete Freidel Partnership Criteria</div>
+      <div class="tc-sub">100-point scorecard · 5 categories · 2029 admission path · bank financing</div>
+    </a>
+    <a class="tool-card" href="tools/bank-financing.html" target="_blank">
+      <div class="tc-icon">🏦</div>
+      <div class="tc-title">Bank Financing Analysis</div>
+      <div class="tc-sub">Live Oak · Oak Street · SkyView · PPC · comparison · Salvus application</div>
+    </a>
+    <a class="tool-card" href="https://rwjoel.github.io/dashboard" target="_blank">
+      <div class="tc-icon">📉</div>
+      <div class="tc-title">Portfolio Monitoring Dashboard</div>
+      <div class="tc-sub">Live · rwjoel.github.io/dashboard · 22-holding model · real-time prices</div>
+    </a>
+    <a class="tool-card" href="tools/salvus-launchpad.html" target="_blank">
+      <div class="tc-icon">🚀</div>
+      <div class="tc-title">Advisor Launchpad</div>
+      <div class="tc-sub">Allocation planner · meeting prep · client notes · quick tools</div>
+    </a>
+    <a class="tool-card" href="tools/finance-dashboard.html" target="_blank">
+      <div class="tc-icon">💰</div>
+      <div class="tc-title">Financial Intelligence Dashboard</div>
+      <div class="tc-sub">Firm P&L · revenue tracking · expense analysis · PIN locked</div>
+    </a>
+  </div>
+
+  <!-- UPCOMING SESSIONS -->
+  <div class="sec-label">Next Sessions</div>
+  <div class="action-banner" style="margin-bottom:0;">
+    <div class="ab-hdr">
+      <div class="ab-title">Recommended Session Order</div>
+      <div class="ab-count">Based on urgency and dependencies</div>
+    </div>
+    <div class="ab-items">
+      <div class="ab-item"><div class="ab-bullet" style="background:#e74c3c"></div><div><strong>TPG Service Level Agreement</strong> — Dedicated Q&A session to define written performance standards and fee reduction triggers. Before August close.</div></div>
+      <div class="ab-item"><div class="ab-bullet" style="background:var(--gold)"></div><div><strong>Domain 01 document build</strong> — Produce the Strategic Foundation document from today's Q&A session answers.</div></div>
+      <div class="ab-item"><div class="ab-bullet" style="background:var(--gold)"></div><div><strong>SL24 OA Answers document</strong> — Build the attorney briefing document from Questions 8–20 completed today.</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>Domain 02 — Business Development</strong> — Path to $1B AUM, O'Quinn and Freidel BD activation, Chuck pipeline replacement strategy.</div></div>
+      <div class="ab-item"><div class="ab-bullet"></div><div><strong>Domain 08 — Human Resources</strong> — Aimee and Ann Marie resolution, team structure, compensation framework, Sonja retention plan.</div></div>
+    </div>
+  </div>
+
+</div><!-- end wrap -->
+
+<div class="footer">
+  <div>SALVUS LEGACY 24 LLC · OPERATING MANUAL · PRIVATE & CONFIDENTIAL</div>
+  <div id="footer-date"></div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+// ── PIN ───────────────────────────────────────────
+const PIN = '1964';  // CHANGE THIS
+let entered = '';
+
+function pinKey(d) {
+  if (entered.length >= 4) return;
+  entered += d;
+  for (let i = 0; i < 4; i++)
+    document.getElementById('d'+i).classList.toggle('filled', i < entered.length);
+  if (entered.length === 4) {
+    setTimeout(() => {
+      if (entered === PIN) {
+        document.getElementById('pin-screen').style.display = 'none';
+        document.getElementById('main').style.display = 'block';
+        setDate();
+      } else {
+        document.getElementById('pin-error').textContent = 'Incorrect PIN';
+        entered = '';
+        for (let i = 0; i < 4; i++)
+          document.getElementById('d'+i).classList.remove('filled');
+        setTimeout(() => document.getElementById('pin-error').textContent = '', 1800);
+      }
+    }, 200);
+  }
+}
+
+function pinDel() {
+  if (entered.length === 0) return;
+  entered = entered.slice(0, -1);
+  for (let i = 0; i < 4; i++)
+    document.getElementById('d'+i).classList.toggle('filled', i < entered.length);
+  document.getElementById('pin-error').textContent = '';
+}
+
+function lockScreen() {
+  entered = '';
+  for (let i = 0; i < 4; i++) document.getElementById('d'+i).classList.remove('filled');
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('pin-screen').style.display = 'flex';
+}
+
+// ── DATE ──────────────────────────────────────────
+function setDate() {
+  const d = new Date();
+  const s = d.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const el = document.getElementById('live-date');
+  const fe = document.getElementById('footer-date');
+  if (el) el.textContent = s;
+  if (fe) fe.textContent = 'Last accessed ' + s;
+}
+
+// keyboard support
+document.addEventListener('keydown', e => {
+  if (document.getElementById('pin-screen').style.display === 'none') return;
+  if (e.key >= '0' && e.key <= '9') pinKey(e.key);
+  if (e.key === 'Backspace') pinDel();
+});
+</script>
+</body>
+</html>

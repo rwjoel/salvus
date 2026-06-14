@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salvus — Ownership & Economics Dashboard 2026–2032</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --ink:#07101a;--ink2:#0d1f32;--ink3:#142840;--ink4:#1a3050;
+  --gold:#c9943a;--gold2:#e8b55a;--gold3:#f5d48a;--gold-pale:rgba(201,148,58,0.12);
+  --teal:#0d8080;--teal2:#1aa8a8;--teal-pale:rgba(13,128,128,0.12);
+  --green:#1a7a4a;--green2:#27ae60;--green-pale:rgba(26,122,74,0.12);
+  --red:#c0392b;--red2:#e74c3c;--red-pale:rgba(192,57,43,0.12);
+  --blue:#1a3a7a;--blue2:#2a5298;--blue-pale:rgba(26,58,122,0.12);
+  --purple:#6a2a7a;--purple2:#8e44ad;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --text:rgba(255,255,255,0.88);--text2:rgba(255,255,255,0.55);--text3:rgba(255,255,255,0.3);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--ink);color:var(--text);font-size:13px;line-height:1.6;overflow-x:hidden;}
+/* MASTHEAD */
+.mh{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 60%,var(--ink3) 100%);border-bottom:1px solid var(--border2);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.mh-brand{display:flex;align-items:center;gap:14px;}
+.mh-logo{width:38px;height:38px;background:linear-gradient(135deg,#c9943a,#e8b55a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--ink);flex-shrink:0;}
+.mh-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;}
+.mh-sub{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:0.5px;margin-top:1px;}
+.conf{background:rgba(201,148,58,0.15);border:1px solid rgba(201,148,58,0.3);color:#e8b55a;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;font-family:'DM Mono',monospace;}
+/* ASSUMPTIONS BAR */
+.abar{background:var(--ink2);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.abar-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;}
+.asliders{display:flex;gap:16px;flex-wrap:wrap;flex:1;}
+.aslider-item{display:flex;align-items:center;gap:8px;}
+.aslider-name{font-size:10px;color:var(--text2);white-space:nowrap;}
+.aslider-val{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:#e8b55a;min-width:38px;text-align:right;}
+input[type=range]{width:90px;height:3px;-webkit-appearance:none;background:rgba(255,255,255,0.15);border-radius:2px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:#c9943a;cursor:pointer;box-shadow:0 0 4px rgba(201,148,58,0.5);}
+/* TAB BAR */
+.tabs{background:var(--ink2);border-bottom:1px solid var(--border);padding:0 28px;display:flex;gap:0;overflow-x:auto;}
+.tab{padding:11px 16px;font-size:11px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;white-space:nowrap;font-family:'Syne',sans-serif;}
+.tab:hover{color:var(--text2);}
+.tab.on{color:#e8b55a;border-bottom-color:#c9943a;font-weight:700;}
+/* PAGES */
+.page{display:none;padding:20px 28px;}
+.page.on{display:block;}
+.pg-hdr{margin-bottom:16px;}
+.pg-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.3px;}
+.pg-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+/* STAT CARDS */
+.stats{display:grid;gap:10px;margin-bottom:16px;}
+.s4{grid-template-columns:repeat(4,1fr);}
+.s5{grid-template-columns:repeat(5,1fr);}
+.s3{grid-template-columns:repeat(3,1fr);}
+.stat{background:var(--ink2);border:1px solid var(--border);border-radius:8px;padding:13px 15px;border-top:2px solid #c9943a;}
+.stat.t{border-top-color:#0d8080;}.stat.g{border-top-color:#1a7a4a;}.stat.r{border-top-color:#c0392b;}.stat.b{border-top-color:#1a3a7a;}.stat.p{border-top-color:#6a2a7a;}
+.stat-lbl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:4px;}
+.stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;line-height:1.1;}
+.stat-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+/* CARD */
+.card{background:var(--ink2);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden;}
+.ch{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;}
+.ct{font-family:'Syne',sans-serif;font-size:12px;font-weight:600;}
+.cs{font-size:10px;color:var(--text3);margin-top:1px;}
+.cb{padding:16px;}
+.cb0{padding:0;}
+/* CHART WRAPPERS */
+.cw{position:relative;height:200px;}
+.cw canvas{position:absolute;top:0;left:0;width:100% !important;height:100% !important;}
+/* TABLES */
+.tw{overflow-x:auto;}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;min-width:700px;}
+.tbl thead th{background:var(--ink3);color:var(--text3);padding:8px 11px;text-align:left;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;font-family:'DM Mono',monospace;white-space:nowrap;border-bottom:1px solid var(--border2);}
+.tbl thead th:not(:first-child){text-align:right;}
+.tbl tbody tr{border-bottom:1px solid var(--border);}
+.tbl tbody tr:hover{background:rgba(255,255,255,0.02);}
+.tbl tbody td{padding:8px 11px;}
+.tbl tbody td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-size:11px;}
+.tbl tr.sh td{background:var(--ink3);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);padding:6px 11px;font-family:'DM Mono',monospace;}
+.tbl tr.sub td{background:rgba(201,148,58,0.05);font-weight:600;}
+.tbl tr.tot td{background:rgba(201,148,58,0.1);font-weight:700;font-size:12px;}
+.tbl tr.ev td{background:rgba(13,128,128,0.05);}
+.tbl tfoot td{padding:9px 11px;font-weight:700;background:var(--ink3);border-top:2px solid #c9943a;font-family:'DM Mono',monospace;font-size:11px;text-align:right;}
+.tbl tfoot td:first-child{text-align:left;font-family:'DM Sans',sans-serif;}
+/* EXPLAIN */
+.ex{background:var(--ink3);border-left:3px solid #c9943a;border-radius:0 6px 6px 0;padding:11px 15px;margin-bottom:12px;font-size:12px;color:var(--text2);line-height:1.6;}
+.ex strong{color:var(--text);display:block;margin-bottom:3px;font-family:'Syne',sans-serif;font-size:12px;}
+.ex.t{border-left-color:#0d8080;}.ex.g{border-left-color:#1a7a4a;}.ex.r{border-left-color:#c0392b;}
+/* FORMULA */
+.fml{background:var(--ink);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:11px;color:#e8b55a;margin:8px 0;line-height:1.9;}
+/* OWNERSHIP BARS */
+.own-row{margin-bottom:10px;}
+.own-year{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:4px;display:flex;justify-content:space-between;}
+.own-bar{height:22px;border-radius:4px;overflow:hidden;display:flex;}
+.own-seg{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;transition:width 0.5s ease;overflow:hidden;white-space:nowrap;}
+/* TIMELINE */
+.tl-item{display:flex;gap:14px;margin-bottom:12px;}
+.tl-yr{background:var(--ink2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;min-width:54px;text-align:center;flex-shrink:0;align-self:flex-start;margin-top:2px;}
+.tl-body{flex:1;background:var(--ink2);border:1px solid var(--border);border-left:3px solid #c9943a;border-radius:0 8px 8px 0;padding:12px 16px;}
+.tl-title{font-family:'Syne',sans-serif;font-weight:600;font-size:12px;margin-bottom:6px;}
+.tl-item-row{font-size:11px;color:var(--text2);padding:3px 0;border-bottom:1px solid var(--border);display:flex;gap:7px;line-height:1.5;}
+.tl-item-row:last-child{border-bottom:none;}
+.tl-arr{flex-shrink:0;}
+/* COLORS for partner display */
+.bob{color:#e8b55a;}.chuck{color:#1aa8a8;}.roq{color:#27ae60;}.pete{color:#8e44ad;}.tpg{color:rgba(255,255,255,0.4);}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+@media(max-width:900px){.s4,.s5{grid-template-columns:repeat(2,1fr);}.g2,.g3{grid-template-columns:1fr;}.asliders{gap:10px;}}
+</style>
+</head>
+<body>
+
+<div class="mh">
+  <div class="mh-brand">
+    <div class="mh-logo">SW</div>
+    <div>
+      <div class="mh-title">Salvus — Ownership & Economics 2026–2032</div>
+      <div class="mh-sub">Interactive Model · All figures update live with assumption changes</div>
+    </div>
+  </div>
+  <div class="conf">⚠ Strictly Confidential</div>
+</div>
+
+<!-- ASSUMPTIONS BAR -->
+<div class="abar">
+  <div class="abar-lbl">Assumptions →</div>
+  <div class="asliders">
+    <div class="aslider-item">
+      <span class="aslider-name">SWM Rev Growth</span>
+      <input type="range" id="sl-revgrowth" min="0" max="20" step="0.5" value="5" oninput="update()">
+      <span class="aslider-val" id="vl-revgrowth">5.0%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">ROQ Rev Growth</span>
+      <input type="range" id="sl-roqgrowth" min="0" max="20" step="0.5" value="5" oninput="update()">
+      <span class="aslider-val" id="vl-roqgrowth">5.0%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Expense Growth</span>
+      <input type="range" id="sl-expgrowth" min="0" max="20" step="0.5" value="5" oninput="update()">
+      <span class="aslider-val" id="vl-expgrowth">5.0%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">TPG Platform Fee</span>
+      <input type="range" id="sl-tpgfee" min="5" max="12" step="0.5" value="7" oninput="update()">
+      <span class="aslider-val" id="vl-tpgfee">7.0%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Internal Multiple</span>
+      <input type="range" id="sl-intmult" min="4" max="9" step="0.25" value="6" oninput="update()">
+      <span class="aslider-val" id="vl-intmult">6.0x</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Seller Note Rate</span>
+      <input type="range" id="sl-noterate" min="4" max="10" step="0.25" value="5.5" oninput="update()">
+      <span class="aslider-val" id="vl-noterate">5.5%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Cap Gains Tax</span>
+      <input type="range" id="sl-taxrate" min="15" max="37" step="1" value="23.8" oninput="update()">
+      <span class="aslider-val" id="vl-taxrate">23.8%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Bank Loan Rate</span>
+      <input type="range" id="sl-bankrate" min="7" max="13" step="0.25" value="9" oninput="update()">
+      <span class="aslider-val" id="vl-bankrate">9.0%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Bank % of Buyout</span>
+      <input type="range" id="sl-bankpct" min="0" max="100" step="10" value="80" oninput="update()">
+      <span class="aslider-val" id="vl-bankpct">80%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Ord. Income Tax</span>
+      <input type="range" id="sl-ordtax" min="20" max="45" step="1" value="37" oninput="update()">
+      <span class="aslider-val" id="vl-ordtax">37%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Market Return</span>
+      <input type="range" id="sl-mktret" min="-10" max="20" step="1" value="7" oninput="update()">
+      <span class="aslider-val" id="vl-mktret">7%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Organic AUM Growth</span>
+      <input type="range" id="sl-organic" min="0" max="15" step="0.5" value="3" oninput="update()">
+      <span class="aslider-val" id="vl-organic">3.0%</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Fee Rate (bps)</span>
+      <input type="range" id="sl-feebps" min="40" max="120" step="5" value="80" oninput="update()">
+      <span class="aslider-val" id="vl-feebps">80 bps</span>
+    </div>
+    <div class="aslider-item">
+      <span class="aslider-name">Fee Compression/yr</span>
+      <input type="range" id="sl-feecomp" min="0" max="3" step="0.25" value="0.5" oninput="update()">
+      <span class="aslider-val" id="vl-feecomp">0.5 bps</span>
+    </div>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<div class="tabs">
+  <div class="tab on" onclick="showTab('timeline',this)">① Timeline</div>
+  <div class="tab" onclick="showTab('revenue',this)">② Revenue & P&L</div>
+  <div class="tab" onclick="showTab('ownership',this)">③ Ownership</div>
+  <div class="tab" onclick="showTab('comp',this)">④ Compensation</div>
+  <div class="tab" onclick="showTab('bob',this)">⑤ Bob's Economics</div>
+  <div class="tab" onclick="showTab('chuck',this)">⑥ Chuck's Exit</div>
+  <div class="tab" onclick="showTab('tpg',this)">⑦ TPG ROI</div>
+  <div class="tab" onclick="showTab('bobexit',this)">⑧ Bob's Exit</div>
+  <div class="tab" onclick="showTab('stress',this)">⑨ Stress Test</div>
+  <div class="tab" onclick="showTab('risks',this)">⑩ Risk & Action Plan</div>
+  <div class="tab" onclick="showTab('bankfin',this)">⑪ Bank Financing</div>
+  <div class="tab" onclick="showTab('cashcmp',this)" style="color:#27ae60;font-weight:600">⑫ Firm Waterfall &amp; Survivability</div>
+</div>
+
+<!-- ① TIMELINE -->
+<div id="pg-timeline" class="page on">
+  <div class="pg-hdr"><div class="pg-title">Transaction Timeline</div><div class="pg-sub">Every material event 2026–2032 · One-time transactions, ownership changes, and milestones</div></div>
+  <div id="tl-events"></div>
+  <div class="card"><div class="ch"><div><div class="ct">Master Event Calendar</div><div class="cs">All transactions by year</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="tl-tbl"></table></div></div></div>
+</div>
+
+<!-- ② REVENUE & P&L -->
+<div id="pg-revenue" class="page">
+  <div class="pg-hdr"><div class="pg-title">Revenue & P&L</div><div class="pg-sub">SWM + O'Quinn revenue, TPG fee, expenses, and Net Ordinary Income · all driven by assumption sliders</div></div>
+  <div class="ex"><strong>Revenue Model</strong>SWM advisory revenue grows at the SWM Rev Growth rate from the 2026 base of $2,300,000. O’Quinn’s revenue begins full-year in 2027 at $1,300,000 growing at the ROQ Rev Growth rate. From 2027, both revenue streams combine and the single 7% TPG platform fee applies to the combined total. Expenses include the base firm expenses plus O’Quinn’s benefits ($51.2K) and Schwab referral fee from 2027 onward.</div>
+  <div class="stats s5" id="rev-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Revenue Build by Year</div></div><div class="cb"><div class="cw"><canvas id="ch-rev"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Net Ordinary Income by Year</div></div><div class="cb"><div class="cw"><canvas id="ch-noi"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Full P&L Detail by Year</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="rev-tbl"></table></div></div></div>
+</div>
+
+<!-- ③ OWNERSHIP -->
+<div id="pg-ownership" class="page">
+  <div class="pg-hdr"><div class="pg-title">Ownership Structure</div><div class="pg-sub">SL24 member % and SPM entity ownership · TPG permanently excluded from SL24</div></div>
+  <div class="ex"><strong>Two-Level Structure</strong>All partner equity (Bob, Chuck, O'Quinn, Pete) lives in Salvus Legacy 24 LLC. SL24 owns 80% of SPM — dropping to 70% once TPG exercises the additional 10% option in 2027. O'Quinn capped at ≤33.3% of SL24 while Bob and Chuck are both members. TPG has zero ownership in SL24 at any time.</div>
+  <div class="g2">
+    <div>
+      <div class="card"><div class="ch"><div class="ct">SL24 Ownership Bars — By Year</div></div><div class="cb" id="own-bars"></div></div>
+    </div>
+    <div>
+      <div class="card"><div class="ch"><div class="ct">SL24 Ownership Evolution</div></div><div class="cb"><div class="cw"><canvas id="ch-own"></canvas></div></div></div>
+      <div class="card"><div class="ch"><div class="ct">SPM Entity Ownership</div><div class="cs">SL24 vs. TPG/Purple Marlin</div></div><div class="cb"><div class="cw"><canvas id="ch-spm"></canvas></div></div></div>
+    </div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Ownership % by Year — Full Detail</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="own-tbl"></table></div></div></div>
+</div>
+
+<!-- ④ COMPENSATION -->
+<div id="pg-comp" class="page">
+  <div class="pg-hdr"><div class="pg-title">Compensation Waterfall</div><div class="pg-sub">How Net Ordinary Income flows to each partner · K-1 (incl. ROQ book share 2027+) + seller note obligations</div></div>
+  <div class="ex"><strong>SWM Comp:</strong> Gross Revenue → minus TPG % fee → minus operating expenses → Net Ordinary Income → distributed per SL24 ownership % as K-1 income to all partners.</div>
+  <div class="ex t"><strong>O'Quinn Pre-Equity (2026 catch-up only):</strong> June 2026 one-off billing ~$175K net split 60/20/20 — ROQ 60%, Bob 20%, Chuck 20%. This is the last compensation paid under the old structure.</div>
+  <div class="ex g"><strong>O'Quinn Post-Equity (2027+ as SL24 partner):</strong> Once admitted as equity partner in April 2027, O'Quinn's compensation works exactly like Bob's and Chuck's — he receives his SL24 ownership % share of combined Net Ordinary Income as K-1 income. His book revenue flows through ThePARTNERS into the combined NOI pool, then splits per SL24 %. Bob and Chuck receive NO separate override on his book — their additional benefit comes through their own larger K-1 share of the now-bigger combined NOI.</div>
+  <div class="fml">Combined NOI (2027+) = SWM Net Revenue − Expenses + ROQ Book Net Contribution<br>ROQ Book Net = (ROQ Topline × 80% − Schwab Fee) − Benefits ($51.2K)<br>Each partner's K-1 = Combined NOI × their SL24 ownership %</div>
+  <div class="stats s4" id="comp-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Partner Compensation by Year</div></div><div class="cb"><div class="cw"><canvas id="ch-comp"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Net Annual Income After Note Obligation</div><div class="cs">Comp minus each partner's share of Chuck seller note</div></div><div class="cb"><div class="cw"><canvas id="ch-net"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Full Compensation Detail</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="comp-tbl"></table></div></div></div>
+
+  <!-- K1 CALCULATION WALKTHROUGH -->
+  <div class="card" style="border-top:3px solid #c9943a">
+    <div class="ch"><div><div class="ct" style="color:#e8b55a">K-1 Income Calculation — Step-by-Step Walkthrough</div><div class="cs">Every number shown · Bob and Chuck only · 2026 through Chuck's full exit in 2029</div></div></div>
+    <div class="cb0"><div id="k1-calc-body" style="padding:0"></div></div>
+  </div>
+
+  <div class="card" style="border-top:3px solid #0d8080">
+    <div class="ch"><div><div class="ct" style="color:#1aa8a8">Ownership & Dilution Walkthrough</div><div class="cs">How Bob and Chuck's SL24 % changes at each event — and why</div></div></div>
+    <div class="cb0"><div id="own-calc-body" style="padding:0"></div></div>
+  </div>
+</div>
+
+<!-- ⑤ BOB'S ECONOMICS -->
+<div id="pg-bob" class="page">
+  <div class="pg-hdr"><div class="pg-title">Bob's Economics</div><div class="pg-sub">Annual income, one-time equity proceeds, and cumulative wealth accumulation 2026–2032</div></div>
+  <div class="stats s4" id="bob-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Bob's Annual Income by Source</div></div><div class="cb"><div class="cw"><canvas id="ch-bob-inc"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Bob's Cumulative Wealth Added</div><div class="cs">Income + equity proceeds (excludes existing $4.7M portfolio)</div></div><div class="cb"><div class="cw"><canvas id="ch-bob-cum"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Bob's Full Economic Detail</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="bob-tbl"></table></div></div></div>
+</div>
+
+<!-- ⑥ CHUCK'S EXIT -->
+<div id="pg-chuck" class="page">
+  <div class="pg-hdr"><div class="pg-title">Chuck's Exit Economics</div><div class="pg-sub">Equity sales, K-1 on remaining equity, seller note receipts, and after-tax totals 2026–2032</div></div>
+  <div class="stats s4" id="chuck-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Chuck's Annual Income Sources</div></div><div class="cb"><div class="cw"><canvas id="ch-chuck-inc"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Chuck's Cumulative Proceeds</div><div class="cs">Gross vs. after-tax estimate (20% LTCG + 3.8% NIIT · FL no state tax)</div></div><div class="cb"><div class="cw"><canvas id="ch-chuck-cum"></canvas></div></div></div>
+  </div>
+  <div class="ex r"><strong>Tax Note for Chuck:</strong> Equity sale proceeds treated as long-term capital gains at federal 20% + 3.8% NIIT = 23.8%. K-1 distributions taxed as ordinary income (~37%). Installment sale election allows deferral of gain recognition as note payments received. Coordinate with WJM CPA.</div>
+  <div class="card"><div class="ch"><div><div class="ct">Chuck's Exit Detail by Year</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="chuck-tbl"></table></div></div></div>
+</div>
+
+<!-- ⑦ TPG ROI -->
+<div id="pg-tpg" class="page">
+  <div class="pg-hdr"><div class="pg-title">TPG Relationship ROI</div><div class="pg-sub">What Salvus paid TPG in fees vs. what it received from the deal · Net economic benefit over 7 years</div></div>
+  <div class="stats s4" id="tpg-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Cumulative TPG Fees vs. Deal Proceeds</div><div class="cs">Green line = proceeds received · Red area = cumulative fees paid</div></div><div class="cb"><div class="cw"><canvas id="ch-tpg"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Annual TPG Platform Fee</div><div class="cs">7% of SWM gross revenue — grows with revenue</div></div><div class="cb"><div class="cw"><canvas id="ch-tpgfee"></canvas></div></div></div>
+  </div>
+  <div class="ex t"><strong>What Salvus Gets for the Fee:</strong> SEC umbrella registration, Addepar performance reporting, Amplify trading and billing, ThePARTNERS home office support, compliance infrastructure, O'Quinn and Freidel transition support, and the platform credibility that enabled the $3.68M equity deal — returning $1.84M cash to Bob at close.</div>
+  <div class="card"><div class="ch"><div><div class="ct">TPG Relationship Economics — Full Detail</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="tpg-tbl"></table></div></div></div>
+</div>
+
+<!-- ⑧ BOB'S EXIT -->
+<div id="pg-bobexit" class="page">
+  <div class="pg-hdr"><div class="pg-title">Bob's Exit — Three Scenarios</div><div class="pg-sub">The most critical gap in the plan · Three paths modeled side by side · 2031 target · adjust sliders to explore sensitivity</div></div>
+  <div class="ex" style="border-left-color:#e74c3c"><strong>The headline problem:</strong> Everything we've built funds Chuck's exit beautifully. Bob's exit — the actual goal — is structurally undefined. By 2030 Bob holds ~43–47% of SL24 worth an estimated $8–12M. O'Quinn will have just spent 2027–2029 buying Chuck's equity and carrying that debt. Pete is junior and thinly capitalized. The party with real capital (TPG) is permanently excluded from SL24. This tab models the three realistic paths.</div>
+  <div class="stats s3" id="bobexit-stats"></div>
+  <div class="g3" id="bobexit-cards"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Bob's Exit Proceeds by Path</div><div class="cs">Gross vs. after-tax · at current assumptions</div></div><div class="cb"><div class="cw"><canvas id="ch-bobexit"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Annual Note Income vs. Cash Retirement (Path B)</div><div class="cs">If Bob exits via seller note — cash flow during retirement years</div></div><div class="cb"><div class="cw"><canvas id="ch-bobnote"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Bob Exit Scenario Comparison — Full Detail</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="bobexit-tbl"></table></div></div></div>
+  <div class="ex g"><strong>Key insight:</strong> Path A (TPG buys more SPM) is the only path that delivers true cash at exit, but requires pre-negotiating the option price now. Path B (internal seller note) recreates Chuck's situation — Bob retires holding paper, exposed to firm performance. Path C (third-party sale) maximizes value but conflicts with the internal-succession structure and triggers TPG rights. The SL24 Operating Agreement must encode Bob's exit mechanism before it is finalized.</div>
+</div>
+
+<!-- ⑨ STRESS TEST -->
+<div id="pg-stress" class="page">
+  <div class="pg-hdr"><div class="pg-title">Stress Test — Bear Market & Sensitivity</div><div class="pg-sub">What happens to NOI, partner comp, and Chuck's note coverage when things go wrong · Use sliders to explore downside scenarios</div></div>
+  <div class="ex r"><strong>The 5% flat growth assumption hides operating leverage.</strong> At ~47% NOI margin, a 20% AUM decline doesn't cut NOI by 20% — expenses don't fall proportionally. A 2022-style bear market in 2028 could cut NOI by 40–60% in exactly the years O'Quinn and Pete are buying equity and you are funding Chuck's note. This tab stress-tests those scenarios.</div>
+  <div class="stats s4" id="stress-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">NOI — Base vs. Bear vs. Severe Bear</div><div class="cs">Three revenue scenarios · expenses change at your Expense Growth slider rate</div></div><div class="cb"><div class="cw"><canvas id="ch-stress-noi"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Chuck Note Coverage Ratio</div><div class="cs">Combined NOI ÷ Annual note payment · must stay above 1.0x to be solvent</div></div><div class="cb"><div class="cw"><canvas id="ch-stress-cov"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Scenario Comparison — NOI & Partner Income by Year</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="stress-tbl"></table></div></div></div>
+</div>
+
+<!-- ⑩ RISK & ACTION PLAN -->
+<div id="pg-risks" class="page">
+  <div class="pg-hdr"><div class="pg-title">Risk Analysis & Action Plan</div><div class="pg-sub">Strengths, weaknesses, critical gaps, and required conversations — organized by urgency</div></div>
+  <div id="risk-body"></div>
+</div>
+
+
+<!-- ⑪ BANK FINANCING -->
+<div id="pg-bankfin" class="page">
+  <div class="pg-hdr"><div class="pg-title">Bank Financing — Specialist RIA Lenders</div><div class="pg-sub">Live Oak Bank · Oak Street Funding · SkyView Partners · PPC Loan · Comparison vs. seller note · Adjust Bank Loan Rate and Bank % of Buyout sliders above</div></div>
+  <div class="ex" style="border-left-color:#1a7a4a;background:rgba(26,122,74,0.08);color:rgba(255,255,255,0.75)"><strong style="color:#27ae60">The key insight:</strong> Specialist RIA lenders finance internal partner buyouts — O'Quinn and Pete borrow from the bank, Chuck and Bob receive cash at closing. The loan is to the BUYER, not to Salvus. This eliminates the seller note's retirement risk entirely. Critical caveat: SBA 7(a) loans <span style="color:#e74c3c;font-weight:600">cannot fund tranched/partial buyouts</span> — Salvus must use conventional financing (Oak Street, PPC, SkyView) for its multi-tranche structure.</div>
+  <div class="stats s4" id="bankfin-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Annual Payment — Seller Note vs. Bank Loan vs. Hybrid</div><div class="cs">Chuck buyout at blended valuation · current slider assumptions</div></div><div class="cb"><div class="cw"><canvas id="ch-bank-pmt"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Chuck's Cumulative Proceeds — Note vs. Bank</div><div class="cs">How much Chuck has received by each year · bank gives cash at close</div></div><div class="cb"><div class="cw"><canvas id="ch-bank-cum"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div><div class="ct">Lender Comparison — Four Specialist RIA Banks</div></div></div><div class="cb0"><div class="tw"><table class="tbl" id="bankfin-tbl"></table></div></div></div>
+  <div class="card"><div class="ch"><div><div class="ct">Transaction-by-Transaction Financing Plan</div><div class="cs">Recommended structure for each Salvus equity event 2027–2031</div></div></div><div class="cb0"><div id="bankfin-txns" style="padding:0"></div></div></div>
+</div>
+
+
+<!-- ⑫ FIRM WATERFALL & SURVIVABILITY -->
+<div id="pg-cashcmp" class="page">
+  <div class="pg-hdr"><div class="pg-title" style="color:#27ae60">Firm Waterfall &amp; Survivability — Can Salvus Survive Both Buyouts?</div><div class="pg-sub">True owner distributable income · 2026–2038 · Combined gross revenue → 7% TPG fee → operating expenses → buyout obligations → what's actually left to distribute · Scenario A (pure seller note) vs. Scenario B (hybrid bank + note recommended)</div></div>
+  <div class="ex g"><strong>The real question:</strong> After paying the TPG fee, operating expenses, and the annual cost of BOTH Chuck's buyout (2027–2032) and Bob's buyout (2031–2038), is there enough left to actually pay the surviving partners a meaningful income? This tab answers that directly — every dollar in, every dollar out, every year through the end of Bob's buyout.</div>
+  <div class="ex" style="border-left-color:#1a7a4a;background:rgba(26,122,74,0.08);color:rgba(255,255,255,0.75)"><strong>Assumptions:</strong> After 2027, TPG owns 30% of SPM (20% original + additional 10%). Combined revenue = SWM + ROQ. 7% platform fee on combined gross. Bob exits 2031 — his buyout note runs 7 years (to 2037/2038). Bank financing = O'Quinn and Pete borrow from conventional lender; firm cash obligation is the bank payment (same economics to the firm as a seller note, but Chuck/Bob get cash at close instead of waiting). All figures respond to your assumption sliders.</div>
+  <div class="stats s4" id="cashcmp-top-stats"></div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">True Distributable Income by Year — Both Scenarios</div><div class="cs">Combined NOI minus all buyout obligations · what's left for partners after every obligation is met</div></div><div class="cb"><div class="cw"><canvas id="ch-cmp-obligation"></canvas></div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Partner Distributable Income — After All Obligations</div><div class="cs">What Bob and O'Quinn actually take home net of their share of buyout payments each year</div></div><div class="cb"><div class="cw"><canvas id="ch-cmp-bob"></canvas></div></div></div>
+  </div>
+  <div class="card"><div class="ch"><div class="ct">Chuck's Cumulative Proceeds — Note vs. Bank</div><div class="cs">Bank financing front-loads Chuck's payout · pure note drips it out over 6 years</div></div><div class="cb"><div class="cw"><canvas id="ch-cmp-chuck"></canvas></div></div></div>
+  <div class="card" style="border-top:3px solid #27ae60;margin-top:14px">
+    <div class="ch"><div><div class="ct" style="color:#27ae60">Complete Firm P&amp;L Waterfall — 2026 Through Bob's Buyout (2038)</div><div class="cs">Every dollar · both scenarios · full waterfall from gross revenue to true distributable income per partner</div></div></div>
+    <div class="cb0"><div class="tw"><table class="tbl" id="cashcmp-tbl"></table></div></div>
+  </div>
+
+  <div class="card" style="border-top:3px solid #e8b55a;margin-top:14px">
+    <div class="ch"><div><div class="ct" style="color:#e8b55a">Partner-by-Partner Breakdown — Ownership · Buyout Obligation · Net Distributable</div><div class="cs">Every partner · every year 2026–2038 · ownership % · their share of buyout payments · what they actually take home · both scenarios</div></div></div>
+    <div class="cb0"><div class="tw"><table class="tbl" id="cashcmp-partner-tbl"></table></div></div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="ch"><div><div class="ct">What's Missing &amp; What to Watch</div><div class="cs">Gaps, risks, and items not yet modeled in this dashboard</div></div></div>
+    <div class="cb" id="cashcmp-gaps" style="padding:16px"></div>
+  </div>
+</div>
+
+
+<script>
+// ─────────────────────────────────────────────
+// CONSTANTS (non-slider)
+// ─────────────────────────────────────────────
+const YEARS = [2026,2027,2028,2029,2030,2031,2032];
+const SWM_BASE  = 2300000;
+const ROQ_BASE  = 1250000; // ROQ annual revenue ($1.25M) // full year 2027
+const EXP_BASE  = 1020137; // 2025 actual × 1.15 step-up
+const ROQ_BENS  = 51200;   // health + 401k + auto
+const TPG_20_PROCEEDS  = 3680000; // TPG 20% deal
+const TPG_ADD10_PROCEEDS = 2080000; // additional 10%
+const CHUCK_DOWN = 2080000; // down payment = additional 10% proceeds
+const SCHWAB_BPS = 0.002;  // 20bps Schwab referral
+const ROQ_AUM_2027 = 145e6;
+
+// SL24 ownership % by year (fixed — not slider driven)
+const SL24 = {
+  // B=Bob Joel  C=Chuck Woolston  R=Robert O'Quinn  P=Pete Freidel
+  // Bob maintains B>=R at all times while active (ROFR preference)
+  // Chuck exits fully by end of 2029 (payments continue through 2034)
+  // Pete admitted 2029 (standard path)
+  2026:{B:50.0, C:50.0, R:0.0,  P:0.0},   // Pre-TPG; SWM standalone
+  2027:{B:38.3, C:32.5, R:29.2, P:0.0},   // ROQ admitted 3/1/2027; B>R ✓
+  2028:{B:44.0, C:8.0,  R:38.5, P:9.5},   // Chuck 1st tranche; Pete joins; B(44)>R(38.5) ✓
+  2029:{B:47.0, C:0.0,  R:41.5, P:11.5},  // Chuck fully exits; Bob exercises ROFR; B(47)>R(41.5) ✓
+  2030:{B:47.0, C:0.0,  R:41.5, P:11.5},  // Stable; Chuck note pmts continue; B(47)>R(41.5) ✓
+  2031:{B:44.0, C:0.0,  R:43.0, P:13.0},  // Pete buys small block from Bob; B(44)>R(43) ✓ Bob exits
+  2032:{B:0.0,  C:0.0,  R:75.0, P:25.0},  // Bob fully exited; ROQ+Pete absorb 44%
+};
+const SPM = {2026:{S:80,T:20},2027:{S:70,T:30},2028:{S:70,T:30},2029:{S:70,T:30},2030:{S:70,T:30},2031:{S:70,T:30},2032:{S:70,T:30}};
+
+// PARTNER COLORS (hex only — no CSS vars for Chart.js)
+const PC = {
+  B:'#c9943a', B2:'rgba(201,148,58,0.6)', B3:'rgba(201,148,58,0.25)',
+  C:'#0d8080', C2:'rgba(13,128,128,0.6)', C3:'rgba(13,128,128,0.25)',
+  R:'#1a7a4a', R2:'rgba(26,122,74,0.6)',  R3:'rgba(26,122,74,0.25)',
+  P:'#6a2a7a', P2:'rgba(106,42,122,0.6)', P3:'rgba(106,42,122,0.25)',
+  T:'rgba(255,255,255,0.25)', T2:'rgba(255,255,255,0.12)',
+  RED:'#c0392b', RED2:'rgba(192,57,43,0.6)', RED3:'rgba(192,57,43,0.25)',
+  GOLD:'#c9943a', GRN:'#1a7a4a', GRN2:'rgba(26,122,74,0.4)',
+  TEXT2:'rgba(255,255,255,0.55)', TEXT3:'rgba(255,255,255,0.3)',
+  GRID:'rgba(255,255,255,0.06)', TICK:'rgba(255,255,255,0.45)',
+};
+
+// ─────────────────────────────────────────────
+// FORMAT HELPERS
+// ─────────────────────────────────────────────
+const f$ = v => v >= 0 ? '$'+Math.round(v).toLocaleString() : '($'+Math.abs(Math.round(v)).toLocaleString()+')';
+const fM = v => '$'+(Math.abs(v)/1e6).toFixed(2)+'M';
+const fp = v => v.toFixed(1)+'%';
+
+// ─────────────────────────────────────────────
+// CHART REGISTRY — destroy before recreate
+// ─────────────────────────────────────────────
+const CR = {};
+function mkChart(id, cfg) {
+  if (CR[id]) { try { CR[id].destroy(); } catch(e){} delete CR[id]; }
+  const el = document.getElementById(id);
+  if (!el) return;
+  CR[id] = new Chart(el, cfg);
+}
+
+// ─────────────────────────────────────────────
+// READ SLIDERS
+// ─────────────────────────────────────────────
+function A() {
+  const g = id => parseFloat(document.getElementById(id).value);
+  return {
+    revGrowth:  g('sl-revgrowth') / 100,
+    roqGrowth:  g('sl-roqgrowth') / 100,
+    expGrowth:  g('sl-expgrowth') / 100,
+    tpgFee:     g('sl-tpgfee')    / 100,
+    intMult:    g('sl-intmult'),
+    noteRate:   g('sl-noterate')  / 100,
+    taxRate:    g('sl-taxrate')   / 100,
+    ordTax:     g('sl-ordtax')    / 100,
+    mktRet:     g('sl-mktret')    / 100,
+    organic:    g('sl-organic')   / 100,
+    feeBps:     g('sl-feebps')    / 10000,
+    feeComp:    g('sl-feecomp')   / 10000,
+  };
+}
+// Safe slider getter with fallback
+function gSafe(id, fallback) {
+  const el = document.getElementById(id);
+  if (!el) return fallback;
+  const v = parseFloat(el.value);
+  return isNaN(v) ? fallback : v;
+}
+function updateLabels() {
+  const g = id => parseFloat(document.getElementById(id).value);
+  document.getElementById('vl-revgrowth').textContent = g('sl-revgrowth').toFixed(1)+'%';
+  document.getElementById('vl-roqgrowth').textContent = g('sl-roqgrowth').toFixed(1)+'%';
+  document.getElementById('vl-expgrowth').textContent = g('sl-expgrowth').toFixed(1)+'%';
+  document.getElementById('vl-tpgfee').textContent    = g('sl-tpgfee').toFixed(1)+'%';
+  document.getElementById('vl-intmult').textContent   = g('sl-intmult').toFixed(2)+'x';
+  document.getElementById('vl-noterate').textContent  = g('sl-noterate').toFixed(2)+'%';
+  document.getElementById('vl-taxrate').textContent   = g('sl-taxrate').toFixed(1)+'%';
+  document.getElementById('vl-bankrate').textContent  = g('sl-bankrate').toFixed(2)+'%';
+  document.getElementById('vl-bankpct').textContent   = g('sl-bankpct').toFixed(0)+'%';
+  const setLbl = (id, txt) => { const el=document.getElementById(id); if(el) el.textContent=txt; };
+  setLbl('vl-ordtax',  g('sl-ordtax').toFixed(0)+'%');
+  setLbl('vl-mktret',  g('sl-mktret').toFixed(0)+'%');
+  setLbl('vl-organic', g('sl-organic').toFixed(1)+'%');
+  setLbl('vl-feebps',  g('sl-feebps').toFixed(0)+' bps');
+  setLbl('vl-feecomp', g('sl-feecomp').toFixed(2)+' bps');
+}
+
+// ─────────────────────────────────────────────
+// MODEL
+// ─────────────────────────────────────────────
+function buildModel(a) {
+  // Chuck buyout: blended formula
+  // At 2027 combined revenue, Chuck's 33.3% SL24 = ~26.7% of firm
+  const chuckBuyout = (() => {
+    const rev2027 = SWM_BASE * Math.pow(1+a.revGrowth,1) + ROQ_BASE;
+    const netRev2027 = rev2027 * (1 - a.tpgFee);
+    const exp2027 = EXP_BASE * Math.pow(1+a.expGrowth,1);
+    const noi2027 = netRev2027 - exp2027;
+    const sl24Val_rev = rev2027 * (1 - a.tpgFee) * a.intMult * 0.80;
+    const sl24Val_noi = noi2027 * (a.intMult + 3) * 0.80; // EBITDA at intMult+3
+    const blended = (sl24Val_rev + sl24Val_noi) / 2;
+    const chuckPct = SL24[2027].C / 100;
+    return blended * chuckPct * (1 - 0.20); // 20% illiquidity + no-auction discount
+  })();
+  const noteBalance = chuckBuyout - CHUCK_DOWN;
+  const n = a.noteRate, ny = 6;
+  const notePayment = noteBalance > 0
+    ? noteBalance * (n * Math.pow(1+n,ny)) / (Math.pow(1+n,ny)-1)
+    : 0;
+
+  const rows = {};
+  YEARS.forEach((yr,i) => {
+    // Revenue
+    const swmRev = SWM_BASE * Math.pow(1+a.revGrowth, i);
+    const roqRev = yr < 2027 ? 0 : ROQ_BASE * Math.pow(1+a.roqGrowth, i-1);
+    // From 2027: ROQ is an equity partner — his revenue combines with SWM
+    // and the entire combined revenue pays the single 7% TPG platform fee.
+    // (The 20% "revenue sale" was a one-time equity transaction at close, 
+    //  NOT an ongoing deduction from operating revenue.)
+    const combinedRev = swmRev + roqRev;
+    const tpgFee      = combinedRev * a.tpgFee;     // 7% on ALL revenue from 2027
+    const combinedNet = combinedRev - tpgFee;         // 93% retained
+    // Expenses (grow at expGrowth rate; includes ROQ benefits $51.2K from 2027)
+    const baseExp  = EXP_BASE * Math.pow(1+a.expGrowth, i);
+    const roqBens  = yr >= 2027 ? ROQ_BENS : 0;     // benefits are an expense from 2027
+    const schwabFee= yr >= 2027
+      ? ROQ_AUM_2027 * Math.pow(1+a.roqGrowth, i-1) * SCHWAB_BPS : 0;
+    const exp      = baseExp + roqBens + schwabFee;  // total firm expenses
+    // Net Ordinary Income = combined net revenue minus all expenses
+    const noi = Math.max(0, combinedNet - exp);
+
+    // SWM-only view (for TPG ROI tab and pre-2027 display)
+    const swmNet = swmRev * (1 - a.tpgFee);
+    const swmNOI = swmNet - baseExp;
+
+    // K-1 split on combined NOI
+    const own = SL24[yr];
+    const tot = own.B + own.C + own.R + own.P;
+    const k1 = { B: noi*own.B/tot, C: noi*own.C/tot, R: noi*own.R/tot, P: noi*own.P/tot };
+
+    // 2026 one-off catch-up billing (pre-equity split — last time 60/20/20 applies)
+    let roqFirmShare = 0, bobROQ = 0, chuckROQ = 0;
+    if (yr === 2026) {
+      const catchup = 175000;
+      roqFirmShare = catchup * 0.60;
+      bobROQ       = catchup * 0.20;
+      chuckROQ     = catchup * 0.20;
+    }
+
+    // Note payment (starts 2027, runs 6 yrs)
+    const note = (yr >= 2027 && yr <= 2032) ? notePayment : 0;
+
+    rows[yr] = {
+      yr, swmRev, roqRev, combinedRev,
+      tpgFee, swmNet, combinedNet, exp, baseExp, roqBens, schwabFee,
+      noi, swmNOI, k1,
+      roqFirmShare, bobROQ, chuckROQ,
+      bobTotal:  k1.B + bobROQ,
+      chuckTotal: k1.C + chuckROQ,
+      note,
+      chuckBuyout, noteBalance, notePayment,
+    };
+  });
+  return {rows, chuckBuyout, noteBalance, notePayment};
+}
+
+// ─────────────────────────────────────────────
+// CHART DEFAULTS
+// ─────────────────────────────────────────────
+function chartDefs() {
+  Chart.defaults.font.family = "'DM Sans',sans-serif";
+  Chart.defaults.font.size = 10;
+  Chart.defaults.color = PC.TICK;
+  Chart.defaults.plugins.legend.labels.color = PC.TEXT2;
+  Chart.defaults.plugins.legend.labels.boxWidth = 10;
+  Chart.defaults.plugins.legend.labels.padding = 12;
+  Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(7,16,26,0.95)';
+  Chart.defaults.plugins.tooltip.titleColor = PC.GOLD;
+  Chart.defaults.plugins.tooltip.bodyColor = 'rgba(255,255,255,0.8)';
+  Chart.defaults.plugins.tooltip.padding = 10;
+  Chart.defaults.scale.ticks.color = PC.TICK;
+  Chart.defaults.scale.grid.color = PC.GRID;
+}
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+function totalOf(rows, key) { return YEARS.reduce((s,yr)=>s+(rows[yr][key]||0),0); }
+function arrOf(rows, key)   { return YEARS.map(yr=>rows[yr][key]||0); }
+function scaleTick_$M(v)    { return '$'+(v/1e6).toFixed(1)+'M'; }
+function scaleTick_pct(v)   { return v+'%'; }
+
+// ─────────────────────────────────────────────
+// RENDER FUNCTIONS
+// ─────────────────────────────────────────────
+
+// TIMELINE
+function renderTimeline(rows, M) {
+  const events = [
+    {yr:'2026', col:'#c9943a', title:'TPG Deal Closes', items:[
+      'Purple Marlin acquires 20% of SPM for $3,680,000 (8x TTM revenue)',
+      'Bob receives $1,840,000 gross · Chuck receives $1,840,000 gross',
+      'TPG platform fee begins on SWM advisory revenue',
+      'SL24 Operating Agreement finalized — ROFR, valuation formula, supermajority protections',
+      "O'Quinn begins partial-year billing (Q3+) — June catch-up billing ~$175K net 60/20/20 split",
+      'SL24: Bob 50% · Chuck 50%  |  SPM: SL24 80% · TPG 20%',
+    ]},
+    {yr:'2027', col:'#0d8080', title:"O'Quinn + Add'l 10% + Chuck Buyout Begins", items:[
+      "O'Quinn admitted as SL24 equity member (cap: ≤33.3% while Bob & Chuck are both members)",
+      "O'Quinn sells 20% of his book to TPG at 8x = $2,080,000 (60% ROQ / 20% Bob / 20% Chuck)",
+      'Additional 10% of SWM revenue sold to TPG at 8x = $2,080,000 (proceeds fund Chuck down payment)',
+      `Chuck receives $${(CHUCK_DOWN/1e6).toFixed(2)}M down · Hybrid seller note executed for ~${fM(M.noteBalance)} at ${(parseFloat(document.getElementById('sl-noterate').value)).toFixed(2)}%`,
+      `Annual seller note payment to Chuck: ~${f$(M.notePayment)}/yr over 6 years`,
+      `SL24: Bob 38.3% · Chuck 32.5% · O'Quinn 29.2%  |  SPM: SL24 70% · TPG 30%`,
+    ]},
+    {yr:'2028', col:'#1a7a4a', title:'Chuck Sells 2nd Tranche · Pete Freidel Review', items:[
+      "Chuck sells second tranche to Bob (ROFR exercised) and O'Quinn",
+      'Chuck equity: ~32.5% → ~17.3%  |  Bob equity: ~38.3% → ~44%',
+      'Pete Freidel annual partnership scorecard completed — first formal review',
+      "Pete admitted if scores 75+ (accelerated path) or deferred to 2029 (standard path)",
+      "SL24: Bob ~44% · Chuck ~17.3% · O'Quinn ~29.2% · Pete ~9.5% (if admitted)",
+    ]},
+    {yr:'2029', col:'#6a2a7a', title:'Chuck Fully Exits · Bob Becomes Sole MD', items:[
+      'Chuck transfers final equity tranche — SL24 ownership → 0%',
+      'Bob becomes sole Managing Member · Unanimous consent required for removal',
+      "Pete Freidel admitted as equity partner (standard path — if criteria met)",
+      'Seller note payments to Chuck continue through 2032',
+      "SL24: Bob ~47.5% · O'Quinn ~30% · Pete ~12.5%",
+    ]},
+    {yr:'2030–32', col:'#1a3a7a', title:'Growth Phase · Bob Step-Back Planning', items:[
+      'Seller note payments to Chuck continue (~$393K/yr hybrid fixed + revenue contingent)',
+      "O'Quinn and Pete increasingly running day-to-day operations",
+      'Bob remains largest single SL24 holder throughout this period',
+      'Bob targeting full retirement by ~2031 — equity sale discussions begin with O\'Quinn and Pete',
+      'Cumulative TPG fees approaching breakeven vs. deal proceeds received',
+    ]},
+  ];
+
+  document.getElementById('tl-events').innerHTML = events.map(e=>`
+    <div class="tl-item">
+      <div class="tl-yr" style="color:${e.col};border-color:${e.col}40">${e.yr}</div>
+      <div class="tl-body" style="border-left-color:${e.col}">
+        <div class="tl-title" style="color:${e.col}">${e.title}</div>
+        ${e.items.map(it=>`<div class="tl-item-row"><span class="tl-arr" style="color:${e.col}">→</span>${it}</div>`).join('')}
+      </div>
+    </div>`).join('');
+
+  const tbl = document.getElementById('tl-tbl');
+  // Revenue sold to TPG: 20% of SWM from 2026, plus ROQ 20% from 2027
+  tbl.innerHTML = `<thead>
+    <tr style="background:var(--ink3)">
+      <th rowspan="2">Year</th>
+      <th rowspan="2">Key Event</th>
+      <th colspan="3" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e8b55a">Revenue Build</th>
+      <th colspan="3" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e74c3c">Revenue Sold to TPG</th>
+      <th rowspan="2">Net SWM Rev</th>
+      <th rowspan="2">Combined NOI</th>
+      <th colspan="4" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#c9943a">SL24 Ownership %</th>
+      <th rowspan="2">SPM Split</th>
+    </tr>
+    <tr style="background:var(--ink3)">
+      <th>Gross SWM Rev</th><th>+ ROQ Rev</th><th>= Total Rev</th>
+      <th>SWM 20% Sold</th><th>ROQ 20% Sold</th><th>= Total Sold</th>
+      <th class="bob">Bob</th><th class="chuck">Chuck</th><th class="roq">ROQ</th><th class="pete">Pete</th>
+    </tr>
+  </thead><tbody>`+
+  YEARS.map(yr=>{
+    const r=rows[yr], o=SL24[yr], s=SPM[yr];
+    const evLbl = yr===2026?'TPG 20% Close':yr===2027?"O'Quinn + Add'l 10% + Chuck Buyout":yr===2028?'Chuck 2nd Tranche + Pete Review':yr===2029?'Chuck Full Exit + Pete Admission':'Seller Note + Growth';
+    // SWM revenue sold to TPG (20% of gross from close)
+    const swmSold = r.swmRev * 0.20;
+    // ROQ revenue sold to TPG (20% of ROQ book from 2027)
+    const roqSold = r.roqRev * 0.20;
+    const totalSold = swmSold + roqSold;
+    // Net SWM revenue (after sold portion, before platform fee on remainder)
+    const netSwmRev = r.swmRev - swmSold;
+    return `<tr class="${yr<=2027?'ev':''}">
+      <td style="font-family:'Syne',sans-serif;font-weight:700;color:#e8b55a">${yr}</td>
+      <td style="font-size:10px;color:${PC.TEXT2}">${evLbl}</td>
+      <td>${f$(r.swmRev)}</td>
+      <td style="color:#27ae60">${r.roqRev>0?f$(r.roqRev):'—'}</td>
+      <td style="font-weight:600">${f$(r.combinedRev)}</td>
+      <td style="color:#e74c3c">(${f$(swmSold)})</td>
+      <td style="color:#e74c3c">${roqSold>0?'('+f$(roqSold)+')':'—'}</td>
+      <td style="color:#e74c3c;font-weight:600">(${f$(totalSold)})</td>
+      <td style="font-weight:600">${f$(netSwmRev)}</td>
+      <td style="color:#27ae60;font-weight:600">${f$(r.noi)}</td>
+      <td class="bob">${o.B.toFixed(1)}%</td>
+      <td class="chuck">${o.C>0?o.C.toFixed(1)+'%':'<span style="color:'+PC.TEXT3+'">Exited</span>'}</td>
+      <td class="roq">${o.R>0?o.R.toFixed(1)+'%':'—'}</td>
+      <td class="pete">${o.P>0?o.P.toFixed(1)+'%':'—'}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:10px;color:${PC.TEXT2}">${s.S}% / ${s.T}%</td>
+    </tr>`;
+  }).join('') +
+  `<tr style="background:rgba(201,148,58,0.06);font-weight:600">
+    <td style="color:#e8b55a">7-Yr Total</td><td></td>
+    <td>${f$(YEARS.reduce((s,yr)=>s+rows[yr].swmRev,0))}</td>
+    <td style="color:#27ae60">${f$(YEARS.reduce((s,yr)=>s+rows[yr].roqRev,0))}</td>
+    <td style="font-weight:700">${f$(YEARS.reduce((s,yr)=>s+rows[yr].combinedRev,0))}</td>
+    <td style="color:#e74c3c">(${f$(YEARS.reduce((s,yr)=>s+rows[yr].swmRev*0.20,0))})</td>
+    <td style="color:#e74c3c">(${f$(YEARS.reduce((s,yr)=>s+rows[yr].roqRev*0.20,0))})</td>
+    <td style="color:#e74c3c;font-weight:700">(${f$(YEARS.reduce((s,yr)=>s+(rows[yr].swmRev+rows[yr].roqRev)*0.20,0))})</td>
+    <td style="font-weight:700">${f$(YEARS.reduce((s,yr)=>s+rows[yr].swmRev*0.80,0))}</td>
+    <td style="color:#27ae60;font-weight:700">${f$(YEARS.reduce((s,yr)=>s+rows[yr].noi,0))}</td>
+    <td colspan="5"></td>
+  </tr>` +
+  '</tbody>';
+}
+
+// REVENUE
+function renderRevenue(rows) {
+  const el = document.getElementById('rev-stats');
+  const y27 = rows[2027], y32 = rows[2032];
+  el.innerHTML = `
+    <div class="stat"><div class="stat-lbl">2026 SWM Revenue</div><div class="stat-val">${fM(rows[2026].swmRev)}</div><div class="stat-sub">Baseline year</div></div>
+    <div class="stat t"><div class="stat-lbl">2027 Combined Revenue</div><div class="stat-val">${fM(y27.combinedRev)}</div><div class="stat-sub">First full ROQ year</div></div>
+    <div class="stat g"><div class="stat-lbl">2032 Combined Revenue</div><div class="stat-val">${fM(y32.combinedRev)}</div><div class="stat-sub">At current growth rates</div></div>
+    <div class="stat r"><div class="stat-lbl">7-Yr TPG Fees (cumulative)</div><div class="stat-val">${fM(YEARS.reduce((s,yr)=>s+rows[yr].tpgFee,0))}</div><div class="stat-sub">Total platform fee drag</div></div>
+    <div class="stat b"><div class="stat-lbl">2032 SWM NOI</div><div class="stat-val">${fM(y32.noi)}</div><div class="stat-sub">After fee + expenses</div></div>`;
+
+  mkChart('ch-rev',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'SWM Revenue',data:arrOf(rows,'swmRev'),backgroundColor:PC.B2,borderColor:PC.B,borderWidth:1.5,borderRadius:3},
+    {label:"ROQ Revenue",data:arrOf(rows,'roqRev'),backgroundColor:PC.R2,borderColor:PC.R,borderWidth:1.5,borderRadius:3},
+    {label:'TPG Fee',data:YEARS.map(yr=>-rows[yr].tpgFee),backgroundColor:PC.RED3,borderColor:PC.RED,borderWidth:1,borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:scaleTick_$M}}}}});
+
+  mkChart('ch-noi',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'SWM NOI',data:arrOf(rows,'noi'),backgroundColor:YEARS.map(yr=>rows[yr].noi>0?PC.GRN2:PC.RED3),borderColor:YEARS.map(yr=>rows[yr].noi>0?PC.GRN:PC.RED),borderWidth:1.5,borderRadius:4},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  const tbl = document.getElementById('rev-tbl');
+  tbl.innerHTML = `<thead><tr><th>Year</th><th>SWM Revenue</th><th>ROQ Revenue</th><th>Combined Revenue</th><th>TPG Fee (7% combined)</th><th>Combined Net Revenue</th><th>Total Expenses</th><th>Net Ord. Income</th><th>NOI Margin</th></tr></thead><tbody>`+
+  YEARS.map(yr=>{const r=rows[yr];return `<tr>
+    <td style="color:#e8b55a;font-weight:700">${yr}</td>
+    <td>${f$(r.swmRev)}</td><td>${r.roqRev>0?f$(r.roqRev):'—'}</td><td style="font-weight:600">${f$(r.combinedRev)}</td>
+    <td style="color:#e74c3c">(${f$(r.tpgFee)})</td><td>${f$(r.combinedNet||r.swmNet)}</td>
+    <td style="color:#e74c3c">(${f$(r.exp)})</td>
+    <td style="color:#27ae60;font-weight:600">${f$(r.noi)}</td>
+    <td style="color:${PC.TEXT2}">${(r.noi/r.combinedRev*100).toFixed(1)}%</td>
+  </tr>`;}).join('')+`</tbody><tfoot><tr><td>7-Year Total</td>
+  <td>${f$(YEARS.reduce((s,yr)=>s+rows[yr].swmRev,0))}</td>
+  <td>${f$(YEARS.reduce((s,yr)=>s+rows[yr].roqRev,0))}</td>
+  <td style="font-weight:600">${f$(YEARS.reduce((s,yr)=>s+rows[yr].combinedRev,0))}</td>
+  <td style="color:#e74c3c">(${f$(YEARS.reduce((s,yr)=>s+rows[yr].tpgFee,0))})</td>
+  <td>${f$(YEARS.reduce((s,yr)=>s+(rows[yr].combinedNet||rows[yr].swmNet),0))}</td>
+  <td style="color:#e74c3c">(${f$(YEARS.reduce((s,yr)=>s+rows[yr].exp,0))})</td>
+  <td style="color:#27ae60">${f$(YEARS.reduce((s,yr)=>s+rows[yr].noi,0))}</td>
+  <td>—</td></tr></tfoot>`;
+}
+
+// OWNERSHIP
+function renderOwnership(rows) {
+  // Bars
+  const bars = document.getElementById('own-bars');
+  bars.innerHTML = YEARS.map(yr=>{
+    const o=SL24[yr]; const tot=o.B+o.C+o.R+o.P;
+    return `<div class="own-row">
+      <div class="own-year"><span style="color:${PC.TEXT2}">${yr}</span><span style="color:${PC.TEXT3};font-size:9px">Bob ${o.B.toFixed(1)}% · Chuck ${o.C.toFixed(1)}% · ROQ ${o.R.toFixed(1)}% · Pete ${o.P.toFixed(1)}%</span></div>
+      <div class="own-bar">
+        ${o.B>0?`<div class="own-seg" style="width:${o.B/tot*100}%;background:#c9943a">${o.B.toFixed(0)}%</div>`:''}
+        ${o.C>0?`<div class="own-seg" style="width:${o.C/tot*100}%;background:#0d8080">${o.C.toFixed(0)}%</div>`:''}
+        ${o.R>0?`<div class="own-seg" style="width:${o.R/tot*100}%;background:#1a7a4a">${o.R.toFixed(0)}%</div>`:''}
+        ${o.P>0?`<div class="own-seg" style="width:${o.P/tot*100}%;background:#6a2a7a">${o.P.toFixed(0)}%</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  mkChart('ch-own',{type:'line',data:{labels:YEARS,datasets:[
+    {label:'Bob Joel',    data:YEARS.map(yr=>SL24[yr].B),borderColor:PC.B, backgroundColor:PC.B3,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PC.B},
+    {label:'Chuck Woolston',data:YEARS.map(yr=>SL24[yr].C),borderColor:PC.C,backgroundColor:PC.C3,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PC.C},
+    {label:"Robert O'Quinn",data:YEARS.map(yr=>SL24[yr].R),borderColor:PC.R,backgroundColor:PC.R3,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PC.R},
+    {label:'Pete Freidel',data:YEARS.map(yr=>SL24[yr].P),borderColor:PC.P,backgroundColor:PC.P3,fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:PC.P},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{max:60,min:0,ticks:{callback:scaleTick_pct}}}}});
+
+  mkChart('ch-spm',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'SL24 (Founders)',data:YEARS.map(yr=>SPM[yr].S),backgroundColor:PC.B2,borderColor:PC.B,borderWidth:1.5,borderRadius:3},
+    {label:'Purple Marlin / TPG',data:YEARS.map(yr=>SPM[yr].T),backgroundColor:PC.T,borderColor:'rgba(255,255,255,0.3)',borderWidth:1.5,borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,max:100,ticks:{callback:scaleTick_pct}}}}});
+
+  const tbl = document.getElementById('own-tbl');
+  tbl.innerHTML = `<thead><tr><th>Year</th><th>Bob (SL24)</th><th>Chuck (SL24)</th><th>O'Quinn (SL24)</th><th>Pete (SL24)</th><th>SL24→SPM</th><th>TPG→SPM</th><th>Managing Member</th><th>Key Constraint</th></tr></thead><tbody>`+
+  YEARS.map(yr=>{
+    const o=SL24[yr],s=SPM[yr];
+    const md=yr<=2028?'Bob & Chuck (co-MDs)':'Bob (sole MD)';
+    const constraint=o.R>0&&o.C>0?"ROQ ≤33.3% cap active":o.R>0&&o.C===0?"ROQ cap lifted (Chuck exited)":'—';
+    return `<tr>
+      <td style="color:#e8b55a;font-weight:700">${yr}</td>
+      <td class="bob">${o.B.toFixed(1)}%</td>
+      <td class="chuck">${o.C>0?o.C.toFixed(1)+'%':'<span style="color:'+PC.TEXT3+'">Exited</span>'}</td>
+      <td class="roq">${o.R>0?o.R.toFixed(1)+'%':'—'}</td>
+      <td class="pete">${o.P>0?o.P.toFixed(1)+'%':'—'}</td>
+      <td style="color:${PC.TEXT2}">${s.S}%</td><td style="color:${PC.TEXT2}">${s.T}%</td>
+      <td style="font-size:10px;color:${PC.TEXT2}">${md}</td>
+      <td style="font-size:10px;color:${PC.TEXT3}">${constraint}</td>
+    </tr>`;}).join('')+'</tbody>';
+}
+
+// COMPENSATION
+function renderComp(rows, M) {
+  const totBob = YEARS.reduce((s,yr)=>s+rows[yr].bobTotal,0);
+  const totChuck = YEARS.reduce((s,yr)=>s+rows[yr].chuckTotal,0);
+  const el = document.getElementById('comp-stats');
+  el.innerHTML = `
+    <div class="stat"><div class="stat-lbl">Bob 7-Yr Total Comp</div><div class="stat-val">${fM(totBob)}</div><div class="stat-sub">K-1 on combined NOI (2027+)</div></div>
+    <div class="stat t"><div class="stat-lbl">Chuck Note / Yr</div><div class="stat-val">${fM(M.notePayment)}</div><div class="stat-sub">Hybrid fixed + revenue contingent</div></div>
+    <div class="stat g"><div class="stat-lbl">Chuck Note Total (6yr)</div><div class="stat-val">${fM(M.notePayment*6)}</div><div class="stat-sub">Total payments 2027–2032</div></div>
+    <div class="stat b"><div class="stat-lbl">Chuck K-1 on Remaining Equity</div><div class="stat-val">${fM(totChuck)}</div><div class="stat-sub">Declining as equity sells down</div></div>`;
+
+  mkChart('ch-comp',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'Bob K-1',          data:YEARS.map(yr=>rows[yr].k1.B),   backgroundColor:'rgba(201,148,58,0.8)',borderRadius:3},
+    {label:'Bob 2026 Catch-up', data:YEARS.map(yr=>rows[yr].bobROQ),  backgroundColor:'rgba(201,148,58,0.3)',borderRadius:3},
+    {label:'Chuck K-1',        data:YEARS.map(yr=>rows[yr].k1.C),   backgroundColor:'rgba(13,128,128,0.7)',borderRadius:3},
+    {label:"O'Quinn K-1",      data:YEARS.map(yr=>rows[yr].k1.R),   backgroundColor:'rgba(26,122,74,0.7)',borderRadius:3},
+    {label:'Pete K-1',         data:YEARS.map(yr=>rows[yr].k1.P),   backgroundColor:'rgba(106,42,122,0.7)',borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:scaleTick_$M}}}}});
+
+  // Net income after note obligation
+  mkChart('ch-net',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'Bob Net',   data:YEARS.map(yr=>rows[yr].bobTotal - (yr>=2027?rows[yr].note*(SL24[yr].B/100):0)),backgroundColor:PC.B2,borderColor:PC.B,borderWidth:1.5,borderRadius:3},
+    {label:'Chuck Net', data:YEARS.map(yr=>rows[yr].chuckTotal),backgroundColor:PC.C2,borderColor:PC.C,borderWidth:1.5,borderRadius:3},
+    {label:"ROQ K-1",   data:YEARS.map(yr=>rows[yr].k1.R),backgroundColor:PC.R2,borderColor:PC.R,borderWidth:1.5,borderRadius:3},
+    {label:'Pete K-1',  data:YEARS.map(yr=>rows[yr].k1.P),backgroundColor:PC.P2,borderColor:PC.P,borderWidth:1.5,borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:scaleTick_$M}}}}});
+
+  const tbl = document.getElementById('comp-tbl');
+  tbl.innerHTML = `<thead><tr><th>Year</th><th>Combined NOI</th><th>Bob K-1</th><th>Bob 2026 Catch-up</th><th>Bob Total</th><th>Chuck K-1</th><th>Chuck 2026 Catch-up</th><th>Chuck Total</th><th>ROQ K-1</th><th>Pete K-1</th><th>Chuck Note (cash out)</th></tr></thead><tbody>`+
+  YEARS.map(yr=>{const r=rows[yr];return `<tr>
+    <td style="color:#e8b55a;font-weight:700">${yr}</td>
+    <td style="color:#27ae60">${f$(r.noi)}</td>
+    <td class="bob">${f$(r.k1.B)}</td>
+    <td class="bob">${r.bobROQ>0?f$(r.bobROQ):'—'}</td>
+    <td class="bob" style="font-weight:600">${f$(r.bobTotal)}</td>
+    <td class="chuck">${r.k1.C>0?f$(r.k1.C):'—'}</td>
+    <td class="chuck">${r.chuckROQ>0?f$(r.chuckROQ):'—'}</td>
+    <td class="chuck" style="font-weight:600">${r.chuckTotal>0?f$(r.chuckTotal):'—'}</td>
+    <td class="roq">${r.k1.R>0?f$(r.k1.R):'—'}</td>
+    <td class="pete">${r.k1.P>0?f$(r.k1.P):'—'}</td>
+    <td style="color:#e74c3c">${yr>=2027?'('+f$(r.note)+')':'—'}</td>
+  </tr>`;}).join('')+`</tbody><tfoot><tr><td>7-Yr Total</td>
+  <td style="color:#27ae60">${f$(YEARS.reduce((s,yr)=>s+rows[yr].noi,0))}</td>
+  <td class="bob">${f$(YEARS.reduce((s,yr)=>s+rows[yr].k1.B,0))}</td>
+  <td class="bob">${f$(YEARS.reduce((s,yr)=>s+rows[yr].bobROQ,0))}</td>
+  <td class="bob">${f$(YEARS.reduce((s,yr)=>s+rows[yr].bobTotal,0))}</td>
+  <td class="chuck">${f$(YEARS.reduce((s,yr)=>s+rows[yr].k1.C,0))}</td>
+  <td class="chuck">${f$(YEARS.reduce((s,yr)=>s+rows[yr].chuckROQ,0))}</td>
+  <td class="chuck">${f$(YEARS.reduce((s,yr)=>s+rows[yr].chuckTotal,0))}</td>
+  <td class="roq">${f$(YEARS.reduce((s,yr)=>s+rows[yr].k1.R,0))}</td>
+  <td class="pete">${f$(YEARS.reduce((s,yr)=>s+rows[yr].k1.P,0))}</td>
+  <td style="color:#e74c3c">(${f$(YEARS.reduce((s,yr)=>s+(yr>=2027?rows[yr].note:0),0))})</td>
+  </tr></tfoot>`;
+
+  // Render K-1 walkthrough and ownership walkthrough
+  renderK1Walkthrough(rows, M);
+}
+
+function renderK1Walkthrough(rows, M) {
+  const a = A();
+  const CALC_YEARS = [2026, 2027, 2028, 2029];
+  const C_BOB='#e8b55a',C_CHUCK='#1aa8a8',C_ROQ='#27ae60',C_PETE='#8e44ad';
+  const C_RED='#e74c3c',C_GRN='#27ae60',C_DIM='rgba(255,255,255,0.45)';
+
+  const step = (label, val, color, indent, formula, hi) =>
+    `<tr style="${hi?'background:rgba(255,255,255,0.03)':''}">
+      <td style="padding:6px 14px 6px ${indent||14}px;color:${color||C_DIM};font-size:11px;line-height:1.5">${label}</td>
+      <td style="text-align:right;padding:6px 14px;font-family:'DM Mono',monospace;font-size:11px;color:${color||C_DIM};white-space:nowrap">${val}</td>
+      <td style="padding:6px 14px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.22);line-height:1.4">${formula||''}</td>
+    </tr>`;
+
+  const divRow = lbl =>
+    `<tr><td colspan="3" style="padding:5px 14px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.22);background:rgba(255,255,255,0.025);font-family:'DM Mono',monospace">${lbl}</td></tr>`;
+
+  const totRow = (lbl, val, color) =>
+    `<tr style="background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08)">
+      <td style="padding:9px 14px;font-weight:700;font-size:12px;color:${color}">${lbl}</td>
+      <td style="text-align:right;padding:9px 14px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${color}">${val}</td>
+      <td></td>
+    </tr>`;
+
+  const calcBlocks = CALC_YEARS.map(yr => {
+    const r = rows[yr];
+    const own = SL24[yr];
+    const tot = own.B + own.C + own.R + own.P;
+    const ii = YEARS.indexOf(yr);
+    const swmRev = r.swmRev, roqRev = r.roqRev;
+    const cRev   = r.combinedRev;
+    const tpgFee = r.tpgFee;
+    const cNOI   = r.noi;
+    const k1B=r.k1.B, k1C=r.k1.C, k1R=r.k1.R, k1P=r.k1.P;
+    const bcatch=r.bobROQ, ccatch=r.chuckROQ;
+    const noteOut  = yr>=2027 ? r.note : 0;
+    const bobNoteShare   = yr>=2027 ? noteOut*(own.B/tot) : 0;
+    const chuckNoteShare = yr>=2027 ? noteOut*(own.C/tot) : 0;
+    const bobNet   = k1B + bcatch - bobNoteShare;
+    const chuckNet = k1C + ccatch - chuckNoteShare;
+
+    const yearLbl = yr===2026?'2026 — Pre-Equity · SWM Only':
+                    yr===2027?"2027 — O'Quinn Admitted as Equity Partner":
+                    yr===2028?'2028 — Chuck 2nd Tranche · Pete Review':'2029 — Chuck Fully Exits';
+
+    let html = '';
+    // Step 1: SWM waterfall
+    if (yr < 2027) {
+      // PRE-2027: SWM only — straightforward waterfall
+      html += divRow('Step 1 — SWM Revenue Waterfall (SWM Only)');
+      html += step('Gross SWM Advisory Revenue', f$(swmRev), C_GRN, 14,
+        `$${(SWM_BASE/1e6).toFixed(3)}M × (1 + ${(a.revGrowth*100).toFixed(1)}%)^${ii}`);
+      html += step(`Less: TPG Platform Fee (${(a.tpgFee*100).toFixed(1)}% of gross)`, `(${f$(tpgFee)})`, C_RED, 28,
+        `${f$(swmRev)} × ${(a.tpgFee*100).toFixed(1)}%`);
+      html += step('= SWM Net Revenue', f$(r.swmNet), 'rgba(255,255,255,0.7)', 14,
+        `${f$(swmRev)} × ${((1-a.tpgFee)*100).toFixed(1)}%`);
+      html += step('Less: Operating Expenses', `(${f$(r.baseExp)})`, C_RED, 28,
+        `$${(EXP_BASE/1e6).toFixed(3)}M × (1 + ${(a.expGrowth*100).toFixed(1)}%)^${ii}`);
+      html += totRow('= Net Ordinary Income', f$(cNOI), '#c9943a');
+    } else {
+      // 2027+: combined revenue, ONE 7% fee on the total
+      html += divRow('Step 1 — Combined Revenue · Single 7% TPG Platform Fee on Total');
+      html += step('SWM Gross Advisory Revenue', f$(swmRev), C_GRN, 14,
+        `$${(SWM_BASE/1e6).toFixed(3)}M × (1 + ${(a.revGrowth*100).toFixed(1)}%)^${ii}`);
+      html += step("O’Quinn Gross Advisory Revenue (equity partner)", f$(roqRev), C_GRN, 14,
+        `$${(ROQ_BASE/1e6).toFixed(2)}M × (1 + ${(a.roqGrowth*100).toFixed(1)}%)^${ii-1}`);
+      html += step('= Combined Gross Revenue', f$(cRev), '#ffffff', 14,
+        `${f$(swmRev)} + ${f$(roqRev)}`);
+      html += step(`Less: TPG Platform Fee (${(a.tpgFee*100).toFixed(1)}% × combined gross)`, `(${f$(tpgFee)})`, C_RED, 28,
+        `${f$(cRev)} × ${(a.tpgFee*100).toFixed(1)}%`);
+      html += step(`= Combined Net Revenue (${((1-a.tpgFee)*100).toFixed(1)}% retained)`, f$(r.combinedNet), 'rgba(255,255,255,0.75)', 14,
+        `${f$(cRev)} × ${((1-a.tpgFee)*100).toFixed(1)}%`);
+      html += divRow('Step 2 — Less: All Firm Expenses');
+      html += step('Base firm operating expenses', `(${f$(r.baseExp)})`, C_RED, 14,
+        `$${(EXP_BASE/1e6).toFixed(3)}M × (1 + ${(a.expGrowth*100).toFixed(1)}%)^${ii}`);
+      html += step("O’Quinn benefits (health $35K + 401k $9K + auto $7.2K)", `(${f$(r.roqBens)})`, C_RED, 14, '$51,200 fixed');
+      html += step('Schwab referral fee (~20bps on ROQ AUM)', `(${f$(r.schwabFee)})`, C_RED, 14,
+        `$${(ROQ_AUM_2027*Math.pow(1+a.roqGrowth,ii-1)/1e6).toFixed(1)}M × 0.20%`);
+      html += totRow('= Combined Net Ordinary Income', f$(cNOI), '#c9943a');
+    }
+    // K-1 split
+
+    html += divRow(`Step ${yr>=2027?3:2} — SL24 Ownership Split on ${f$(cNOI)} Combined NOI`);
+    html += step(
+      `Bob Joel — owns ${own.B.toFixed(1)}% of SL24 (${own.B.toFixed(1)} ÷ ${tot.toFixed(1)} total = ${(own.B/tot*100).toFixed(2)}% of NOI)`,
+      f$(k1B), C_BOB, 14,
+      `${f$(cNOI)} × ${(own.B/tot*100).toFixed(4)}`, true);
+    if (own.C > 0) {
+      html += step(
+        `Chuck Woolston — owns ${own.C.toFixed(1)}% of SL24 (${own.C.toFixed(1)} ÷ ${tot.toFixed(1)} = ${(own.C/tot*100).toFixed(2)}% of NOI)`,
+        f$(k1C), C_CHUCK, 14,
+        `${f$(cNOI)} × ${(own.C/tot*100).toFixed(4)}`, true);
+    }
+    if (own.R > 0) {
+      html += step(
+        `Robert O'Quinn — owns ${own.R.toFixed(1)}% of SL24 (${own.R.toFixed(1)} ÷ ${tot.toFixed(1)} = ${(own.R/tot*100).toFixed(2)}% of NOI)`,
+        f$(k1R), C_ROQ, 14,
+        `${f$(cNOI)} × ${(own.R/tot*100).toFixed(4)}`, true);
+    }
+    if (own.P > 0) {
+      html += step(
+        `Pete Freidel — owns ${own.P.toFixed(1)}% of SL24 (${own.P.toFixed(1)} ÷ ${tot.toFixed(1)} = ${(own.P/tot*100).toFixed(2)}% of NOI)`,
+        f$(k1P), C_PETE, 14,
+        `${f$(cNOI)} × ${(own.P/tot*100).toFixed(4)}`, true);
+    }
+
+    // Catch-up 2026
+    if (yr === 2026 && bcatch > 0) {
+      html += divRow('Step 3 — June 2026 One-Off Catch-up Billing (60 / 20 / 20 Split)');
+      html += step("O'Quinn catch-up billing (net)", '$175,000', C_DIM, 14, 'Pre-equity one-time billing');
+      html += step("Bob override — 20%", f$(bcatch), C_BOB, 28, '$175,000 × 20%');
+      html += step("Chuck override — 20%", f$(ccatch), C_CHUCK, 28, '$175,000 × 20%');
+      html += step("O'Quinn retains — 60%", f$(175000*0.60), C_ROQ, 28, '$175,000 × 60%');
+    }
+
+    // Net position
+    const netN = yr>=2027 ? 4 : 3;
+    html += divRow(`Step ${netN} — Net Annual Economic Position After Seller Note`);
+    html += step('Bob K-1 income', f$(k1B), C_BOB, 14);
+    if (bcatch > 0) html += step('+ Bob catch-up override', f$(bcatch), C_BOB, 28);
+    if (yr >= 2027) html += step(
+      `− Bob share of Chuck note (${own.B.toFixed(1)}% of ${f$(noteOut)})`,
+      `(${f$(bobNoteShare)})`, C_RED, 28,
+      `${f$(noteOut)} × ${(own.B/tot*100).toFixed(2)}%`);
+    html += totRow('= Bob Net Annual Cash Position', f$(bobNet), C_BOB);
+    if (own.C > 0) {
+      html += step('Chuck K-1 income', f$(k1C), C_CHUCK, 14);
+      if (ccatch > 0) html += step('+ Chuck catch-up override', f$(ccatch), C_CHUCK, 28);
+      if (yr >= 2027) html += step(
+        `− Chuck share of note (${own.C.toFixed(1)}% — note goes TO Chuck, not deducted)`,
+        '—', 'rgba(255,255,255,0.25)', 28,
+        'Chuck receives the note, does not pay it');
+      html += totRow('= Chuck Net Annual Cash from K-1', f$(chuckNet), C_CHUCK);
+    }
+    if (yr >= 2027) {
+      html += divRow('Seller Note Context');
+      html += step(
+        `Chuck receives annual note payment (separate from K-1)`,
+        f$(noteOut), C_GRN, 14,
+        `$${(M.noteBalance/1e6).toFixed(3)}M balance × ${(a.noteRate*100).toFixed(2)}% × 6yr PMT`);
+      html += step(
+        `Chuck total annual receipts (K-1 + note)`,
+        own.C>0 ? f$(k1C + noteOut) : f$(noteOut),
+        C_CHUCK, 14);
+    }
+
+    return `
+    <div style="border-bottom:2px solid rgba(255,255,255,0.1)">
+      <div style="padding:12px 18px;background:rgba(201,148,58,0.07);border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:#e8b55a">${yr}</span>
+        <span style="font-size:11px;color:rgba(255,255,255,0.45)">${yearLbl}</span>
+        <div style="display:flex;gap:14px;font-size:10px;font-family:'DM Mono',monospace">
+          <span style="color:${C_BOB}">Bob ${own.B.toFixed(1)}%</span>
+          ${own.C>0?`<span style="color:${C_CHUCK}">Chuck ${own.C.toFixed(1)}%</span>`:'<span style="color:rgba(255,255,255,0.25)">Chuck Exited</span>'}
+          ${own.R>0?`<span style="color:${C_ROQ}">ROQ ${own.R.toFixed(1)}%</span>`:''}
+          ${own.P>0?`<span style="color:${C_PETE}">Pete ${own.P.toFixed(1)}%</span>`:''}
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <colgroup><col style="width:50%"><col style="width:18%"><col style="width:32%"></colgroup>
+        <thead><tr style="background:rgba(255,255,255,0.02)">
+          <th style="padding:5px 14px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.22);font-family:'DM Mono',monospace;font-weight:600">Calculation Step</th>
+          <th style="padding:5px 14px;text-align:right;font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.22);font-family:'DM Mono',monospace;font-weight:600">Amount</th>
+          <th style="padding:5px 14px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.22);font-family:'DM Mono',monospace;font-weight:600">Formula / Basis</th>
+        </tr></thead>
+        <tbody>${html}</tbody>
+      </table>
+    </div>`;
+  });
+
+  document.getElementById('k1-calc-body').innerHTML = calcBlocks.join('');
+
+  // ── OWNERSHIP WALKTHROUGH ──
+  const ownEvents = [
+    { yr:'2026 — At TPG Close', bob:50, chuck:50, roq:0, pete:0, color:'#c9943a',
+      event:'TPG acquires 20% of SPM for $3,680,000. Bob and Chuck each receive $1,840,000. Their SL24 ownership is unchanged at 50/50 — TPG\’s ownership is at the SPM entity level, not inside SL24.',
+      formula:'SL24: Bob 50% + Chuck 50% = 100% | SPM: SL24 80% + TPG 20% = 100% | No SL24 dilution occurs at TPG close.' },
+    { yr:"2027 — O'Quinn Admitted (Q2 2027)", bob:38.3, chuck:32.5, roq:29.2, pete:0, color:'#1aa8a8',
+      event:"O'Quinn purchases 29.2% of SL24 at the blended internal valuation. Both Bob and Chuck are diluted proportionally. O'Quinn is capped at ≤33.3% of SL24 while Bob and Chuck are both members. Simultaneously, Chuck sells a first tranche to Bob via ROFR, partially restoring Bob's position.",
+      formula:"Pre-ROQ: Bob 50%, Chuck 50% → After ROQ 29.2% admission → Bob ~35.4%, Chuck ~35.4% → Chuck sells ~3% tranche to Bob via ROFR → Bob 38.3%, Chuck 32.5%." },
+    { yr:'2027 Late — Chuck Sells First Tranche', bob:44, chuck:17.3, roq:29.2, pete:0, color:'#c9943a',
+      event:"Chuck sells approximately 15.2% of SL24 to Bob (ROFR exercised in full). Funded by the additional 10% TPG revenue sale proceeds ($2.08M) which serve as the down payment on the blended buyout.",
+      formula:'Bob: 38.3% + 5.7% = 44.0% | Chuck: 32.5% − 15.2% = 17.3% | ROQ: 29.2% unchanged | Total: 90.5%' },
+    { yr:'2028 — Pete Admitted + Chuck Stable', bob:44, chuck:17.3, roq:29.2, pete:9.5, color:'#8e44ad',
+      event:'Pete Freidel admitted at 9.5% if accelerated path scorecard criteria are met. Bob and Chuck sell proportional slices to Pete. Chuck holds 17.3% pending final tranche sale. Chuck continues receiving K-1 on his remaining equity plus seller note payments.',
+      formula:'Bob: 44% × (1−9.5%) ≈ 39.8% adjusted back to 44% (Bob buys less from Chuck to allow Pete) | Chuck 17.3% | ROQ 29.2% | Pete 9.5% | Total 100%' },
+    { yr:'2029 — Chuck Fully Exits', bob:47.5, chuck:0, roq:30, pete:12.5, color:'#1aa8a8',
+      event:"Chuck sells final 17.3% tranche. Bob exercises ROFR on available portion (~5.7%), O'Quinn and Pete absorb the rest. Chuck's ownership → 0%. Bob becomes sole Managing Member — unanimous consent of all remaining members required to remove him.",
+      formula:'Bob: 44% + 3.5% = 47.5% | ROQ: 29.2% + 0.8% = 30.0% | Pete: 9.5% + 3.0% = 12.5% | Chuck: 0% | Total: 90%* (*Pete not at 100% — future tranches for additional equity growth)' },
+  ];
+
+  document.getElementById('own-calc-body').innerHTML = ownEvents.map(ev => {
+    const segs = [{l:'Bob',p:ev.bob,c:'#c9943a'},{l:'Chuck',p:ev.chuck,c:'#0d8080'},{l:'ROQ',p:ev.roq,c:'#1a7a4a'},{l:'Pete',p:ev.pete,c:'#6a2a7a'}].filter(s=>s.p>0);
+    const tot = segs.reduce((s,x)=>s+x.p,0);
+    const bar = segs.map(s=>`<div style="width:${(s.p/tot*100).toFixed(1)}%;background:${s.c};height:100%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:white;overflow:hidden;white-space:nowrap;padding:0 3px">${s.l} ${s.p.toFixed(1)}%</div>`).join('');
+    return `<div style="padding:16px 18px;border-bottom:1px solid rgba(255,255,255,0.07)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:${ev.color}">${ev.yr}</span>
+        <div style="display:flex;gap:10px;font-size:10px;font-family:'DM Mono',monospace">
+          ${ev.bob>0?`<span style="color:#e8b55a">Bob ${ev.bob}%</span>`:''}
+          ${ev.chuck>0?`<span style="color:#1aa8a8">Chuck ${ev.chuck}%</span>`:'<span style="color:rgba(255,255,255,0.25)">Chuck Exited</span>'}
+          ${ev.roq>0?`<span style="color:#27ae60">ROQ ${ev.roq}%</span>`:''}
+          ${ev.pete>0?`<span style="color:#8e44ad">Pete ${ev.pete}%</span>`:''}
+        </div>
+      </div>
+      <div style="height:26px;border-radius:4px;overflow:hidden;display:flex;margin-bottom:10px">${bar}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.55);line-height:1.65;margin-bottom:8px">${ev.event}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:${ev.color};background:rgba(0,0,0,0.2);padding:7px 10px;border-radius:4px;line-height:1.7;border-left:2px solid ${ev.color}40">${ev.formula}</div>
+    </div>`;
+  }).join('');
+}
+
+// BOB
+function renderBob(rows, M) {
+  const taxRate = parseFloat(document.getElementById('sl-taxrate').value)/100;
+  const bobTPG26   = TPG_20_PROCEEDS * 0.5 * (1-taxRate);
+  const bobAdd27   = TPG_ADD10_PROCEEDS * 0.5 * (1-taxRate);
+  const bobROQpart27 = rows[2027].roqFirmShare * (SL24[2027].B/(SL24[2027].B+SL24[2027].C)) * (1-0.37);
+  const equityByYear = YEARS.map(yr=> yr===2026?bobTPG26 : yr===2027?(bobAdd27+bobROQpart27) : 0);
+
+  const totK1 = YEARS.reduce((s,yr)=>s+rows[yr].bobTotal,0);
+  const totEq = equityByYear.reduce((a,b)=>a+b,0);
+  const tot = totK1 + totEq;
+
+  const el = document.getElementById('bob-stats');
+  el.innerHTML = `
+    <div class="stat"><div class="stat-lbl">7-Yr K-1 + Override</div><div class="stat-val">${fM(totK1)}</div><div class="stat-sub">Operating income stream</div></div>
+    <div class="stat g"><div class="stat-lbl">Equity Proceeds (net tax)</div><div class="stat-val">${fM(totEq)}</div><div class="stat-sub">2026 TPG close + 2027 events</div></div>
+    <div class="stat t"><div class="stat-lbl">2032 Annual Income</div><div class="stat-val">${fM(rows[2032].bobTotal)}</div><div class="stat-sub">K-1 + override at 2032</div></div>
+    <div class="stat b"><div class="stat-lbl">7-Yr Cumulative (income+equity)</div><div class="stat-val">${fM(tot)}</div><div class="stat-sub">Excludes existing $4.7M portfolio</div></div>`;
+
+  mkChart('ch-bob-inc',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'K-1 Income',      data:YEARS.map(yr=>rows[yr].k1.B),backgroundColor:'rgba(201,148,58,0.8)',borderRadius:3},
+    {label:"2026 Catch-up",   data:YEARS.map(yr=>rows[yr].bobROQ),backgroundColor:'rgba(201,148,58,0.35)',borderRadius:3},
+    {label:'Equity Proceeds', data:equityByYear,backgroundColor:'rgba(26,122,74,0.7)',borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:scaleTick_$M}}}}});
+
+  let cum=0;
+  const cums=YEARS.map((yr,i)=>{cum+=rows[yr].bobTotal+equityByYear[i];return cum;});
+  mkChart('ch-bob-cum',{type:'line',data:{labels:YEARS,datasets:[{label:'Cumulative Wealth Added',data:cums,borderColor:PC.B,backgroundColor:PC.B3,fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:PC.B}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  cum=0;
+  const tbl=document.getElementById('bob-tbl');
+  tbl.innerHTML=`<thead><tr><th>Year</th><th>Bob K-1</th><th>2026 Catch-up</th><th>Total Comp</th><th>Equity Proceeds (net)</th><th>Note Obligation Share</th><th>Net Annual Cash</th><th>Cumulative</th></tr></thead><tbody>`+
+  YEARS.map((yr,i)=>{
+    const r=rows[yr];
+    const eq=equityByYear[i];
+    const noteObl=yr>=2027?r.note*(SL24[yr].B/100):0;
+    cum+=r.bobTotal+eq;
+    return `<tr>
+      <td style="color:#e8b55a;font-weight:700">${yr}</td>
+      <td class="bob">${f$(r.k1.B)}</td>
+      <td class="bob">${r.bobROQ>0?f$(r.bobROQ):'—'}</td>
+      <td class="bob" style="font-weight:600">${f$(r.bobTotal)}</td>
+      <td style="color:#27ae60">${eq>0?f$(eq):'—'}</td>
+      <td style="color:#e74c3c">${noteObl>0?'('+f$(noteObl)+')':'—'}</td>
+      <td style="font-weight:600">${f$(r.bobTotal+eq-noteObl)}</td>
+      <td style="color:#e8b55a;font-weight:700">${f$(cum)}</td>
+    </tr>`;}).join('')+'</tbody>';
+}
+
+// CHUCK
+function renderChuck(rows, M) {
+  const taxRate = parseFloat(document.getElementById('sl-taxrate').value)/100;
+  const chuckTPG26 = TPG_20_PROCEEDS * 0.5; // gross (shown pre-tax also)
+  const chuckDown27 = CHUCK_DOWN;
+
+  const el = document.getElementById('chuck-stats');
+  el.innerHTML = `
+    <div class="stat t"><div class="stat-lbl">Total Equity Buyout Value</div><div class="stat-val">${fM(M.chuckBuyout)}</div><div class="stat-sub">Blended method at current multiples</div></div>
+    <div class="stat"><div class="stat-lbl">Down Payment (2027)</div><div class="stat-val">${fM(CHUCK_DOWN)}</div><div class="stat-sub">From additional 10% TPG sale</div></div>
+    <div class="stat g"><div class="stat-lbl">Seller Note Total (6yr)</div><div class="stat-val">${fM(M.notePayment*6)}</div><div class="stat-sub">${fM(M.notePayment)}/yr hybrid payments</div></div>
+    <div class="stat b"><div class="stat-lbl">Chuck 7-Yr Gross Receipts</div><div class="stat-val">${fM(chuckTPG26+M.chuckBuyout+YEARS.reduce((s,yr)=>s+rows[yr].k1.C,0))}</div><div class="stat-sub">TPG + buyout + K-1 income</div></div>`;
+
+  mkChart('ch-chuck-inc',{type:'bar',data:{labels:YEARS,datasets:[
+    {label:'K-1 Income (remaining equity)',data:YEARS.map(yr=>rows[yr].k1.C),backgroundColor:PC.C2,borderRadius:3},
+    {label:'Seller Note Received',data:YEARS.map(yr=>yr>=2027&&yr<=2032?M.notePayment:0),backgroundColor:PC.C3,borderRadius:3},
+    {label:'One-Time Proceeds',data:[chuckTPG26,chuckDown27,0,0,0,0,0],backgroundColor:'rgba(26,122,74,0.7)',borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:scaleTick_$M}}}}});
+
+  let cum=0, cumAT=0;
+  const cumsGross=[], cumsAT=[];
+  YEARS.forEach((yr,i)=>{
+    const k1=rows[yr].k1.C;
+    const note=yr>=2027&&yr<=2032?M.notePayment:0;
+    const one=yr===2026?chuckTPG26:yr===2027?chuckDown27:0;
+    const gross=k1+note+one;
+    const taxEst=k1*0.37+note*taxRate+one*taxRate;
+    cum+=gross; cumAT+=gross-taxEst;
+    cumsGross.push(cum); cumsAT.push(cumAT);
+  });
+  mkChart('ch-chuck-cum',{type:'line',data:{labels:YEARS,datasets:[
+    {label:'Gross Cumulative',data:cumsGross,borderColor:PC.C,backgroundColor:PC.C3,fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:PC.C},
+    {label:'After-Tax Estimate',data:cumsAT,borderColor:'rgba(13,128,128,0.5)',borderDash:[4,3],tension:0.4,pointRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  cum=0;
+  const tbl=document.getElementById('chuck-tbl');
+  tbl.innerHTML=`<thead><tr><th>Year</th><th>Chuck SL24%</th><th>K-1 Income</th><th>Note Received</th><th>One-Time Proceeds</th><th>Gross Annual</th><th>Est. Tax</th><th>Net After Tax</th><th>Cumulative Gross</th></tr></thead><tbody>`+
+  YEARS.map((yr)=>{
+    const k1=rows[yr].k1.C;
+    const note=yr>=2027&&yr<=2032?M.notePayment:0;
+    const one=yr===2026?chuckTPG26:yr===2027?chuckDown27:0;
+    const gross=k1+note+one;
+    const taxEst=k1*0.37+note*taxRate+one*taxRate;
+    cum+=gross;
+    return `<tr>
+      <td style="color:#1aa8a8;font-weight:700">${yr}</td>
+      <td class="chuck">${SL24[yr].C.toFixed(1)}%</td>
+      <td class="chuck">${k1>0?f$(k1):'—'}</td>
+      <td class="chuck">${note>0?f$(note):'—'}</td>
+      <td style="color:#27ae60">${one>0?f$(one):'—'}</td>
+      <td style="font-weight:600">${f$(gross)}</td>
+      <td style="color:#e74c3c">${taxEst>0?'('+f$(taxEst)+')':'—'}</td>
+      <td style="color:#1aa8a8;font-weight:700">${f$(gross-taxEst)}</td>
+      <td style="color:${PC.TEXT2}">${f$(cum)}</td>
+    </tr>`;}).join('')+'</tbody>';
+}
+
+// TPG
+function renderTPG(rows) {
+  const totalFees = YEARS.reduce((s,yr)=>s+rows[yr].tpgFee,0);
+  const dealReceived = TPG_20_PROCEEDS + TPG_ADD10_PROCEEDS;
+  const netROI = dealReceived - totalFees;
+
+  let cumF=0, bkYr='Post-2032';
+  YEARS.forEach(yr=>{ cumF+=rows[yr].tpgFee; if(cumF>=dealReceived&&bkYr==='Post-2032') bkYr=String(yr); });
+
+  const el = document.getElementById('tpg-stats');
+  el.innerHTML = `
+    <div class="stat g"><div class="stat-lbl">Total Received from TPG</div><div class="stat-val">${fM(dealReceived)}</div><div class="stat-sub">20% deal + additional 10%</div></div>
+    <div class="stat r"><div class="stat-lbl">Total Platform Fees (7yr)</div><div class="stat-val">${fM(totalFees)}</div><div class="stat-sub">At current fee + growth assumptions</div></div>
+    <div class="stat ${netROI>0?'g':'r'}"><div class="stat-lbl">Net ROI of TPG Partnership</div><div class="stat-val">${fM(netROI)}</div><div class="stat-sub">${netROI>0?'Proceeds exceed fees':'Fees exceed proceeds'}</div></div>
+    <div class="stat b"><div class="stat-lbl">Breakeven Year</div><div class="stat-val">${bkYr}</div><div class="stat-sub">When cum. fees = deal proceeds</div></div>`;
+
+  let cumFees=0;
+  const cumData=YEARS.map(yr=>{ cumFees+=rows[yr].tpgFee; return cumFees; });
+
+  mkChart('ch-tpg',{type:'line',data:{labels:YEARS,datasets:[
+    {label:'Cumulative Fees Paid',data:cumData,borderColor:PC.RED,backgroundColor:PC.RED3,fill:true,tension:0.4,pointRadius:5,pointBackgroundColor:PC.RED},
+    {label:'Deal Proceeds Received',data:YEARS.map(()=>dealReceived),borderColor:PC.GRN,borderDash:[6,3],tension:0,pointRadius:0},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  mkChart('ch-tpgfee',{type:'bar',data:{labels:YEARS,datasets:[{label:'Annual TPG Platform Fee',data:YEARS.map(yr=>rows[yr].tpgFee),backgroundColor:YEARS.map(yr=>PC.RED2),borderColor:PC.RED,borderWidth:1.5,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+Math.round(v).toLocaleString()}}}}});
+
+  cumFees=0;
+  const tbl=document.getElementById('tpg-tbl');
+  tbl.innerHTML=`<thead><tr><th>Year</th><th>SWM Revenue</th><th>Annual TPG Fee</th><th>Cumulative Fees</th><th>Deal Proceeds</th><th>Net Benefit</th><th>Note</th></tr></thead><tbody>`+
+  YEARS.map(yr=>{
+    const r=rows[yr]; cumFees+=r.tpgFee;
+    const net=dealReceived-cumFees;
+    const note=yr===2026?'20% deal closes · fee begins':yr===2027?'Additional 10% exercised':'Fees continue';
+    return `<tr>
+      <td style="color:#e8b55a;font-weight:700">${yr}</td>
+      <td>${f$(r.swmRev)}</td>
+      <td style="color:#e74c3c">(${f$(r.tpgFee)})</td>
+      <td style="color:#e74c3c">(${f$(cumFees)})</td>
+      <td style="color:#27ae60">${f$(dealReceived)}</td>
+      <td style="color:${net>0?'#27ae60':'#e74c3c'};font-weight:600">${f$(net)}</td>
+      <td style="font-size:10px;color:${PC.TEXT2}">${note}</td>
+    </tr>`;}).join('')+`</tbody><tfoot><tr>
+  <td>Total / Final</td><td>${f$(YEARS.reduce((s,yr)=>s+rows[yr].swmRev,0))}</td>
+  <td style="color:#e74c3c">(${f$(totalFees)})</td>
+  <td style="color:#e74c3c">(${f$(totalFees)})</td>
+  <td style="color:#27ae60">${f$(dealReceived)}</td>
+  <td style="color:${netROI>0?'#27ae60':'#e74c3c'}">${f$(netROI)}</td>
+  <td>—</td></tr></tfoot>`;
+}
+
+
+// ─────────────────────────────────────────────
+// ⑧ BOB'S EXIT — THREE SCENARIOS
+// ─────────────────────────────────────────────
+function renderBobExit(rows, M) {
+  const a = A();
+  const taxRate = a.taxRate;
+
+  // Bob's SL24 % at 2031 exit
+  const bobExitPct = 0.44; // ~44% at 2031
+  // Firm valuation at 2031 using same blended method
+  const rev2031 = rows[2031].swmRev + rows[2031].roqRev;
+  const noi2031 = rows[2031].noi;
+  const netRev2031 = rev2031 * (1 - a.tpgFee);
+  const firmVal_rev = netRev2031 * a.intMult * 0.80;
+  const firmVal_noi = noi2031 * (a.intMult + 3) * 0.80;
+  const blended2031 = (firmVal_rev + firmVal_noi) / 2;
+  const bobStakeGross = blended2031 * bobExitPct * (1 - 0.20); // 20% discounts
+  const bobStakeNet   = bobStakeGross * (1 - taxRate);
+
+  // PATH A: TPG buys additional SPM at 8x revenue
+  // TPG exercises more of its option — e.g. buys another 10-19% of SPM
+  // Bob receives cash proceeds proportional to his SL24 % of the additional deal
+  const tpgAddPct = 0.10; // additional 10% of SPM
+  const tpgPricePerPct = (rev2031 * (1 - a.tpgFee) * a.intMult) / 100; // per 1% of SPM at internal multiple
+  const pathA_gross = tpgPricePerPct * (tpgAddPct * 100) * (SL24[2031].B / (SL24[2031].B + SL24[2031].R + SL24[2031].P));
+  const pathA_net = pathA_gross * (1 - taxRate);
+  const pathA_spmTPG = 30 + tpgAddPct * 100;
+  const pathA_note = ''; // cash at close
+  const pathA_remaining = bobStakeGross - pathA_gross; // Bob still holds remaining SL24 equity
+
+  // PATH B: Internal seller note from O'Quinn + Pete
+  const pathB_gross = bobStakeGross;
+  const pathB_down = pathB_gross * 0.20; // 20% down
+  const pathB_balance = pathB_gross - pathB_down;
+  const n = a.noteRate, ny = 7;
+  const pathB_notePayment = pathB_balance * (n * Math.pow(1+n,ny)) / (Math.pow(1+n,ny)-1);
+  const pathB_net = pathB_down * (1 - taxRate);
+
+  // PATH C: Third-party / strategic sale (whole firm)
+  // External multiples 3-5x revenue vs internal 6x; premium for full control
+  const pathC_extMult = a.intMult * 1.5; // ~50% premium for full external sale
+  const pathC_firmVal = rev2031 * pathC_extMult;
+  const pathC_bobShare = pathC_firmVal * 0.70 * bobExitPct; // SL24 80%→70% of SPM × Bob %
+  const pathC_net = pathC_bobShare * (1 - taxRate);
+
+  // STAT CARDS
+  document.getElementById('bobexit-stats').innerHTML = `
+    <div class="stat"><div class="stat-lbl">Bob SL24% at 2031</div><div class="stat-val">${(bobExitPct*100).toFixed(1)}%</div><div class="stat-sub">Largest single holder · sole MD</div></div>
+    <div class="stat g"><div class="stat-lbl">Blended Internal Value</div><div class="stat-val">${fM(bobStakeGross)}</div><div class="stat-sub">At current multiples · 20% discounts</div></div>
+    <div class="stat b"><div class="stat-lbl">After-Tax (at ${(taxRate*100).toFixed(1)}% cap gains)</div><div class="stat-val">${fM(bobStakeNet)}</div><div class="stat-sub">LTCG + NIIT · FL no state tax</div></div>`;
+
+  // SCENARIO CARDS
+  document.getElementById('bobexit-cards').innerHTML = `
+    <div class="card" style="border-top:3px solid #c9943a">
+      <div class="ch" style="background:rgba(201,148,58,0.08)"><div><div class="ct" style="color:#e8b55a">Path A — TPG Buys More SPM</div><div class="cs">Cash at close · Recommended · Act now to pre-negotiate</div></div><div style="background:#c9943a;color:#07101a;font-size:9px;font-weight:700;padding:3px 8px;border-radius:3px;font-family:'DM Mono',monospace">PREFERRED</div></div>
+      <div class="cb">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">TPG exercises add'l 10% option on SPM</span><span style="font-family:'DM Mono',monospace">${(pathA_spmTPG).toFixed(0)}% TPG total</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Bob receives cash (pro-rata SL24 share)</span><span style="font-family:'DM Mono',monospace;color:#27ae60">${f$(pathA_gross)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Net after-tax (23.8% LTCG)</span><span style="font-family:'DM Mono',monospace;color:#27ae60">${f$(pathA_net)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Remaining SL24 equity (still held)</span><span style="font-family:'DM Mono',monospace;color:#e8b55a">${f$(pathA_remaining)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px"><span style="color:rgba(255,255,255,0.55)">Bob sells remaining SL24 to O'Quinn/Pete</span><span style="font-family:'DM Mono',monospace">Note + cash mix</span></div>
+        <div style="margin-top:10px;padding:8px 10px;background:rgba(201,148,58,0.1);border-radius:4px;font-size:11px;color:rgba(255,255,255,0.6);line-height:1.5"><strong style="color:#e8b55a;display:block;margin-bottom:3px">Critical action required NOW:</strong>Pre-negotiate the additional purchase option price mechanism in the MIPA. The option should be priced at the same 8x formula — applied to 2031 revenue, not 2026 revenue. Confirm TPG's interest with Greg Rutherford before 2027 close. Cap TPG at 49% total SPM to preserve SL24 control.</div>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid #0d8080">
+      <div class="ch" style="background:rgba(13,128,128,0.08)"><div><div class="ct" style="color:#1aa8a8">Path B — Internal Seller Note</div><div class="cs">O'Quinn + Pete buy Bob's SL24 stake · Bob holds paper in retirement</div></div><div style="background:rgba(192,57,43,0.3);color:#e74c3c;font-size:9px;font-weight:700;padding:3px 8px;border-radius:3px;font-family:'DM Mono',monospace">HIGH RISK</div></div>
+      <div class="cb">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Total buyout value (blended)</span><span style="font-family:'DM Mono',monospace">${f$(pathB_gross)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Down payment (20% at close)</span><span style="font-family:'DM Mono',monospace;color:#27ae60">${f$(pathB_down)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Seller note balance (7yr, ${(a.noteRate*100).toFixed(2)}%)</span><span style="font-family:'DM Mono',monospace">${f$(pathB_balance)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Annual note payment to Bob</span><span style="font-family:'DM Mono',monospace;color:#e8b55a">${f$(pathB_notePayment)}/yr</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px"><span style="color:rgba(255,255,255,0.55)">Can O'Quinn + Pete afford it?</span><span style="font-family:'DM Mono',monospace;color:#e74c3c">Questionable — both carrying debt</span></div>
+        <div style="margin-top:10px;padding:8px 10px;background:rgba(192,57,43,0.1);border-radius:4px;font-size:11px;color:rgba(255,255,255,0.6);line-height:1.5"><strong style="color:#e74c3c;display:block;margin-bottom:3px">The trap:</strong>Bob retires but remains exposed to firm performance for 7 years while holding illiquid notes. If Salvus underperforms, Bob's retirement income suffers. This recreates exactly the risk Bob is solving for Chuck — except Bob won't have a day job to offset it.</div>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid #1a3a7a">
+      <div class="ch" style="background:rgba(26,58,122,0.08)"><div><div class="ct" style="color:#2a5298">Path C — Third-Party / Strategic Sale</div><div class="cs">Full firm sale at external multiples · Conflicts with internal structure</div></div><div style="background:rgba(26,58,122,0.3);color:#2a5298;font-size:9px;font-weight:700;padding:3px 8px;border-radius:3px;font-family:'DM Mono',monospace">NUCLEAR OPTION</div></div>
+      <div class="cb">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">External multiple (~${pathC_extMult.toFixed(1)}x revenue)</span><span style="font-family:'DM Mono',monospace">${f$(pathC_firmVal)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Bob's share (via SL24 × SPM)</span><span style="font-family:'DM Mono',monospace;color:#27ae60">${f$(pathC_bobShare)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12px"><span style="color:rgba(255,255,255,0.55)">Net after-tax</span><span style="font-family:'DM Mono',monospace;color:#27ae60">${f$(pathC_net)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px"><span style="color:rgba(255,255,255,0.55)">TPG tag-along / consent required</span><span style="font-family:'DM Mono',monospace;color:#e74c3c">Yes — MIPA rights triggered</span></div>
+        <div style="margin-top:10px;padding:8px 10px;background:rgba(26,58,122,0.1);border-radius:4px;font-size:11px;color:rgba(255,255,255,0.6);line-height:1.5"><strong style="color:#2a5298;display:block;margin-bottom:3px">The complication:</strong>Maximizes total proceeds but requires O'Quinn, Pete, and TPG consent. Disrupts the client experience that supports the valuation. Only viable if a strategic acquirer offers a price that makes everyone whole — and it must be negotiated with TPG's tag-along rights in mind.</div>
+      </div>
+    </div>`;
+
+  // Bar chart — three paths comparison
+  mkChart('ch-bobexit',{type:'bar',data:{
+    labels:['Path A\nTPG Buys More','Path B\nInternal Note','Path C\nStrategic Sale'],
+    datasets:[
+      {label:'Gross Proceeds',data:[pathA_gross+pathA_remaining, pathB_gross, pathC_bobShare],backgroundColor:['rgba(201,148,58,0.6)','rgba(13,128,128,0.6)','rgba(26,58,122,0.6)'],borderColor:['#c9943a','#0d8080','#1a3a7a'],borderWidth:1.5,borderRadius:4},
+      {label:'Net After Tax',data:[pathA_net+pathA_remaining*(1-taxRate), pathB_net+pathB_notePayment*7*(1-taxRate), pathC_net],backgroundColor:['rgba(201,148,58,0.3)','rgba(13,128,128,0.3)','rgba(26,58,122,0.3)'],borderColor:['#c9943a','#0d8080','#1a3a7a'],borderWidth:1,borderRadius:4},
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  // Bob's note income in retirement years (Path B)
+  const retYears = [2031,2032,2033,2034,2035,2036,2037];
+  mkChart('ch-bobnote',{type:'bar',data:{
+    labels:retYears,
+    datasets:[
+      {label:'Annual Note Payment',data:retYears.map(()=>pathB_notePayment),backgroundColor:'rgba(13,128,128,0.6)',borderColor:'#0d8080',borderWidth:1.5,borderRadius:3},
+      {label:'After-Tax Note Income',data:retYears.map(()=>pathB_notePayment*(1-taxRate)),backgroundColor:'rgba(13,128,128,0.25)',borderColor:'#0d8080',borderWidth:1,borderRadius:3},
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  // Comparison table
+  document.getElementById('bobexit-tbl').innerHTML = `<thead><tr>
+    <th>Metric</th><th>Path A — TPG Option</th><th>Path B — Internal Note</th><th>Path C — Strategic Sale</th>
+  </tr></thead><tbody>
+    <tr><td>Gross proceeds to Bob</td><td class="bob">${f$(pathA_gross+pathA_remaining)}</td><td class="chuck">${f$(pathB_gross)}</td><td style="color:#2a5298">${f$(pathC_bobShare)}</td></tr>
+    <tr><td>Net after-tax</td><td class="bob">${f$(pathA_net+pathA_remaining*(1-taxRate))}</td><td class="chuck">${f$(pathB_net+pathB_notePayment*7*(1-taxRate))}</td><td style="color:#2a5298">${f$(pathC_net)}</td></tr>
+    <tr><td>Cash at close</td><td class="bob">${f$(pathA_net)}</td><td class="chuck">${f$(pathB_down*(1-taxRate))}</td><td style="color:#2a5298">${f$(pathC_net)}</td></tr>
+    <tr><td>Annual note income</td><td class="bob">—</td><td class="chuck">${f$(pathB_notePayment)}/yr × 7yrs</td><td style="color:#2a5298">—</td></tr>
+    <tr><td>TPG SPM % after</td><td class="bob">${pathA_spmTPG.toFixed(0)}%</td><td class="chuck">30%</td><td style="color:#2a5298">Acquired</td></tr>
+    <tr><td>O'Quinn / Pete consent needed</td><td class="bob">No</td><td class="chuck">Yes (buyers)</td><td style="color:#2a5298">Yes</td></tr>
+    <tr><td>TPG consent / rights triggered</td><td class="bob">Option exercise (prenegotiated)</td><td class="chuck">No</td><td style="color:#2a5298">Tag-along / ROFR</td></tr>
+    <tr><td>Bob's retirement exposure</td><td class="bob" style="color:#27ae60">Clean break</td><td class="chuck" style="color:#e74c3c">7yr firm performance risk</td><td style="color:#2a5298;color:#27ae60">Clean break</td></tr>
+    <tr><td>Likelihood viable as designed</td><td class="bob" style="color:#27ae60">High — if pre-negotiated NOW</td><td class="chuck" style="color:#e8b55a">Medium — buyer capital uncertain</td><td style="color:#2a5298;color:#e74c3c">Low — conflicts with structure</td></tr>
+  </tbody>`;
+}
+
+// ─────────────────────────────────────────────
+// ⑨ STRESS TEST
+// ─────────────────────────────────────────────
+function renderStress(rows, M) {
+  const a = A();
+  const ALL_STRESS_YEARS = [2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038];
+
+  // AUM-BASED REVENUE MODEL
+  // Current AUM implied from 2026 revenue / fee rate
+  const AUM_BASE_2026 = 330e6; // SWM AUM ($330M)
+  const ROQ_AUM_2027_impl = 145e6; // ROQ AUM ($145M)
+
+  function aum_revenue(yr, scenario) {
+    const i = yr - 2026;
+    let swmAUM = AUM_BASE_2026;
+    let roqAUM = 0;
+    for (let y = 2027; y <= yr; y++) {
+      const mkt = (scenario==='severe' && y===2028) ? -0.20 : (scenario==='bear' ? 0 : a.mktRet);
+      swmAUM = swmAUM * (1 + mkt + a.organic);
+      if (y === 2027) roqAUM = ROQ_AUM_2027_impl;
+      else if (y > 2027) roqAUM = roqAUM * (1 + mkt + a.organic);
+    }
+    const feeRate = Math.max(0.002, a.feeBps - a.feeComp * i);
+    const swmRev = swmAUM * feeRate;
+    const roqRev = yr < 2027 ? 0 : roqAUM * feeRate;
+    return { swmRev, roqRev, swmAUM, roqAUM, feeRate };
+  }
+
+  function calc_noi(yr, swmRev, roqRev) {
+    const combRev = swmRev + roqRev;
+    const tpgFee  = combRev * a.tpgFee;
+    const bExp    = EXP_BASE * Math.pow(1+a.expGrowth, yr-2026);
+    const rBens   = yr>=2027 ? ROQ_BENS : 0;
+    const schwab  = yr>=2027 ? ROQ_AUM_2027 * Math.pow(1+a.roqGrowth, Math.max(0,yr-2027)) * SCHWAB_BPS : 0;
+    return Math.max(0, combRev - tpgFee - bExp - rBens - schwab);
+  }
+
+  // Three scenarios
+  const baseData   = ALL_STRESS_YEARS.map(yr => { const r=rows[yr]||rows[2032]; return {noi:r.noi, rev:r.combinedRev}; });
+  const aum_base   = ALL_STRESS_YEARS.map(yr => aum_revenue(yr,'base'));
+  const aum_bear   = ALL_STRESS_YEARS.map(yr => aum_revenue(yr,'bear'));
+  const aum_severe = ALL_STRESS_YEARS.map(yr => aum_revenue(yr,'severe'));
+  const noiBase    = ALL_STRESS_YEARS.map((yr,i) => calc_noi(yr, aum_base[i].swmRev,   aum_base[i].roqRev));
+  const noiBear    = ALL_STRESS_YEARS.map((yr,i) => calc_noi(yr, aum_bear[i].swmRev,   aum_bear[i].roqRev));
+  const noiSevere  = ALL_STRESS_YEARS.map((yr,i) => calc_noi(yr, aum_severe[i].swmRev, aum_severe[i].roqRev));
+
+  // Obligations overlay (chuck 2027-2032, bob 2032-2038)
+  const notePayment = M.notePayment;
+  const pmt = (r,n,p) => p>0?p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1):0;
+  const r31 = rows[2031]||rows[2032];
+  const bobPct31 = (SL24[2031]||SL24[2032]).B/100;
+  const bobFirm  = ((r31.combinedRev*(1-a.tpgFee)*a.intMult)+(r31.noi*(a.intMult+3)))/2*0.80;
+  const bobBuyout= bobFirm*bobPct31*0.80;
+  const bobBal   = bobBuyout*0.80;
+  const bobNote  = pmt(a.noteRate,7,bobBal);
+  const totalObligation = ALL_STRESS_YEARS.map(yr =>
+    (yr>=2028&&yr<=2033?notePayment:0) + (yr>=2032&&yr<=2038?bobNote:0)
+  );
+
+  // Coverage ratios
+  const covBase   = ALL_STRESS_YEARS.map((yr,i) => totalObligation[i]>0 ? noiBase[i]/totalObligation[i] : null);
+  const covBear   = ALL_STRESS_YEARS.map((yr,i) => totalObligation[i]>0 ? noiBear[i]/totalObligation[i] : null);
+  const covSevere = ALL_STRESS_YEARS.map((yr,i) => totalObligation[i]>0 ? noiSevere[i]/totalObligation[i] : null);
+
+  // After-tax distributable per partner (Bob at 37% ord income)
+  const bobPct = i => {
+    const yr = ALL_STRESS_YEARS[i];
+    const o = SL24[yr] || {B:0, C:0, R:35, P:15};
+    const t = (o.B||0) + (o.C||0) + (o.R||0) + (o.P||0) || 100;
+    return (o.B||0) / t;
+  };
+  const bobAfterTaxBase   = ALL_STRESS_YEARS.map((yr,i)=>(noiBase[i]  *Math.max(0,bobPct(i))*(1-a.ordTax)));
+  const bobAfterTaxBear   = ALL_STRESS_YEARS.map((yr,i)=>(noiBear[i]  *Math.max(0,bobPct(i))*(1-a.ordTax)));
+  const bobAfterTaxSevere = ALL_STRESS_YEARS.map((yr,i)=>(noiSevere[i]*Math.max(0,bobPct(i))*(1-a.ordTax)));
+
+  // AUM trajectory
+  const swmAUMbase   = ALL_STRESS_YEARS.map((_,i)=>aum_base[i].swmAUM+aum_base[i].roqAUM);
+  const swmAUMbear   = ALL_STRESS_YEARS.map((_,i)=>aum_bear[i].swmAUM+aum_bear[i].roqAUM);
+  const swmAUMsevere = ALL_STRESS_YEARS.map((_,i)=>aum_severe[i].swmAUM+aum_severe[i].roqAUM);
+
+  const minCovBase   = Math.min(...covBase.filter(Boolean));
+  const minCovSevere = Math.min(...covSevere.filter(Boolean));
+  const minBobSevere = Math.min(...bobAfterTaxSevere.filter(v=>v>0));
+
+  document.getElementById('stress-stats').innerHTML = `
+    <div class="stat ${minCovSevere<1.2?'r':minCovSevere<1.8?'':'g'}">
+      <div class="stat-lbl">Worst Coverage — Severe Scenario</div>
+      <div class="stat-val" style="color:${minCovSevere<1.2?'#e74c3c':minCovSevere<1.8?'#e8b55a':'#27ae60'}">${minCovSevere.toFixed(2)}x</div>
+      <div class="stat-sub">NOI ÷ total obligation · −20% AUM in 2028, then 3% recovery</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Bob After-Tax Min — Severe</div>
+      <div class="stat-val" style="color:${minBobSevere<300000?'#e74c3c':'#e8b55a'}">${fM(minBobSevere)}</div>
+      <div class="stat-sub">Worst single year · Bob at ${(a.ordTax*100).toFixed(0)}% ordinary income tax</div>
+    </div>
+    <div class="stat r">
+      <div class="stat-lbl">2028 NOI — Severe Drop</div>
+      <div class="stat-val" style="color:${noiSevere[2]>800000?'#e8b55a':'#e74c3c'}">${fM(noiSevere[2])}</div>
+      <div class="stat-sub">−20% AUM · expenses still grow · fee rate ${(aum_severe[2].feeRate*10000).toFixed(1)} bps</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">AUM at 2038 — Base vs. Bear</div>
+      <div class="stat-val" style="font-size:14px">${fM(swmAUMbase[12])} / ${fM(swmAUMbear[12])}</div>
+      <div class="stat-sub">Combined AUM · market ${(a.mktRet*100).toFixed(0)}% + organic ${(a.organic*100).toFixed(1)}% vs. 0% market</div>
+    </div>`;
+
+  // CHART 1: NOI comparison across all years
+  mkChart('ch-stress-noi',{type:'line',data:{labels:ALL_STRESS_YEARS,datasets:[
+    {label:'Base (AUM model)',data:noiBase,borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.08)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#c9943a'},
+    {label:'Bear (0% mkt return)',data:noiBear,borderColor:'#0d8080',borderDash:[4,3],tension:0.3,pointRadius:3,pointBackgroundColor:'#0d8080'},
+    {label:'Severe (−20% in 2028)',data:noiSevere,borderColor:'#e74c3c',borderDash:[2,2],tension:0.3,pointRadius:3,pointBackgroundColor:'#e74c3c'},
+    {label:'Annual Obligation',data:totalObligation,borderColor:'rgba(255,255,255,0.25)',borderDash:[6,4],pointRadius:0,fill:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  // CHART 2: Coverage ratio
+  mkChart('ch-stress-cov',{type:'bar',data:{labels:ALL_STRESS_YEARS,datasets:[
+    {label:'Base Coverage',data:covBase.map(v=>v||0),backgroundColor:'rgba(201,148,58,0.6)',borderRadius:3},
+    {label:'Bear Coverage', data:covBear.map(v=>v||0),backgroundColor:'rgba(13,128,128,0.5)',borderRadius:3},
+    {label:'Severe Coverage',data:covSevere.map(v=>v||0),backgroundColor:'rgba(192,57,43,0.45)',borderRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},
+    scales:{y:{min:0,ticks:{callback:v=>v.toFixed(1)+'x'}}}}});
+
+  // CHART 3: AUM trajectory (new)
+  if (!document.getElementById('ch-stress-aum')) {
+    const aum_card = document.createElement('div');
+    aum_card.className='card';
+    aum_card.innerHTML='<div class="ch"><div class="ct">AUM Trajectory — All Scenarios</div><div class="cs">Combined firm AUM · market return + organic growth · fee compression erodes revenue even as AUM grows</div></div><div class="cb"><div class="cw"><canvas id="ch-stress-aum"></canvas></div></div>';
+    document.getElementById('pg-stress').appendChild(aum_card);
+  }
+  mkChart('ch-stress-aum',{type:'line',data:{labels:ALL_STRESS_YEARS,datasets:[
+    {label:'Base AUM',data:swmAUMbase,borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.08)',fill:true,tension:0.3,pointRadius:3},
+    {label:'Bear AUM',data:swmAUMbear,borderColor:'#0d8080',borderDash:[4,3],tension:0.3,pointRadius:3},
+    {label:'Severe AUM',data:swmAUMsevere,borderColor:'#e74c3c',borderDash:[2,2],tension:0.3,pointRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},
+    scales:{y:{ticks:{callback:v=>'$'+(v/1e6).toFixed(0)+'M AUM'}}}}});
+
+  // CHART 4: Bob after-tax income (new)
+  if (!document.getElementById('ch-stress-tax')) {
+    const tax_card = document.createElement('div');
+    tax_card.className='card';
+    tax_card.innerHTML='<div class="ch"><div class="ct">Bob After-Tax Distributable Income — All Scenarios</div><div class="cs">Bob’s K-1 share × (1 − ordinary income tax rate) · what actually lands in his pocket each year 2026–2038</div></div><div class="cb"><div class="cw"><canvas id="ch-stress-tax"></canvas></div></div>';
+    document.getElementById('pg-stress').appendChild(tax_card);
+  }
+  mkChart('ch-stress-tax',{type:'line',data:{labels:ALL_STRESS_YEARS,datasets:[
+    {label:'Base (after tax)',data:bobAfterTaxBase,borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.1)',fill:true,tension:0.3,pointRadius:3},
+    {label:'Bear (after tax)',data:bobAfterTaxBear,borderColor:'#0d8080',borderDash:[4,3],tension:0.3,pointRadius:3},
+    {label:'Severe (after tax)',data:bobAfterTaxSevere,borderColor:'#e74c3c',borderDash:[2,2],tension:0.3,pointRadius:3},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},
+    scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  // TABLE — extended to 2038 with fee rate and after-tax columns
+  document.getElementById('stress-tbl').innerHTML = `<thead><tr>
+    <th>Year</th><th>Event</th>
+    <th>Base NOI</th><th>Bear NOI</th><th>Severe NOI</th>
+    <th>Fee Rate</th><th>Base AUM</th>
+    <th>Total Obligation</th>
+    <th>Base Coverage</th><th>Bear Coverage</th><th>Severe Coverage</th>
+    <th>Bob After-Tax Base</th><th>Bob After-Tax Severe</th>
+  </tr></thead><tbody>`+
+  ALL_STRESS_YEARS.map((yr,i)=>{
+    const bN=noiBase[i], brN=noiBear[i], sN=noiSevere[i];
+    const cb=covBase[i], cbr=covBear[i], cs=covSevere[i];
+    const obl=totalObligation[i];
+    const feeR=(aum_base[i].feeRate*10000).toFixed(1);
+    const evtLbl = yr===2027?'ROQ+Chuck':yr===2028?'Chuck 2nd':yr===2029?'Chuck exits':
+                   yr===2031?'Bob exits':yr===2032?'⚠ Both oblig.':yr>2032&&yr<=2038?'Bob note yr '+(yr-2031):'';
+    const colcov = v => v===null?PC.TEXT3:v<1.2?'#e74c3c':v<1.8?'#e8b55a':'#27ae60';
+    return `<tr style="${yr===2032?'background:rgba(201,148,58,0.06)':''}">
+      <td style="color:#e8b55a;font-weight:700">${yr}</td>
+      <td style="font-size:10px;color:rgba(255,255,255,0.35)">${evtLbl}</td>
+      <td style="color:#27ae60">${f$(bN)}</td>
+      <td style="color:#1aa8a8">${f$(brN)}</td>
+      <td style="color:${sN<500000?'#e74c3c':'#e8b55a'}">${f$(sN)}</td>
+      <td style="color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:11px;text-align:right">${feeR} bps</td>
+      <td style="color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace;font-size:11px;text-align:right">${fM(swmAUMbase[i])}</td>
+      <td style="color:#e74c3c;text-align:right;font-family:'DM Mono',monospace;font-size:11px">${obl>0?'('+f$(obl)+')':'—'}</td>
+      <td style="text-align:center;font-family:'DM Mono',monospace;color:${colcov(cb)}">${cb!==null?cb.toFixed(2)+'x':'—'}</td>
+      <td style="text-align:center;font-family:'DM Mono',monospace;color:${colcov(cbr)}">${cbr!==null?cbr.toFixed(2)+'x':'—'}</td>
+      <td style="text-align:center;font-family:'DM Mono',monospace;color:${colcov(cs)};font-weight:${cs!==null&&cs<1.5?700:400}">${cs!==null?cs.toFixed(2)+'x':'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:#c9943a">${f$(bobAfterTaxBase[i])}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:${bobAfterTaxSevere[i]<300000?'#e74c3c':'#e8b55a'};font-weight:${bobAfterTaxSevere[i]<300000?700:400}">${f$(bobAfterTaxSevere[i])}</td>
+    </tr>`;
+  }).join('') + '</tbody>';
+}
+
+// ─────────────────────────────────────────────
+// ⑩ RISK & ACTION PLAN
+// ─────────────────────────────────────────────
+function renderRisks(rows, M) {
+  const sections = [
+    {
+      title:'Critical Gaps — Address Before SL24 OA is Finalized',
+      color:'#e74c3c', bg:'rgba(192,57,43,0.08)',
+      items:[
+        {tag:'BOB EXIT',tagColor:'#e74c3c',title:"Bob's Exit Mechanism is Undefined",body:"The SL24 Operating Agreement must encode Bob's exit — not just Chuck's. Before finalizing the OA: decide which path (A/B/C from tab ⑧), determine whether TPG will pre-negotiate the additional purchase option at a future-revenue-based price, and specify the minimum down payment, note rate, and term for any internal sale. Without this, the entire succession plan has an unresolved endpoint."},
+        {tag:'LEGAL',tagColor:'#e74c3c',title:"Buy-Sell Agreement with Death & Disability Triggers",body:"If Bob dies or is permanently disabled before 2031, what happens? Tina would inherit an illiquid ~44% SL24 interest with O'Quinn and Pete holding the operating leverage. A funded buy-sell — triggered by death or disability — needs to be structured now. Life insurance on Bob and Chuck should fund the agreement. Given Bob's cardiac history and Tina's TP53 status, these conversations cannot wait."},
+        {tag:'INSURANCE',tagColor:'#e74c3c',title:"Key-Person & Disability Coverage — Underwrite Now",body:"Bob's medical history (MI 2010, melanoma 2021, severe COVID ICU 2020) means disability coverage will be scrutinized — or may be uninsurable at standard rates. Underwrite now while Bob is currently healthy and working, not during a future health event. Key-person coverage on Bob and Chuck protects the firm's value during the transition. Every month of delay narrows the underwriting window."},
+        {tag:'LEGAL',tagColor:'#e74c3c',title:"OA Questions 8–18 Still Open",body:"The SL24 Operating Agreement is missing: timing/tranche mechanics for future transfers, Pete Freidel admission process, deadlock/dispute resolution, non-compete/non-solicit terms, voting rights, distribution policy, and drag-along/tag-along provisions. These must be resolved before any equity transactions occur in 2027. The attorney should receive a complete term sheet within 30 days."},
+      ]
+    },
+    {
+      title:'Structural Risks — Fix in 2026–2027',
+      color:'#e8b55a', bg:'rgba(201,148,58,0.06)',
+      items:[
+        {tag:'FINANCIAL',tagColor:'#e8b55a',title:"Non-Qualified Liquidity Gap",body:"Only ~$1.14M of Bob's $4.7M liquid wealth is non-qualified. The vast majority is in retirement accounts unavailable without penalty until 59½ (Bob just passed this threshold). With 76% of liquid wealth in IRAs/401ks and 40% of net worth in illiquid Salvus equity, the path to $10–15M truly liquid by 2031 requires immediate, aggressive non-qualified savings from the high-income 2026–2029 window. Target $300–400K/yr into taxable brokerage accounts starting now."},
+        {tag:'GOVERNANCE',tagColor:'#e8b55a',title:"O'Quinn Retention & Cap Communication",body:"O'Quinn is the firm's most critical asset and the most likely buyer of Bob's equity. He is capped at 33.3% while Chuck is a member — which is architecturally correct but may feel like a ceiling. By late 2027 when he's a full equity partner holding debt and operating the firm, he needs a clear roadmap to what comes next: the cap lifting, his path to becoming majority holder, and how Bob's exit benefits him specifically. Silence is not retention."},
+        {tag:'OPERATIONS',tagColor:'#e8b55a',title:"Sonja Single Point of Failure",body:"Sonja Elia is the operational backbone during the most complex transition Salvus will ever face: 850–900 Fidelity account transitions, two new equity partners, and Chuck's wind-down — all concurrent. Cross-training, documented procedures, and at minimum one capable backup must be in place before the Fidelity transition begins. A temporary contractor should be scoped and budgeted for Q3–Q4 2026."},
+        {tag:'PLATFORM',tagColor:'#e8b55a',title:"TPG Platform Dependency & Greg Rutherford Risk",body:"The 7% platform fee is permanent in the model, but platform economics get renegotiated. The relationship runs largely through Greg Rutherford personally. Change-of-control protections, fee-certainty provisions, and defined exit terms from the TPG platform should be negotiated into the MIPA before close. What is Salvus's exit right if TPG changes the fee, gets acquired, or Greg departs?"},
+        {tag:'FINANCIAL',tagColor:'#e8b55a',title:"Bear Market / Operating Leverage Risk",body:"At ~47% NOI margin, Salvus has high operating leverage. A 20% AUM decline cuts revenue by 20% but expenses by far less — potentially cutting NOI by 40–60%. The seller note to Chuck (~$393K/yr) is a fixed obligation that does not flex with performance. The stress test on tab ⑨ shows the coverage ratio at risk below 1.5x in a severe scenario. A debt-service reserve fund (3–6 months of note payments) should be established when the note is executed."},
+      ]
+    },
+    {
+      title:'Conversations to Have — Priority Order',
+      color:'#1aa8a8', bg:'rgba(13,128,128,0.06)',
+      items:[
+        {tag:'ATTORNEY',tagColor:'#1aa8a8',title:"With John Suender — SL24 OA + Bob Exit Mechanism",body:"Priority 1: complete SL24 OA term sheet (Q8–18). Priority 2: encode Bob's exit mechanism — which path, what price formula, what minimum terms. Priority 3: buy-sell structure with death/disability triggers. Priority 4: cap TPG additional purchase option at 49% total SPM. Priority 5: deadlock/dispute resolution, drag-along/tag-along, non-compete terms for O'Quinn and Pete. Target: term sheet to attorney within 30 days of this review."},
+        {tag:'CHUCK',tagColor:'#1aa8a8',title:"With Chuck Woolston — Exit Framework & Post-Equity Role",body:"Three conversations needed: (1) Agreement on the blended valuation formula — does he accept the revenue-contingent note portion? (2) His post-equity role — clean break, or CPA/consulting arrangement? His institutional knowledge and certain client relationships have real value worth retaining in some form on a consulting basis. (3) The seller note to his estate — what happens if Chuck dies before the note is paid? His estate's position needs explicit language."},
+        {tag:"O’QUINN",tagColor:'#1aa8a8',title:"With Robert O'Quinn — Long-Term Vision & Retention",body:"O'Quinn needs to understand the full roadmap: the 33.3% cap lifting when Chuck exits, his eventual path past 33.3%, and the specific mechanics of how he would participate in buying Bob's equity when the time comes. This conversation should include a frank assessment of whether he can finance Bob's buyout and what structure would work for him. His 10+ year commitment is essential — make sure he's motivated, not just retained."},
+        {tag:'TINA',tagColor:'#1aa8a8',title:"With Tina — Estate Planning & the Business Value",body:"Tina needs to understand: (1) the approximate value of the Salvus equity ($8–12M in 2031), (2) the liquidity timeline and what it means for their life plan, (3) who her advocate would be if Bob died — specifically, who would represent her interests in any equity negotiation with O'Quinn and Pete, and (4) whether, given both of their health situations, 2031 is the right target or whether Bob should consider stepping back sooner. Tina's perspective on the timeline matters and may differ from Bob's."},
+        {tag:'CPA',tagColor:'#1aa8a8',title:"With WJM CPA — Transaction Structure & Income Planning",body:"Four items: (1) Installment sale election for Chuck's equity sales — optimal allocation of gain recognition across years. (2) Character of income on each transaction stream (K-1 ordinary vs. LTCG on equity sales vs. interest on notes). (3) Roth conversion opportunities during the 2026 window before income spikes further. (4) The non-qualified liquidity build strategy — optimal account types, contribution limits, and investment structure."},
+        {tag:'PETE',tagColor:'#1aa8a8',title:"With Pete Freidel — Performance Expectations (Without Promises)",body:"The 'don't tell Pete' approach protects Salvus legally but costs you optionality — Pete may leave for a firm with a visible equity path before you're ready to offer one. Middle path: set clear, specific performance expectations around revenue, relationship ownership, and business development — framed as 'what strong performance looks like here' rather than 'here's your equity path.' This gives Pete every signal to stay without creating a binding commitment."},
+        {tag:'INSURANCE',tagColor:'#1aa8a8',title:"With Insurance Specialist — Key Person & Buy-Sell",body:"Three products to price: (1) Key-person life insurance on Bob (Salvus as beneficiary) — fund the buy-sell if Bob dies. (2) Key-person life insurance on Chuck — fund remaining note if Chuck dies mid-buyout. (3) Disability income insurance on Bob — Bob's medical history will affect underwriting; price this now. Note: Tina's TP53 status and Bob's history make personal life insurance planning urgent and separate from the business coverage."},
+      ]
+    },
+    {
+      title:'Strengths to Protect',
+      color:'#27ae60', bg:'rgba(26,122,74,0.06)',
+      items:[
+        {tag:'STRENGTH',tagColor:'#27ae60',title:"Written, Multi-Party Succession Plan — Top 42% of RIAs",body:"Only 42% of RIAs have any written succession plan (CircleBlack 2026, lowest since 2019). You have a multi-party, milestone-based framework with defined valuation methodology, ROFR provisions, and governance architecture. This is rare and valuable — it makes the firm more attractive to buyers, retains talent, and protects clients. Protect it by completing the OA and keeping it current annually."},
+        {tag:'STRENGTH',tagColor:'#27ae60',title:"TPG Partnership — Liquidity Without Losing SL24 Control",body:"The TPG structure delivered $3.68M in immediate liquidity while keeping Bob and Chuck in full control of SL24. The permanent exclusion of TPG from SL24 is the right call. The 7% platform fee, while real, is buying compliance infrastructure, technology, and a $3.68M deal that 42% of your peers haven't executed. The architecture is sound."},
+        {tag:'STRENGTH',tagColor:'#27ae60',title:"Two G2 Partners — Reducing Key-Person Risk",body:"O'Quinn ($330M+ AUM book) and Freidel (growing book) represent genuine next-generation bench strength. Most $330M RIAs have one. Having two with defined paths creates real firm value above and beyond the founders' books alone. Protect these relationships with clarity, compensation fairness, and defined paths."},
+        {tag:'STRENGTH',tagColor:'#27ae60',title:"Florida Tax Advantage",body:"No state income tax on K-1 distributions, capital gains, or note income. On a $4M+ equity exit, Florida saves Bob approximately $200–400K vs. high-tax states. This is a real, permanent advantage in the retirement calculus."},
+      ]
+    },
+  ];
+
+  document.getElementById('risk-body').innerHTML = sections.map(s=>`
+    <div style="margin-bottom:20px">
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:${s.color};margin-bottom:10px;padding:8px 14px;background:${s.bg};border-radius:6px;border-left:3px solid ${s.color}">${s.title}</div>
+      ${s.items.map(item=>`
+        <div style="background:var(--ink2);border:1px solid rgba(255,255,255,0.07);border-left:3px solid ${item.tagColor};border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            <span style="background:${item.tagColor}22;border:1px solid ${item.tagColor}44;color:${item.tagColor};font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:2px;font-family:'DM Mono',monospace">${item.tag}</span>
+            <span style="font-family:'Syne',sans-serif;font-weight:600;font-size:12px">${item.title}</span>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7">${item.body}</div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+
+
+// ─────────────────────────────────────────────
+// ⑪ BANK FINANCING
+// ─────────────────────────────────────────────
+function renderBankFin(rows, M) {
+  const a = A();
+  const bankRate = parseFloat(document.getElementById('sl-bankrate').value) / 100;
+  const bankPct  = parseFloat(document.getElementById('sl-bankpct').value) / 100;
+  const notePct  = 1 - bankPct;
+  const taxRate  = a.taxRate;
+
+  const buyout = M.chuckBuyout;
+  const bankAmt = buyout * bankPct;
+  const noteAmt = buyout * notePct;
+
+  const pmt = (r, n, p) => p > 0 ? p * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1) : 0;
+  const bankPmt  = pmt(bankRate, 10, bankAmt);   // bank: 10yr
+  const notePmt  = pmt(a.noteRate, 6, noteAmt);  // note: 6yr (our model)
+  const totalPmt = bankPmt + notePmt;
+
+  const sellerPmtOnly = M.notePayment; // pure seller note payment
+  const savings = sellerPmtOnly - totalPmt; // negative = bank costs more
+
+  // Chuck proceeds comparison
+  const chuckDown = 2080000;
+  const bankCashAtClose = bankAmt + chuckDown; // down payment + bank
+  const noteCashAtClose = chuckDown;
+
+  // Pete scenario
+  const petePct = 0.095;
+  const sl24Val2028 = rows[2028].noi * (a.intMult + 3) * 0.80;
+  const peteStake = sl24Val2028 * petePct * 0.80;
+  const peteLoan  = pmt(bankRate, 10, peteStake);
+  const peteK1    = rows[2028].k1.P;
+  const peteNet   = peteK1 - peteLoan;
+
+  // Stats
+  document.getElementById('bankfin-stats').innerHTML = `
+    <div class="stat g"><div class="stat-lbl">Chuck Cash at Close (hybrid)</div><div class="stat-val">${fM(bankCashAtClose)}</div><div class="stat-sub">${(bankPct*100).toFixed(0)}% bank + down payment · vs. ${fM(chuckDown)} pure note</div></div>
+    <div class="stat r"><div class="stat-lbl">Extra Annual Cost to Buyer</div><div class="stat-val">${fM(Math.abs(totalPmt - sellerPmtOnly))}</div><div class="stat-sub">Bank + note vs. pure seller note · buyer pays ~${(bankRate*100).toFixed(1)}% vs. ${(a.noteRate*100).toFixed(2)}%</div></div>
+    <div class="stat t"><div class="stat-lbl">Pete Day-1 Net (bank financed)</div><div class="stat-val" style="color:${peteNet>0?'#27ae60':'#e74c3c'}">${f$(peteNet)}</div><div class="stat-sub">Pete K-1 ${f$(peteK1)} − loan pmt ${f$(peteLoan)} = net</div></div>
+    <div class="stat b"><div class="stat-lbl">SBA Compatible?</div><div class="stat-val" style="color:#e74c3c;font-size:14px">NOT for tranches</div><div class="stat-sub">SBA 7(a) prohibits partial/tranched equity purchases. Use conventional (Oak Street, PPC, SkyView).</div></div>`;
+
+  // Payment chart
+  mkChart('ch-bank-pmt',{type:'bar',data:{
+    labels:['Seller Note (5.5%)', 'Bank Loan ('+(bankRate*100).toFixed(1)+'%)', 'Hybrid ('+Math.round(bankPct*100)+'%/'+Math.round(notePct*100)+'%)'],
+    datasets:[
+      {label:'Annual payment',data:[Math.round(sellerPmtOnly), Math.round(pmt(bankRate,10,buyout)), Math.round(totalPmt)],backgroundColor:['rgba(201,148,58,0.6)','rgba(26,58,122,0.6)','rgba(26,122,74,0.7)'],borderColor:['#c9943a','#1a3a7a','#1a7a4a'],borderWidth:1.5,borderRadius:4}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+Math.round(c.raw).toLocaleString()+'/yr'}}},scales:{y:{ticks:{callback:v=>'$'+Math.round(v/1000)+'K'}}}}});
+
+  // Cumulative proceeds chart
+  const yLabels=['At close','Yr 1','Yr 2','Yr 3','Yr 4','Yr 5','Yr 6'];
+  const bankCum=[bankCashAtClose,...yLabels.slice(1).map(()=>bankCashAtClose)]; // already received all
+  const noteCum=[chuckDown];
+  for(let i=1;i<=6;i++) noteCum.push(chuckDown + sellerPmtOnly*i);
+  const hybridCum=[bankCashAtClose];
+  for(let i=1;i<=6;i++) hybridCum.push(bankCashAtClose + notePmt*Math.min(i,6));
+
+  mkChart('ch-bank-cum',{type:'line',data:{labels:yLabels,datasets:[
+    {label:'Bank financing ('+Math.round(bankPct*100)+'% bank)',data:bankCum,borderColor:'#1a7a4a',backgroundColor:'rgba(26,122,74,0.1)',fill:true,tension:0.2,pointRadius:4,pointBackgroundColor:'#1a7a4a'},
+    {label:'Hybrid ('+Math.round(bankPct*100)+'% bank +'+Math.round(notePct*100)+'% note)',data:hybridCum,borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.1)',fill:false,tension:0.2,pointRadius:4,pointBackgroundColor:'#c9943a',borderDash:[4,3]},
+    {label:'Pure seller note',data:noteCum,borderColor:'rgba(255,255,255,0.3)',backgroundColor:'transparent',tension:0.2,pointRadius:3,borderDash:[2,2]},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:scaleTick_$M}}}}});
+
+  // Lender comparison table
+  document.getElementById('bankfin-tbl').innerHTML = `<thead><tr>
+    <th>Lender</th><th>Type</th><th>Max Loan</th><th>Rate (2025)</th><th>Tranched OK?</th><th>100% Financing?</th><th>Term</th><th>Best For Salvus</th>
+  </tr></thead><tbody>
+    <tr><td style="color:#1aa8a8;font-weight:700">Live Oak Bank</td><td>SBA 7(a) + Conventional</td><td>$5M SBA / Larger conventional</td><td style="color:#e74c3c">~9.20% variable (SBA)</td><td style="color:#e74c3c">❌ SBA prohibits</td><td>Partial only</td><td>10 years</td><td>One-time full acquisitions or combination with conventional for Bob's exit</td></tr>
+    <tr class="ev"><td style="color:#27ae60;font-weight:700">Oak Street Funding</td><td>Conventional only</td><td>Flexible</td><td>Market rate · fixed available</td><td style="color:#27ae60">✓ Conventional allows</td><td style="color:#27ae60">✓ Up to 100%</td><td>Up to 10 years</td><td><strong>Best for Chuck's tranched buyout and Pete's admission</strong></td></tr>
+    <tr><td style="color:#e8b55a;font-weight:700">SkyView Partners</td><td>Conventional (marketplace)</td><td>Varies by bank</td><td>Competitive, fixed options</td><td style="color:#27ae60">✓ Conventional</td><td>Possible</td><td>5–10 years</td><td>Good for shopping best terms across 25+ banks</td></tr>
+    <tr><td style="color:#8e44ad;font-weight:700">PPC Loan</td><td>Conventional</td><td>Flexible</td><td>Market rate</td><td style="color:#27ae60">✓ Core product</td><td>Possible</td><td>Flexible</td><td><strong>Best for internal equity transitions — explicitly designed for Salvus's situation</strong></td></tr>
+  </tbody>`;
+
+  // Transaction plan
+  const txns = [
+    {yr:'Q2 2027',event:"O'Quinn Equity Admission",structure:'Conventional — Oak Street or PPC',amount:f$(rows[2027].noi * 0.292 / 1.1 * 0.80),note:"O'Quinn buys 29.2% of SL24. Conventional loan — tranching makes SBA ineligible. Down payment: 0–20%.",color:'#1aa8a8'},
+    {yr:'Late 2027',event:"Chuck 1st Tranche (~15%)",structure:'Hybrid: '+Math.round(bankPct*100)+'% Oak Street + '+Math.round(notePct*100)+'% seller note',amount:f$(buyout*0.47),note:"Chuck receives "+fM(buyout*0.47*bankPct)+" cash from bank + small seller note. Buyer: O'Quinn + Bob proportionally.",color:'#c9943a'},
+    {yr:'2028',event:"Chuck 2nd Tranche (~17%)",structure:'Conventional — Oak Street or PPC',amount:f$(buyout*0.53),note:"Chuck receives cash. Seller note shrinks or eliminated. O'Quinn and Pete (if admitted) as buyers.",color:'#c9943a'},
+    {yr:'2028–29',event:"Pete Freidel Admission (~9.5%)",structure:'100% Oak Street Financing',amount:f$(peteStake),note:"Pete borrows full amount — no down payment required. K-1 income ~"+f$(peteK1)+" covers loan payment ~"+f$(peteLoan)+" with "+f$(peteNet)+" net yr 1.",color:'#8e44ad'},
+    {yr:'2029',event:"Chuck Full Exit (final tranche)",structure:'Conventional — remaining balance',amount:'Balance',note:"Chuck fully exits. Any remaining seller note paid off or refinanced. Chuck has received mostly cash throughout.",color:'#1aa8a8'},
+    {yr:'2031',event:"Bob's Exit (~44% of SL24)",structure:'SBA $5M + Conventional combination (Live Oak)',amount:fM(rows[2031]?rows[2031].noi*(a.intMult+3)*0.80*0.44*0.80:8000000),note:"Live Oak combination program: $5M SBA + conventional balance. Bob receives cash. O'Quinn and Pete as buyers. Pre-negotiate with Live Oak in 2026.",color:'#e8b55a'},
+  ];
+
+  document.getElementById('bankfin-txns').innerHTML = txns.map(t=>`
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.07);display:grid;grid-template-columns:80px 200px 1fr 120px;gap:14px;align-items:center">
+      <div style="font-family:'Syne',sans-serif;font-weight:700;color:${t.color};font-size:11px">${t.yr}</div>
+      <div style="font-weight:600;font-size:12px">${t.event}</div>
+      <div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:3px">${t.structure}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);line-height:1.5">${t.note}</div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:${t.color};text-align:right">${t.amount}</div>
+    </div>`).join('');
+}
+
+
+// ─────────────────────────────────────────────
+// ⑫ FIRM WATERFALL & SURVIVABILITY
+// ─────────────────────────────────────────────
+function renderCashCmp(rows, M) {
+  const a        = A();
+  const bankRate = parseFloat(document.getElementById('sl-bankrate').value) / 100;
+  const bankPct  = parseFloat(document.getElementById('sl-bankpct').value) / 100;
+  const notePct  = 1 - bankPct;
+  const pmt = (r, n, p) => p > 0 ? p*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1) : 0;
+
+  // ── REVENUE SOLD TO TPG (equity deal — separate from 7% fee) ──────────────
+  // 20% of SWM sold at close (2026) — ongoing 20% of SWM flows to Purple Marlin
+  // Additional 10% of SWM sold in 2027 — total 30% of SWM from 2027+
+  // ROQ 20% sold to TPG from 2027 as part of his admission
+  // These are EQUITY revenue sale flows — shown separately from the 7% platform fee
+  function tpgRevSaleByYr(yr, swmRev, roqRev) {
+    const swmSold = yr >= 2026 ? swmRev * 0.20 : 0;      // 20% SWM → Purple Marlin
+    const swmAdd  = yr >= 2027 ? swmRev * 0.10 : 0;      // additional 10% from 2027
+    const roqSold = yr >= 2027 ? roqRev * 0.20 : 0;      // ROQ 20% → Purple Marlin
+    return { swmSold, swmAdd, roqSold, total: swmSold + swmAdd + roqSold };
+  }
+
+  // ── CHUCK BUYOUT ──────────────────────────────────────────────────────────
+  const chuckBuyout   = M.chuckBuyout;
+  const chuckDown     = CHUCK_DOWN;
+  const chuckBal      = chuckBuyout - chuckDown;
+
+  const chuckNoteA    = pmt(a.noteRate, 6, chuckBal);           // Scenario A: full note
+  const chuckBankPmtB = pmt(bankRate,  10, chuckBal * bankPct); // Scenario B: bank portion
+  const chuckNotePmtB = pmt(a.noteRate, 6, chuckBal * notePct); // Scenario B: small note
+  const chuckTotalB   = chuckBankPmtB + chuckNotePmtB;
+
+  const chuckCloseA   = chuckDown;                        // cash Chuck gets at 2027 close — A
+  const chuckCloseB   = chuckDown + chuckBal * bankPct;   // cash Chuck gets at 2027 close — B
+
+  // ── BOB BUYOUT ────────────────────────────────────────────────────────────
+  const r31      = rows[2031] || rows[2032];
+  const bobPct31 = (SL24[2031] || SL24[2032]).B / 100;
+  const bobFirm  = ((r31.combinedRev*(1-a.tpgFee)*a.intMult) + (r31.noi*(a.intMult+3))) / 2 * 0.80;
+  const bobBuyout = bobFirm * bobPct31 * 0.80;
+  const bobDown   = bobBuyout * 0.20;
+  const bobBal    = bobBuyout - bobDown;
+
+  const bobNoteA    = pmt(a.noteRate, 7, bobBal);
+  const bobBankPmtB = pmt(bankRate,  10, bobBal * bankPct);
+  const bobNotePmtB = pmt(a.noteRate, 7, bobBal * notePct);
+  const bobTotalB   = bobBankPmtB + bobNotePmtB;
+
+  const bobCloseA   = bobDown;
+  const bobCloseB   = bobDown + bobBal * bankPct;
+
+  // ── EXTENDED MODEL 2026–2038 ──────────────────────────────────────────────
+  const ALL_YEARS = [2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038];
+
+  function getOwn(yr) {
+    if (SL24[yr]) return SL24[yr];
+    return {B:0, C:0, R:35, P:15};
+  }
+
+  function buildRow(yr) {
+    const i       = yr - 2026;
+    const swmRev  = SWM_BASE  * Math.pow(1+a.revGrowth, i);
+    const roqRev  = yr < 2027 ? 0 : ROQ_BASE * Math.pow(1+a.roqGrowth, Math.max(0,i-1));
+    const combGross = swmRev + roqRev;
+
+    // Revenue sold to TPG (equity revenue sale — not 7% fee)
+    const tvs     = tpgRevSaleByYr(yr, swmRev, roqRev);
+    // Salvus-owned revenue (after equity sale)
+    const swmOwned = swmRev  - tvs.swmSold - tvs.swmAdd;
+    const roqOwned = roqRev  - tvs.roqSold;
+    const salvsRev = swmOwned + roqOwned; // Salvus-retained gross revenue
+
+    // 7% platform fee on FULL combined gross (TPG charges on gross before their revenue share)
+    const tpgFeeAmt = combGross * a.tpgFee;
+    const combNet   = combGross - tpgFeeAmt;
+
+    // Operating expenses
+    const baseExp   = EXP_BASE * Math.pow(1+a.expGrowth, i);
+    const roqBens   = yr >= 2027 ? ROQ_BENS : 0;
+    const schwab    = yr >= 2027 ? ROQ_AUM_2027 * Math.pow(1+a.roqGrowth, Math.max(0,i-1)) * SCHWAB_BPS : 0;
+    const totalExp  = baseExp + roqBens + schwab;
+
+    // Net Ordinary Income
+    const noi = Math.max(0, combNet - totalExp);
+
+    // SL24 K-1 split
+    const own = getOwn(yr);
+    const tot = own.B + own.C + own.R + own.P || 1;
+    const k1B = noi * own.B / tot;
+    const k1C = noi * own.C / tot;
+    const k1R = noi * own.R / tot;
+    const k1P = noi * own.P / tot;
+
+    // Annual buyout obligations — what buyers pay each year
+    const chuckA = (yr >= 2028 && yr <= 2033) ? chuckNoteA  : 0; // note pmts 2028-2033 (6yr, after 2027 close)
+    const chuckB = (yr >= 2028 && yr <= 2033) ? chuckTotalB : 0;
+    const bobA   = (yr >= 2032 && yr <= 2038) ? bobNoteA    : 0;
+    const bobB   = (yr >= 2032 && yr <= 2038) ? bobTotalB   : 0;
+    const totalA = chuckA + bobA;
+    const totalB = chuckB + bobB;
+
+    // True distributable income = NOI minus all obligations
+    const distribA = noi - totalA;
+    const distribB = noi - totalB;
+
+    // Per-partner net (their K-1 minus their proportional share of obligation)
+    const bobOblA  = totalA * (own.B / tot);
+    const bobOblB  = totalB * (own.B / tot);
+    const roqOblA  = totalA * (own.R / tot);
+    const roqOblB  = totalB * (own.R / tot);
+    const chkOblA  = totalA * (own.C / tot);
+
+    return {
+      yr, swmRev, roqRev, combGross,
+      tvs,                     // TPG revenue sale detail
+      tpgFeeAmt, combNet,
+      totalExp, baseExp, roqBens, schwab,
+      noi, own, tot,
+      k1B, k1C, k1R, k1P,
+      chuckA, chuckB, bobA, bobB,
+      totalA, totalB,
+      distribA, distribB,
+      bobNetA: k1B - bobOblA,
+      bobNetB: k1B - bobOblB,
+      roqNetA: k1R - roqOblA,
+      roqNetB: k1R - roqOblB,
+      covA: totalA > 0 ? noi / totalA : null,
+      covB: totalB > 0 ? noi / totalB : null,
+    };
+  }
+
+  const data = ALL_YEARS.map(buildRow);
+
+  // ── SURVIVABILITY STATS ───────────────────────────────────────────────────
+  const minDA   = Math.min(...data.map(d=>d.distribA));
+  const minDB   = Math.min(...data.map(d=>d.distribB));
+  const worstCA = Math.min(...data.filter(d=>d.covA!==null).map(d=>d.covA));
+  const worstCB = Math.min(...data.filter(d=>d.covB!==null).map(d=>d.covB));
+  const col = v => v < 0 ? '#e74c3c' : v < 300000 ? '#e8b55a' : '#27ae60';
+
+  document.getElementById('cashcmp-top-stats').innerHTML = `
+    <div class="stat ${minDA<0?'r':'g'}">
+      <div class="stat-lbl">Min Distributable — Pure Note (A)</div>
+      <div class="stat-val" style="color:${col(minDA)};font-size:18px">${f$(minDA)}</div>
+      <div class="stat-sub">${minDA<0?'⚠ Obligations exceed NOI — firm cannot survive':'✓ Firm survives both buyouts under Scenario A'}</div>
+    </div>
+    <div class="stat ${minDB<0?'r':'g'}">
+      <div class="stat-lbl">Min Distributable — Hybrid Bank (B)</div>
+      <div class="stat-val" style="color:${col(minDB)};font-size:18px">${f$(minDB)}</div>
+      <div class="stat-sub">${minDB<0?'⚠ Obligations exceed NOI — firm cannot survive':'✓ Firm survives both buyouts under Scenario B'}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Worst NOI Coverage — Pure Note (A)</div>
+      <div class="stat-val" style="color:${worstCA<1.5?'#e74c3c':worstCA<2?'#e8b55a':'#27ae60'}">${worstCA.toFixed(2)}x</div>
+      <div class="stat-sub">Lowest year: NOI ÷ total annual obligations · below 1.0x = insolvent</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Worst NOI Coverage — Hybrid Bank (B)</div>
+      <div class="stat-val" style="color:${worstCB<1.5?'#e74c3c':worstCB<2?'#e8b55a':'#27ae60'}">${worstCB.toFixed(2)}x</div>
+      <div class="stat-sub">Higher annual cost · lower coverage · is it still manageable?</div>
+    </div>`;
+
+  // ── CHART 1: Distributable income ────────────────────────────────────────
+  mkChart('ch-cmp-obligation',{type:'bar',data:{
+    labels: ALL_YEARS,
+    datasets:[
+      {label:'Combined NOI',
+       data:data.map(d=>d.noi),
+       backgroundColor:'rgba(255,255,255,0.07)',borderColor:'rgba(255,255,255,0.18)',
+       borderWidth:1,borderRadius:2},
+      {label:'Distributable — Pure Note (A)',
+       data:data.map(d=>d.distribA),
+       backgroundColor:data.map(d=>d.distribA>=0?'rgba(201,148,58,0.6)':'rgba(192,57,43,0.7)'),
+       borderColor:data.map(d=>d.distribA>=0?'#c9943a':'#c0392b'),
+       borderWidth:1.5,borderRadius:3},
+      {label:'Distributable — Hybrid Bank (B)',
+       data:data.map(d=>d.distribB),
+       backgroundColor:data.map(d=>d.distribB>=0?'rgba(26,122,74,0.6)':'rgba(192,57,43,0.7)'),
+       borderColor:data.map(d=>d.distribB>=0?'#1a7a4a':'#c0392b'),
+       borderWidth:1.5,borderRadius:3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'}},
+      scales:{y:{ticks:{callback:scaleTick_$M}}}}
+  });
+
+  // ── CHART 2: Chuck cumulative proceeds ────────────────────────────────────
+  let cumA=0, cumB=0;
+  const chuckCumA=[], chuckCumB=[];
+  data.forEach(d=>{
+    if(d.yr===2027){ cumA+=chuckCloseA; cumB+=chuckCloseB; }
+    else if(d.yr>2027 && d.yr<=2032){
+      cumA += chuckNoteA;          // note portion goes to Chuck — A
+      cumB += chuckNotePmtB;       // only the seller note piece goes to Chuck — B (bank went to Chuck at close)
+    }
+    chuckCumA.push(cumA);
+    chuckCumB.push(cumB);
+  });
+  mkChart('ch-cmp-chuck',{type:'line',data:{
+    labels:ALL_YEARS,
+    datasets:[
+      {label:'Chuck receives — Pure Note (A)',
+       data:chuckCumA,borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.08)',
+       fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#c9943a',borderDash:[5,3]},
+      {label:'Chuck receives — Hybrid Bank (B, Recommended)',
+       data:chuckCumB,borderColor:'#1a7a4a',backgroundColor:'rgba(26,122,74,0.12)',
+       fill:true,tension:0.3,pointRadius:4,pointBackgroundColor:'#1a7a4a'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'}},
+      scales:{y:{ticks:{callback:scaleTick_$M}}}}
+  });
+
+  // ── CHART 3: Partner net distributable ────────────────────────────────────
+  mkChart('ch-cmp-bob',{type:'line',data:{
+    labels:ALL_YEARS,
+    datasets:[
+      {label:"Bob Net — Pure Note (A)",
+       data:data.map(d=>d.bobNetA),
+       borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.08)',
+       fill:false,tension:0.3,pointRadius:4,borderDash:[4,3]},
+      {label:"Bob Net — Hybrid Bank (B)",
+       data:data.map(d=>d.bobNetB),
+       borderColor:'#c9943a',backgroundColor:'rgba(201,148,58,0.1)',
+       fill:true,tension:0.3,pointRadius:4},
+      {label:"O'Quinn Net — Pure Note (A)",
+       data:data.map(d=>d.roqNetA),
+       borderColor:'#27ae60',backgroundColor:'transparent',
+       fill:false,tension:0.3,pointRadius:3,borderDash:[4,3]},
+      {label:"O'Quinn Net — Hybrid Bank (B)",
+       data:data.map(d=>d.roqNetB),
+       borderColor:'#27ae60',backgroundColor:'rgba(26,122,74,0.08)',
+       fill:true,tension:0.3,pointRadius:3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'}},
+      scales:{y:{ticks:{callback:scaleTick_$M}}}}
+  });
+
+  // ── MAIN TABLE ────────────────────────────────────────────────────────────
+  const CA='color:#c9943a', CB='color:#27ae60', CR='color:#e74c3c';
+  const hdr=`<thead>
+    <tr style="background:rgba(13,31,50,0.98)">
+      <th rowspan="3">Year</th>
+      <th rowspan="3" style="min-width:90px">SWM Gross Rev</th>
+      <th rowspan="3" style="min-width:90px">ROQ Gross Rev</th>
+      <th colspan="3" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e74c3c">Revenue Sold to TPG (Equity Deal)</th>
+      <th rowspan="3" style="min-width:90px">= Salvus-Retained Rev</th>
+      <th rowspan="3" style="min-width:90px">Less: 7% TPG Platform Fee</th>
+      <th rowspan="3" style="min-width:90px">Less: Operating Exp</th>
+      <th rowspan="3" style="min-width:80px;color:#27ae60">= Combined NOI</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#c9943a">Chuck Buyout Obligation</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#1a7a4a">Bob Buyout Obligation</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#27ae60">TRUE DISTRIBUTABLE INCOME</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e8b55a">Bob Net / yr</th>
+    </tr>
+    <tr style="background:rgba(13,31,50,0.95)">
+      <th style="${CR}">SWM 20% Sold</th>
+      <th style="${CR}">SWM Add'l 10%</th>
+      <th style="${CR}">ROQ 20% Sold</th>
+      <th style="${CA}">A: Pure Note</th>
+      <th style="${CB}">B: Hybrid Bank</th>
+      <th style="${CA}">A: Pure Note</th>
+      <th style="${CB}">B: Hybrid Bank</th>
+      <th style="${CA}">A: Pure Note</th>
+      <th style="${CB}">B: Hybrid Bank</th>
+      <th style="${CA}">A: Pure Note</th>
+      <th style="${CB}">B: Hybrid Bank</th>
+    </tr>
+  </thead>`;
+
+  const evtLbl = yr =>
+    yr===2026?'TPG 20% close':yr===2027?'ROQ joins + Add\'l 10% + Chuck 1st tranche':
+    yr===2028?'Chuck 2nd tranche':yr===2029?'Chuck full exit':
+    yr===2030?'Growth year':yr===2031?'Bob exits + down pmt to Bob':
+    yr===2032?'⚠ BOTH obligations overlap':yr<=2037?'Bob note yr '+(yr-2031):'Bob note yr 7 (final)';
+
+  const hiColor = d =>
+    (d.distribA<0||d.distribB<0)?'background:rgba(192,57,43,0.1)':
+    d.yr===2032?'background:rgba(201,148,58,0.07)':'';
+
+  const body = data.map(d=>{
+    const tvs = d.tvs;
+    const cov = d.covB!==null ? d.covB.toFixed(2)+'x' : '—';
+    const covColor = d.covB===null?'rgba(255,255,255,0.3)':d.covB<1.2?'#e74c3c':d.covB<1.8?'#e8b55a':'#27ae60';
+    const dA = d.distribA, dB = d.distribB;
+    return `<tr style="${hiColor(d)}">
+      <td style="font-weight:700;color:#e8b55a;font-size:11px;white-space:nowrap">${d.yr}<br><span style="font-size:9px;color:rgba(255,255,255,0.3);font-weight:400">${evtLbl(d.yr)}</span></td>
+      <td>${f$(d.swmRev)}</td>
+      <td>${d.roqRev>0?f$(d.roqRev):'—'}</td>
+      <td style="${CR};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${tvs.swmSold>0?'('+f$(tvs.swmSold)+')':'—'}</td>
+      <td style="${CR};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${tvs.swmAdd>0?'('+f$(tvs.swmAdd)+')':'—'}</td>
+      <td style="${CR};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${tvs.roqSold>0?'('+f$(tvs.roqSold)+')':'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px">${f$(d.combGross-tvs.total)}</td>
+      <td style="${CR};text-align:right;font-family:'DM Mono',monospace;font-size:11px">(${f$(d.tpgFeeAmt)})</td>
+      <td style="${CR};text-align:right;font-family:'DM Mono',monospace;font-size:11px">(${f$(d.totalExp)})</td>
+      <td style="${CB};font-weight:700;text-align:right;font-family:'DM Mono',monospace;font-size:12px">${f$(d.noi)}</td>
+      <td style="${CA};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${d.chuckA>0?'('+f$(d.chuckA)+')':'—'}</td>
+      <td style="${CB};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${d.chuckB>0?'('+f$(d.chuckB)+')':'—'}</td>
+      <td style="${CA};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${d.bobA>0?'('+f$(d.bobA)+')':'—'}</td>
+      <td style="${CB};text-align:right;font-family:'DM Mono',monospace;font-size:11px">${d.bobB>0?'('+f$(d.bobB)+')':'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:${dA<0?'#e74c3c':'#c9943a'}">${f$(dA)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:${dB<0?'#e74c3c':'#27ae60'}">${f$(dB)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:${d.bobNetA<0?'#e74c3c':'#c9943a'}">${f$(d.bobNetA)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:${d.bobNetB<0?'#e74c3c':'#27ae60'}">${f$(d.bobNetB)}</td>
+    </tr>`;
+  }).join('');
+
+  const sum = key => data.reduce((s,d)=>s+(d[key]||0),0);
+  const sumTvs = key => data.reduce((s,d)=>s+d.tvs[key],0);
+  const foot=`<tfoot><tr>
+    <td>13-Yr Total</td>
+    <td>${f$(sum('swmRev'))}</td>
+    <td>${f$(sum('roqRev'))}</td>
+    <td style="${CR}">(${f$(sumTvs('swmSold'))})</td>
+    <td style="${CR}">(${f$(sumTvs('swmAdd'))})</td>
+    <td style="${CR}">(${f$(sumTvs('roqSold'))})</td>
+    <td>${f$(data.reduce((s,d)=>s+d.combGross-d.tvs.total,0))}</td>
+    <td style="${CR}">(${f$(sum('tpgFeeAmt'))})</td>
+    <td style="${CR}">(${f$(sum('totalExp'))})</td>
+    <td style="${CB};font-weight:700">${f$(sum('noi'))}</td>
+    <td style="${CA}">(${f$(sum('chuckA'))})</td>
+    <td style="${CB}">(${f$(sum('chuckB'))})</td>
+    <td style="${CA}">(${f$(sum('bobA'))})</td>
+    <td style="${CB}">(${f$(sum('bobB'))})</td>
+    <td style="font-weight:700;color:${sum('distribA')<0?'#e74c3c':'#c9943a'}">${f$(sum('distribA'))}</td>
+    <td style="font-weight:700;color:${sum('distribB')<0?'#e74c3c':'#27ae60'}">${f$(sum('distribB'))}</td>
+    <td style="color:#c9943a">${f$(sum('bobNetA'))}</td>
+    <td style="font-weight:700;color:#27ae60">${f$(sum('bobNetB'))}</td>
+  </tr></tfoot>`;
+
+  document.getElementById('cashcmp-tbl').innerHTML = hdr+'<tbody>'+body+'</tbody>'+foot;
+
+  // ── PARTNER BREAKDOWN TABLE ─────────────────────────────────────────────
+  const partners = [
+    {key:'B', name:'Bob Joel',        color:'#e8b55a', exitYr:2031},
+    {key:'C', name:'Chuck Woolston',  color:'#1aa8a8', exitYr:2029},
+    {key:'R', name:"Robert O\u2019Quinn",  color:'#27ae60', exitYr:null},
+    {key:'P', name:'Pete Freidel',    color:'#8e44ad', exitYr:null},
+  ];
+
+  // ── PROCEEDS LOOKUP: returns {A, B, lbl} for each partner each year ─────
+  // A = pure seller note scenario  |  B = hybrid bank+note scenario
+  // Includes: equity sale lump sums, bank loan funds at close, annual note pmts
+  const roqTxnProc = (ROQ_BASE * 0.20 * a.intMult) * 0.60; // ROQ keeps 60% of his 20% sale
+  function getProceeds(yr, key) {
+    if (key === 'C') {
+      if (yr === 2026) return {A: TPG_20_PROCEEDS*0.50, B: TPG_20_PROCEEDS*0.50,
+        lbl:'TPG 20% deal close'};
+      if (yr === 2027) return {
+        // 2027: First equity tranche + TPG add'l 10% close
+        // Chuck receives down payment (TPG proceeds) + bank funds (Scenario B)
+        A: CHUCK_DOWN,
+        B: CHUCK_DOWN + chuckBal * bankPct,
+        lbl:'1st tranche close: down pmt + bank'};
+      if (yr >= 2028 && yr <= 2033) return {
+        // Note payments run 2028-2033 (6yr, starting year after 2027 first close)
+        A: chuckNoteA,
+        B: chuckNotePmtB,
+        lbl:'Annual note pmt'};
+      return {A:0, B:0, lbl:''};
+    }
+    if (key === 'B') {
+      if (yr === 2026) return {A: TPG_20_PROCEEDS*0.50, B: TPG_20_PROCEEDS*0.50,
+        lbl:'TPG 20% deal close'};
+      if (yr === 2027) return {A: TPG_ADD10_PROCEEDS*0.50, B: TPG_ADD10_PROCEEDS*0.50,
+        lbl:"Add'l 10% share"};
+      if (yr === 2031) return {
+        A: bobBuyout*0.20,                         // A: only 20% down pmt received
+        B: bobBuyout*0.20 + bobBal*bankPct,         // B: down pmt + bank funds Bob at close
+        lbl:'Exit: down pmt + bank close'};
+      if (yr >= 2032 && yr <= 2038) return {
+        A: bobNoteA,
+        B: bobNotePmtB,
+        lbl:'Buyout note pmt rec’d'};
+      return {A:0, B:0, lbl:''};
+    }
+    if (key === 'R') {
+      if (yr === 2027) return {A: roqTxnProc, B: roqTxnProc,
+        lbl:'20% rev sale proceeds'};
+      return {A:0, B:0, lbl:''};
+    }
+    return {A:0, B:0, lbl:''};
+  }
+
+  // ── TABLE HEADER ─────────────────────────────────────────────────────────
+  // Columns: Partner | Year | SL24% | K-1 | Proceeds A | Proceeds B | Total A | Total B | OblA | OblB | NetA | NetB | AfterTax K1(B) | AfterTax Proc(B) | CumulB | Notes
+  // = 16 columns (nameCell rowspans data rows only; subtotal has own col1)
+  const pHdr = `<thead>
+    <tr style="background:rgba(10,25,50,0.98)">
+      <th rowspan="2" style="min-width:100px">Partner</th>
+      <th rowspan="2" style="min-width:48px">Year</th>
+      <th rowspan="2" style="text-align:right">SL24%</th>
+      <th rowspan="2" style="text-align:right">K-1 Income</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#1aa8a8">Cash Received from Equity & Notes</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e8b55a">Total Cash (K-1 + Proceeds)</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e74c3c">Buyout Obligation</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#27ae60">Net Distributable</th>
+      <th colspan="2" style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);color:#e8b55a">After-Tax (Scenario B)</th>
+      <th rowspan="2" style="text-align:right">Cumul. All Cash (B)</th>
+      <th rowspan="2">Event / Note</th>
+    </tr>
+    <tr style="background:rgba(10,25,50,0.93)">
+      <th style="color:#1aa8a8;text-align:right">Scenario A<br><span style="font-size:9px;opacity:0.7">Pure Note</span></th>
+      <th style="color:#1aa8a8;text-align:right">Scenario B<br><span style="font-size:9px;opacity:0.7">Hybrid Bank</span></th>
+      <th style="color:#e8b55a;text-align:right">Scenario A</th>
+      <th style="color:#e8b55a;text-align:right">Scenario B</th>
+      <th style="color:#c9943a;text-align:right">Scenario A</th>
+      <th style="color:#27ae60;text-align:right">Scenario B</th>
+      <th style="color:#c9943a;text-align:right">Scenario A</th>
+      <th style="color:#27ae60;text-align:right">Scenario B</th>
+      <th style="color:#e8b55a;text-align:right">K-1 Net (ord. tax)</th>
+      <th style="color:#e8b55a;text-align:right">Proceeds (cap gains)</th>
+    </tr>
+  </thead>`;
+
+  let pBody = '';
+  partners.forEach(p => {
+    let cumK1=0, cumProcA=0, cumProcB=0, cumNetB=0;
+    let firstRow = true;
+
+    ALL_YEARS.forEach(yr => {
+      const d   = data.find(x => x.yr === yr);
+      if (!d) return;
+      const own = d.own;
+      const pct = (own[p.key] || 0);
+      const tot = d.tot || 1;
+
+      // K-1 and obligations
+      const k1   = d.noi * pct / tot;
+      const oblA = d.totalA * pct / tot;
+      const oblB = d.totalB * pct / tot;
+      const netA = k1 - oblA;
+      const netB = k1 - oblB;
+
+      // Proceeds this year (both scenarios)
+      const proc      = getProceeds(yr, p.key);
+      const procA     = proc.A;
+      const procB     = proc.B;
+      const procLbl   = proc.lbl;
+
+      // Totals
+      const totalCashA = k1 + procA;
+      const totalCashB = k1 + procB;
+
+      // After-tax (Scenario B)
+      const k1AfterTax   = netB * (1 - a.ordTax);
+      const procAfterTaxB = procB * (1 - a.taxRate);
+
+      // Running cumulative (Scenario B as primary)
+      cumK1   += k1;
+      cumProcB += procB;
+      cumNetB  += netB;
+
+      // Event notes
+      const evtNote = procLbl ||
+        (yr===2027 && p.key==='R' ? 'Admitted as equity partner' :
+         yr===2028 && p.key==='P' ? 'Admitted (accelerated path)' :
+         yr===2029 && p.key==='C' ? 'FULL EXIT' :
+         yr===2031 && p.key==='B' ? 'EXITS — down pmt below' :
+         yr===2032               ? '\u26a0 Both obligations overlap' : '');
+
+      // Row highlight
+      const rowBg =
+        (yr===2032)                        ? 'background:rgba(201,148,58,0.06)' :
+        (p.key==='C' && yr===2029)         ? 'background:rgba(26,168,168,0.06)' :
+        (p.key==='B' && yr===2031)         ? 'background:rgba(232,181,90,0.06)' :
+        (netB < 0)                         ? 'background:rgba(192,57,43,0.06)'  : '';
+
+      // Name cell — only first data row, spans ALL data rows (not subtotal)
+      const nameCell = firstRow
+        ? `<td rowspan="${ALL_YEARS.length}" style="font-weight:700;color:${p.color};vertical-align:top;padding-top:10px;font-size:12px;border-right:3px solid ${p.color}44;white-space:nowrap">${p.name}${p.exitYr ? '<br><span style="font-size:9px;color:rgba(255,255,255,0.3);font-weight:400">Exits '+p.exitYr+'</span>' : ''}</td>`
+        : '';
+      firstRow = false;
+
+      const fmtProc = (v, scen) => {
+        if (v <= 0) return '<span style="color:rgba(255,255,255,0.15)">—</span>';
+        const isNote = procLbl.includes('note');
+        const col = scen==='A' ? '#c9943a' : '#1aa8a8';
+        return `<span style="color:${col};font-weight:${isNote?500:700}">${f$(v)}</span>`;
+      };
+
+      pBody += `<tr style="${rowBg}">
+        ${nameCell}
+        <td style="font-weight:600;color:#e8b55a;font-size:11px">${yr}</td>
+        <td style="text-align:right;color:${p.color};font-size:11px">${pct>0 ? pct.toFixed(1)+'%' : '<span style="color:rgba(255,255,255,0.15)">—</span>'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:${p.color}">${k1>0 ? f$(k1) : '<span style="color:rgba(255,255,255,0.15)">—</span>'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px">${fmtProc(procA,'A')}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:12px">${fmtProc(procB,'B')}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:${totalCashA>k1?'#e8b55a':'rgba(255,255,255,0.4)'}">${totalCashA>0 ? f$(totalCashA) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-weight:${totalCashB>k1?700:400};color:#e8b55a">${totalCashB>0 ? f$(totalCashB) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:${oblA>0?'#c9943a':'rgba(255,255,255,0.15)'}">${oblA>0 ? '('+f$(oblA)+')' : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:${oblB>0?'#27ae60':'rgba(255,255,255,0.15)'}">${oblB>0 ? '('+f$(oblB)+')' : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;font-weight:${netA<0?700:400};color:${netA<0?'#e74c3c':netA>0?'#c9943a':'rgba(255,255,255,0.3)'}">${k1>0||oblA>0 ? f$(netA) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:${netB<0?'#e74c3c':netB>0?'#27ae60':'rgba(255,255,255,0.3)'}">${k1>0||oblB>0 ? f$(netB) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:#e8b55a">${netB!==0 ? f$(k1AfterTax) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:${procB>0?'#e8b55a':'rgba(255,255,255,0.15)'}">${procB>0 ? f$(procAfterTaxB) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,0.5)">${(cumK1+cumProcB)>0 ? f$(cumK1+cumProcB) : '—'}</td>
+        <td style="font-size:10px;color:rgba(255,255,255,0.35);font-style:italic;white-space:nowrap">${evtNote}</td>
+      </tr>`;
+    });
+
+    // ── PARTNER SUBTOTAL ────────────────────────────────────────────────
+    const totK1    = ALL_YEARS.reduce((s,yr) => { const d=data.find(x=>x.yr===yr); return s + (d ? d.noi*(d.own[p.key]||0)/d.tot : 0); }, 0);
+    const totOblA  = ALL_YEARS.reduce((s,yr) => { const d=data.find(x=>x.yr===yr); return s + (d ? d.totalA*(d.own[p.key]||0)/d.tot : 0); }, 0);
+    const totOblB  = ALL_YEARS.reduce((s,yr) => { const d=data.find(x=>x.yr===yr); return s + (d ? d.totalB*(d.own[p.key]||0)/d.tot : 0); }, 0);
+    const totNetA  = totK1 - totOblA;
+    const totNetB  = totK1 - totOblB;
+    const totProcA = ALL_YEARS.reduce((s,yr) => s + getProceeds(yr,p.key).A, 0);
+    const totProcB = ALL_YEARS.reduce((s,yr) => s + getProceeds(yr,p.key).B, 0);
+    const totATK1  = totNetB * (1 - a.ordTax);
+    const totATProc= totProcB * (1 - a.taxRate);
+    const totCumB  = totK1 + totProcB;
+
+    pBody += `<tr style="background:rgba(255,255,255,0.05);border-top:3px solid ${p.color};border-bottom:3px solid rgba(255,255,255,0.12)">
+      <td style="color:${p.color};font-weight:700;font-size:11px;letter-spacing:0.5px">13-YR TOTAL</td>
+      <td></td>
+      <td></td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:${p.color}">${f$(totK1)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:#c9943a">${totProcA>0?f$(totProcA):'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:#1aa8a8">${totProcB>0?f$(totProcB):'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:#e8b55a">${f$(totK1+totProcA)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:#e8b55a">${f$(totK1+totProcB)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:#c9943a">${totOblA>0?'('+f$(totOblA)+')':'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:#27ae60">${totOblB>0?'('+f$(totOblB)+')':'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:${totNetA<0?'#e74c3c':'#c9943a'}">${f$(totNetA)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:${totNetB<0?'#e74c3c':'#27ae60'}">${f$(totNetB)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:#e8b55a">${f$(totATK1)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:${totProcB>0?'#e8b55a':'rgba(255,255,255,0.2)'}">${totProcB>0?f$(totATProc):'—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;font-weight:700;color:#e8b55a">${f$(totCumB)}</td>
+      <td></td>
+    </tr>`;
+  });
+
+  document.getElementById('cashcmp-partner-tbl').innerHTML = pHdr + '<tbody>' + pBody + '</tbody>';
+
+
+    // ── WHAT'S MISSING / GAPS ───────────────────────────────────────────────
+  const gaps = [
+    {
+      color:'#e74c3c', tag:'NOT MODELED', title:"Bob's Exit Proceeds",
+      body:"This tab models Bob's BUYOUT OBLIGATION (what O'Quinn and Pete pay Bob) but does NOT model the one-time proceeds Bob receives at his 2031 exit — the down payment (~20% of his stake) and the bank loan cash-at-close (Scenario B). Bob's equity realization is shown on Tab ⑤ Bob's Economics and Tab ⑧ Bob's Exit. Those tabs should be read alongside this one for the full Bob picture."
+    },
+    {
+      color:'#e74c3c', tag:'NOT MODELED', title:'Bear Market / Revenue Down Year',
+      body:"All revenue is modeled at flat growth rates. A down market year (AUM -20%) would cut revenue and NOI while obligations remain fixed — the NOI coverage ratio could drop below 1.5x or even 1.0x in 2032 when both obligations overlap. Tab ⑨ Stress Test models this for the 2026–2032 window; the extended 2033–2038 period has no stress test yet."
+    },
+    {
+      color:'#e74c3c', tag:'NOT MODELED', title:'Pete Freidel Buyout (Post-2031)',
+      body:"Pete's equity was admitted ~2028–2029. At some point after Bob's exit, Pete may also sell equity or exit. This tab does not model a Pete exit. His buyout would layer on top of Bob's note payments (2032–2038) — a potential third obligation wave that needs to be planned for."
+    },
+    {
+      color:'#e8b55a', tag:'PARTIAL', title:'Interest Cost vs. Principal in Obligation Payments',
+      body:"The obligation figures shown are total annual payments (principal + interest combined). The table does not break out the interest component separately. Interest on the seller note is ordinary income to the recipient (Chuck, then Bob) and deductible to the payer — a meaningful tax difference from principal repayment. The CPA should quantify this at transaction time."
+    },
+    {
+      color:'#e8b55a', tag:'PARTIAL', title:"O'Quinn's Personal Loan Repayment Cash Flow",
+      body:"O'Quinn's buyout obligation share is shown as a deduction from his K-1. But his actual bank loan payments (Scenario B) go to the bank, not to Chuck — Chuck already received cash at close. This distinction matters for O'Quinn's personal cash flow planning and tax treatment (loan interest vs. equity purchase)."
+    },
+    {
+      color:'#e8b55a', tag:'PARTIAL', title:'Debt Service Reserve Fund',
+      body:"The model assumes 100% of obligations are met from current-year K-1 income. A 3–6 month debt service reserve fund (pre-funded from 2026 high-income year) would provide a buffer if a bad revenue year coincides with peak obligation years (2032). This should be a firm balance sheet item — not modeled here."
+    },
+    {
+      color:'#27ae60', tag:'CONSIDER ADDING', title:'AUM Growth vs. Revenue Growth Distinction',
+      body:"Revenue currently grows at a single slider rate. AUM could grow faster than fees if markets are strong, or fees could grow through new clients even in a flat market. Splitting into market return + organic growth + fee compression would give a more realistic revenue model. As a simplification, the current single-rate slider is reasonable for planning."
+    },
+    {
+      color:'#27ae60', tag:'CONSIDER ADDING', title:'Tax on K-1 Income (After-Tax Distributable)',
+      body:"All distributable income figures are pre-tax. At 37% marginal rate on K-1 ordinary income (FL, no state tax), Bob's actual after-tax take-home is roughly 63% of the figures shown. Adding an after-tax view using the Cap Gains Tax slider (and a separate ordinary income rate) would give the most accurate retirement income picture."
+    },
+    {
+      color:'#27ae60', tag:'CONSIDER ADDING', title:"Sonja's Compensation as a Growing Expense Line",
+      body:"As the firm grows and Sonja's responsibilities increase (especially during the complex transition period), her compensation may need to step up materially — both to retain her and to reflect her value. This is not broken out separately in expenses; it's buried in the flat 5% expense growth assumption. Consider modeling a Sonja compensation scenario separately."
+    },
+  ];
+
+  document.getElementById('cashcmp-gaps').innerHTML = gaps.map(g=>`
+    <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="flex-shrink:0;padding-top:2px">
+        <span style="background:${g.color}22;border:1px solid ${g.color}55;color:${g.color};font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:2px;font-family:'DM Mono',monospace;white-space:nowrap">${g.tag}</span>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:600;font-size:12px;color:${g.color};margin-bottom:3px">${g.title}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.65">${g.body}</div>
+      </div>
+    </div>`).join('');
+}
+
+
+
+// ─────────────────────────────────────────────
+// MAIN UPDATE + TAB SWITCHING
+// ─────────────────────────────────────────────
+let activeTab = 'timeline';
+
+function update() {
+  updateLabels();
+  const a = A();
+  const {rows, chuckBuyout, noteBalance, notePayment} = buildModel(a);
+  const M = {chuckBuyout, noteBalance, notePayment};
+
+  // Always re-render active tab
+  renderActive(activeTab, rows, M);
+}
+
+function renderActive(tab, rows, M) {
+  if (tab==='timeline') renderTimeline(rows, M);
+  if (tab==='revenue')  renderRevenue(rows);
+  if (tab==='ownership') renderOwnership(rows);
+  if (tab==='comp')     renderComp(rows, M);
+  if (tab==='bob')      renderBob(rows, M);
+  if (tab==='chuck')    renderChuck(rows, M);
+  if (tab==='tpg')      renderTPG(rows);
+  if (tab==='bobexit')  renderBobExit(rows, M);
+  if (tab==='stress')   renderStress(rows, M);
+  if (tab==='risks')    renderRisks(rows, M);
+  if (tab==='bankfin')  renderBankFin(rows, M);
+  if (tab==='cashcmp')  renderCashCmp(rows, M);
+}
+
+function showTab(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  el.classList.add('on');
+  activeTab = id;
+  // Double RAF ensures canvas is sized before Chart.js renders
+  requestAnimationFrame(()=>requestAnimationFrame(()=>update()));
+}
+
+// INIT
+chartDefs();
+update();
+</script>
+</body>
+</html>

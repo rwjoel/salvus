@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Salvus Wealth Partners — Firm Succession & Partnership Plan 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+/* ─── TOKENS ─────────────────────────────── */
+:root {
+  --navy:   #0b1929;
+  --navy2:  #122035;
+  --navy3:  #1a2f4a;
+  --gold:   #b8892a;
+  --gold2:  #d4a843;
+  --gold3:  #f0cc7a;
+  --cream:  #f7f3ec;
+  --cream2: #ede8df;
+  --rule:   #d9cfc0;
+  --text:   #2a3d52;
+  --text2:  #4a6070;
+  --text3:  #7a8f9a;
+  --green:  #1a6b40;
+  --green2: #27ae60;
+  --red:    #c0392b;
+  --teal:   #0d7272;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* ─── PRINT ──────────────────────────────── */
+@media print {
+  .page-break{page-break-before:always;}
+  body{background:white;}
+  .cover{min-height:100vh;}
+}
+
+/* ─── TYPOGRAPHY ─────────────────────────── */
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;}
+.mono{font-family:'DM Mono',monospace;}
+
+/* ─── COVER ──────────────────────────────── */
+.cover{
+  min-height:100vh;background:var(--navy);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.cover-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 85% 20%, rgba(184,137,42,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at 10% 90%, rgba(13,114,114,0.05) 0%, transparent 50%);
+}
+.cover-lines{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.018) 59px,rgba(255,255,255,0.018) 60px);
+}
+.cover-inner{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;padding:72px 80px;}
+.cover-top{flex:0;}
+.cover-mid{flex:1;display:flex;align-items:center;}
+.cover-bot{flex:0;border-top:1px solid rgba(255,255,255,0.1);padding-top:28px;}
+
+.firm-mark{display:flex;align-items:center;gap:14px;}
+.firm-mark-line{width:40px;height:2px;background:var(--gold);}
+.firm-mark-name{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);font-weight:300;}
+
+.cover-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:22px;font-weight:400;}
+.cover-title{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;line-height:1.08;color:white;margin-bottom:10px;}
+.cover-title em{font-style:italic;color:var(--gold3);}
+.cover-subtitle{font-size:15px;color:rgba(255,255,255,0.4);font-weight:300;max-width:520px;line-height:1.8;margin-top:18px;}
+.cover-gold-rule{width:60px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));margin:28px 0;}
+
+.cover-principals{display:flex;gap:40px;flex-wrap:wrap;}
+.cover-principal{border-left:2px solid var(--gold);padding-left:16px;}
+.cp-name{font-size:13px;font-weight:600;color:white;letter-spacing:0.3px;}
+.cp-role{font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:1.5px;margin-top:2px;}
+
+.cover-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.cover-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:1px;}
+.cover-conf{font-size:10px;color:rgba(255,255,255,0.2);font-style:italic;}
+
+/* ─── LAYOUT ─────────────────────────────── */
+.section{max-width:1100px;margin:0 auto;padding:72px 48px;}
+.section-sm{max-width:1100px;margin:0 auto;padding:48px 48px;}
+hr.div{border:none;border-top:1px solid var(--rule);margin:52px 0;}
+hr.div-sm{border:none;border-top:1px solid var(--rule);margin:32px 0;}
+
+/* ─── SECTION HEADERS ────────────────────── */
+.sec-hdr{
+  background:var(--navy);color:white;
+  padding:56px 80px;
+  position:relative;overflow:hidden;
+}
+.sec-hdr::before{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(184,137,42,0.1),transparent 70%);
+}
+.sec-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold2);margin-bottom:10px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:white;line-height:1.1;}
+.sec-title em{font-style:italic;color:var(--gold3);}
+.sec-sub{font-size:14px;color:rgba(255,255,255,0.45);max-width:640px;margin-top:12px;font-weight:300;line-height:1.8;}
+
+/* ─── STATS ──────────────────────────────── */
+.stats{display:grid;gap:14px;margin-bottom:28px;}
+.s4{grid-template-columns:repeat(4,1fr);}
+.s3{grid-template-columns:repeat(3,1fr);}
+.s2{grid-template-columns:repeat(2,1fr);}
+.stat{background:white;border:1px solid var(--rule);border-radius:4px;padding:20px 22px;border-top:3px solid var(--gold);}
+.stat.g{border-top-color:var(--green);}
+.stat.t{border-top-color:var(--teal);}
+.stat.r{border-top-color:var(--red);}
+.stat.n{border-top-color:var(--navy);}
+.stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:6px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;color:var(--navy);line-height:1;}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;}
+
+/* ─── PROSE ──────────────────────────────── */
+.prose{max-width:760px;}
+.prose p{font-size:14px;color:var(--text2);line-height:1.85;margin-bottom:14px;font-weight:300;}
+.prose p strong{color:var(--text);font-weight:600;}
+.lead{font-size:16px;color:var(--text);font-weight:300;line-height:1.9;max-width:720px;margin-bottom:24px;}
+
+/* ─── PULL QUOTE ─────────────────────────── */
+.pq{border-left:3px solid var(--gold);padding:18px 26px;background:#fdf8f0;border-radius:0 4px 4px 0;margin:28px 0;}
+.pq p{font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;color:var(--navy2);line-height:1.65;}
+.pq cite{display:block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-top:8px;font-style:normal;}
+
+/* ─── CALLOUT ────────────────────────────── */
+.callout{border-radius:4px;padding:18px 24px;margin:20px 0;font-size:13px;line-height:1.7;}
+.callout.gold{background:#fdf8f0;border:1px solid #e8c97a;color:#5a3a00;}
+.callout.green{background:#edf7f2;border:1px solid #a8d8be;color:#0a3a1a;}
+.callout.navy{background:var(--navy);border:none;color:rgba(255,255,255,0.75);padding:20px 28px;}
+.callout.navy strong{color:white;}
+.callout.red{background:#fdf0ee;border:1px solid #e8a8a0;color:#5a0a00;}
+.callout strong{display:block;margin-bottom:4px;}
+
+/* ─── SCENARIO CARDS ─────────────────────── */
+.sc-grid{display:grid;gap:18px;margin-bottom:24px;}
+.sc-grid.g2{grid-template-columns:1fr 1fr;}
+.sc-grid.g3{grid-template-columns:repeat(3,1fr);}
+.sc{background:white;border:1px solid var(--rule);border-radius:6px;overflow:hidden;border-top:3px solid var(--gold);}
+.sc.g{border-top-color:var(--green);}
+.sc.t{border-top-color:var(--teal);}
+.sc.r{border-top-color:var(--red);}
+.sc.n{border-top-color:var(--navy);}
+.sc-hdr{padding:16px 20px 12px;border-bottom:1px solid var(--cream2);}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.sc-sub{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
+.sc-body{padding:14px 20px;}
+.sc-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--cream2);font-size:12px;}
+.sc-row:last-child{border:none;}
+.sc-lbl{color:var(--text2);}
+.sc-val{font-family:'DM Mono',monospace;font-weight:500;color:var(--navy);text-align:right;}
+.sc-val.gold{color:var(--gold);}
+.sc-val.green{color:var(--green);}
+.sc-foot{padding:10px 20px;background:var(--cream2);border-top:1px solid var(--rule);font-size:11px;color:var(--text3);line-height:1.6;}
+
+/* ─── TIMELINE ───────────────────────────── */
+.timeline{position:relative;padding-left:0;margin:32px 0;}
+.tl-track{position:absolute;left:120px;top:0;bottom:0;width:2px;background:var(--rule);}
+.tl-item{display:flex;gap:0;align-items:flex-start;margin-bottom:28px;position:relative;}
+.tl-yr{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--gold);width:110px;flex-shrink:0;padding-top:3px;text-align:right;}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--gold);flex-shrink:0;margin:4px 16px 0;position:relative;z-index:1;border:2px solid white;box-shadow:0 0 0 2px var(--gold);}
+.tl-dot.g{background:var(--green);box-shadow:0 0 0 2px var(--green);}
+.tl-dot.t{background:var(--teal);box-shadow:0 0 0 2px var(--teal);}
+.tl-dot.n{background:var(--navy);box-shadow:0 0 0 2px var(--navy);}
+.tl-dot.r{background:var(--red);box-shadow:0 0 0 2px var(--red);}
+.tl-content{flex:1;padding-left:14px;}
+.tl-event{font-weight:600;font-size:13px;color:var(--navy);margin-bottom:3px;}
+.tl-desc{font-size:12px;color:var(--text2);line-height:1.65;}
+
+/* ─── COMPARISON TABLE ───────────────────── */
+.cmp-wrap{overflow-x:auto;margin:20px 0;}
+.cmp{width:100%;border-collapse:collapse;font-size:12px;}
+.cmp th{background:var(--navy);color:white;padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:0.6px;font-weight:500;border-right:1px solid rgba(255,255,255,0.06);}
+.cmp th.gold{color:var(--gold2);}
+.cmp th.green{color:#7adaaa;}
+.cmp tbody tr{border-bottom:1px solid var(--cream2);}
+.cmp tbody tr:hover{background:#fdf8f0;}
+.cmp tbody td{padding:9px 14px;vertical-align:middle;border-right:1px solid var(--cream2);}
+.cmp tbody td:first-child{font-weight:600;color:var(--navy);background:#fafaf8;}
+.cmp tr.hl{background:#fdf8f0;}
+.cmp tr.hl td:first-child{background:#f5f0e4;}
+.cmp tfoot td{background:var(--cream2);padding:9px 14px;font-weight:600;border-top:2px solid var(--gold);font-size:11px;}
+.num{font-family:'DM Mono',monospace;text-align:right;}
+.num.gold{color:var(--gold);}
+.num.green{color:var(--green);}
+.num.red{color:var(--red);}
+
+/* ─── OWNERSHIP SVG ──────────────────────── */
+.own-chart{margin:24px 0;}
+
+/* ─── RISK TABLE ─────────────────────────── */
+.risk-item{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--cream2);}
+.risk-item:last-child{border:none;}
+.risk-tag{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px;font-family:'DM Mono',monospace;margin-top:2px;}
+.tag-r{background:#fdf0ee;color:#8a0a00;border:1px solid #e8a090;}
+.tag-g{background:#edf7f2;color:#0a4a1a;border:1px solid #a0d4b8;}
+.tag-y{background:#fdf8f0;color:#6a3800;border:1px solid #e8c870;}
+.risk-body{}
+.risk-title{font-weight:600;font-size:13px;color:var(--navy);margin-bottom:3px;}
+.risk-desc{font-size:12px;color:var(--text2);line-height:1.65;}
+
+/* ─── NEXT STEPS ─────────────────────────── */
+.ns-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px;}
+.ns-card{background:white;border:1px solid var(--rule);border-radius:4px;overflow:hidden;}
+.ns-hdr{padding:14px 18px;color:white;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.ns-body{padding:4px 0;}
+.ns-item{display:flex;gap:10px;align-items:flex-start;padding:9px 18px;border-bottom:1px solid var(--cream2);font-size:12px;line-height:1.55;}
+.ns-item:last-child{border:none;}
+.ns-check{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--rule);flex-shrink:0;margin-top:1px;}
+
+/* ─── FOOTER ─────────────────────────────── */
+.doc-footer{background:var(--navy);color:rgba(255,255,255,0.25);padding:24px 80px;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.5px;}
+
+/* ─── UTILITY ────────────────────────────── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.mt8{margin-top:8px;} .mt16{margin-top:16px;} .mt24{margin-top:24px;} .mt32{margin-top:32px;}
+.mb8{margin-bottom:8px;} .mb16{margin-bottom:16px;} .mb24{margin-bottom:24px;}
+.sl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--navy);line-height:1.15;margin-bottom:8px;}
+.st em{font-style:italic;color:var(--gold);}
+.si{font-size:14px;color:var(--text2);max-width:680px;line-height:1.85;margin-bottom:28px;font-weight:300;}
+.badge{display:inline-block;padding:3px 10px;border-radius:2px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;}
+.badge-gold{background:#fdf8f0;color:#7a4a00;border:1px solid #e0b860;}
+.badge-green{background:#edf7f2;color:#0a4a1a;border:1px solid #a0d4b8;}
+.badge-navy{background:var(--navy);color:var(--gold2);}
+
+@media(max-width:900px){
+  .s4,.s3,.g2,.g3,.sc-grid.g2,.sc-grid.g3,.ns-grid{grid-template-columns:1fr;}
+  .section{padding:48px 24px;}
+  .sec-hdr{padding:40px 28px;}
+  .cover-inner{padding:40px 28px;}
+  .cover-title{font-size:40px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     COVER
+════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-lines"></div>
+  <div class="cover-inner">
+
+    <div class="cover-top">
+      <div class="firm-mark">
+        <div class="firm-mark-line"></div>
+        <div class="firm-mark-name">Salvus Wealth Partners</div>
+      </div>
+    </div>
+
+    <div class="cover-mid">
+      <div>
+        <div class="cover-eyebrow">Confidential · For Principals Only · June 2026</div>
+        <h1 class="cover-title">Firm Succession<br>&amp; <em>Partnership</em><br>Plan</h1>
+        <div class="cover-gold-rule"></div>
+        <p class="cover-subtitle">A comprehensive guide to the ownership transition of Salvus Legacy 24 LLC — covering the TPG partnership, Chuck Woolston's planned exit, Robert O'Quinn's admission as equity partner, Pete Freidel's road to partnership, and the financial survivability of the firm through 2038.</p>
+
+        <div class="cover-principals mt32">
+          <div class="cover-principal">
+            <div class="cp-name">Robert W. Joel, CFP</div>
+            <div class="cp-role">Co-Founder · CIO · Primary Author</div>
+          </div>
+          <div class="cover-principal">
+            <div class="cp-name">Charles T. Woolston, CPA</div>
+            <div class="cp-role">Co-Founder · CEO · Exiting Partner</div>
+          </div>
+          <div class="cover-principal">
+            <div class="cp-name">Robert O'Quinn</div>
+            <div class="cp-role">IAR · Incoming Equity Partner 2027</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-bot">
+      <div class="cover-meta">
+        <div class="cover-date">Salvus Legacy 24 LLC · DBA Salvus Wealth Partners · Jacksonville FL · June 2026</div>
+        <div class="cover-conf">Strictly Confidential · Attorney Work Product · Not for Distribution</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     01 — EXECUTIVE OVERVIEW
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 01</div>
+  <h2 class="sec-title">Executive <em>Overview</em></h2>
+  <p class="sec-sub">Where Salvus stands today, what the next twelve years look like, and why this plan exists.</p>
+</div>
+
+<div class="section">
+  <div class="sl">The Firm Today</div>
+  <h2 class="st">A Profitable, <em>Growing</em> RIA at an Inflection Point</h2>
+  <p class="si">Salvus Wealth Partners manages $330M in client assets under the Salvus book — with an additional $150M under Robert O'Quinn joining in 2027 — generating annualized revenue approaching $3.6M on a combined basis. The firm is fee-only, fiduciary, and operates under ThePARTNERS (DBA) umbrella after completing a 20% revenue partnership with The Partners Group (TPG) in 2026. With Chuck Woolston at 70 planning his exit and Bob Joel targeting retirement around 2031, the firm enters its most consequential ownership transition in its history.</p>
+
+  <div class="stats s4">
+    <div class="stat n">
+      <div class="stat-lbl">Salvus AUM</div>
+      <div class="stat-val">$330M</div>
+      <div class="stat-sub">SWM book · fee-only · Jacksonville FL · stand-alone RIA until TPG close (~Aug 2026)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Combined AUM (2027+)</div>
+      <div class="stat-val">$475M</div>
+      <div class="stat-sub">After O'Quinn's $145M book joins (3/1/2027)</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-lbl">2027 Combined NOI</div>
+      <div class="stat-val">$2.00M</div>
+      <div class="stat-sub">First full year with ROQ + TPG fee</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Revenue Run Rate</div>
+      <div class="stat-val">$3.55M</div>
+      <div class="stat-sub">Combined gross 2027+ at 5% growth</div>
+    </div>
+  </div>
+
+  <div class="pq">
+    <p>"The transition from a two-founder firm to a multi-partner, institutionally backed practice is the single most value-creating and risk-laden event in a wealth management firm's lifecycle. Done well, it protects clients, rewards founders, and builds a durable business. Done poorly, it destroys value for everyone."</p>
+    <cite>— Salvus Strategic Planning · June 2026</cite>
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">The 12-Year Arc</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:20px">Four Phases — <em>One Continuous Story</em></h3>
+
+  <div class="timeline">
+    <div class="tl-track"></div>
+    <div class="tl-item">
+      <div class="tl-yr">2026</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-event">Phase 1 — The TPG Foundation</div>
+        <div class="tl-desc">TPG expected to close purchase of 20% of SWM revenue for $3.68M (~August 2026). Bob and Chuck each receive $1.84M at close — immediate liquidity and validation. The firm de-registers as a standalone RIA and operates as Salvus Wealth Partners under ThePARTNERS DBA. SWM continues as the 100%-SL24-owned operating entity (employer, payroll, HR, benefits). Governance documents (SL24 Operating Agreement) finalized.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">2027</div>
+      <div class="tl-dot g"></div>
+      <div class="tl-content">
+        <div class="tl-event">Phase 2 — O'Quinn Joins + Chuck's Exit Begins</div>
+        <div class="tl-desc">Robert O'Quinn admitted as equity partner (29.2% of SL24) bringing $145M AUM and $1.25M revenue. TPG exercises additional 10% purchase ($2.08M) — proceeds fund Chuck's first buyout tranche down payment. Chuck receives either $2.08M (Scenario A) or $3.93M (Scenario B, recommended). O'Quinn and Pete Freidel join the DBA team.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">2028–2029</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-event">Phase 3 — Chuck’s Full Exit + Pete’s Admission</div>
+        <div class="tl-desc">2028: Chuck sells first major equity tranche (~24.5%). Pete Freidel admitted as equity partner (9.5% of SL24) via bank financing — no down payment required. Bob exercises ROFR to purchase enough to remain above ROQ at all times. 2029: Chuck’s final tranche closes — fully out of equity by year-end. Note payments begin 2030 and run through 2035. Bob holds ~47% — largest single stake and greater than ROQ at every step.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">2031</div>
+      <div class="tl-dot t"></div>
+      <div class="tl-content">
+        <div class="tl-event">Phase 4 — Bob's Planned Exit</div>
+        <div class="tl-desc">Bob exits SL24 (~44% stake valued at ~$6.69M). Scenario A: receives $1.34M at close + $942K/yr for 7 years. Scenario B (recommended): receives $5.62M at close + $188K/yr for 7 years. O'Quinn and Pete continue as co-owners, with NOI coverage ratio of 1.86x even in the critical 2032 overlap year.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-yr">2032–2038</div>
+      <div class="tl-dot n"></div>
+      <div class="tl-content">
+        <div class="tl-event">Phase 5 — The Mature Partnership</div>
+        <div class="tl-desc">O'Quinn and Pete operate the firm independently. Bob's buyout note (under Scenario A) continues through 2038, providing steady retirement income. AUM base of $475M+ continues growing with market returns and organic new client acquisition. Firm NOI projected at $2.6M+ annually.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     02 — PARTNERSHIP ARCHITECTURE
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 02</div>
+  <h2 class="sec-title">The Partnership <em>Architecture</em></h2>
+  <p class="sec-sub">How the entities are structured, who owns what, and how revenue flows from clients to partners.</p>
+</div>
+
+<div class="section">
+  <div class="sl">Entity Structure</div>
+  <h2 class="st">Three Entities, <em>One Firm</em></h2>
+  <p class="si">Salvus operates through a deliberately layered structure that separates the operating revenue partnership (with TPG) from the ownership governance (among founders and partners). This protects the core partnership from external interference while enabling capital transactions.</p>
+
+  <!-- SVG Entity Structure -->
+  <svg viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:900px;margin:24px 0;display:block;">
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#b8892a"/>
+      </marker>
+      <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#7a8f9a"/>
+      </marker>
+    </defs>
+    <!-- ThePARTNERS -->
+    <rect x="320" y="10" width="260" height="64" rx="4" fill="#0b1929"/>
+    <text x="450" y="34" text-anchor="middle" fill="#f0cc7a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2">THE PARTNERS GROUP</text>
+    <text x="450" y="50" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-family="Jost,sans-serif" font-size="11">ThePARTNERS · Carmel, CA</text>
+    <text x="450" y="65" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-family="Jost,sans-serif" font-size="10">RIA Umbrella · Platform Provider</text>
+
+    <!-- SPM -->
+    <rect x="290" y="138" width="320" height="64" rx="4" fill="#122035"/>
+    <text x="450" y="162" text-anchor="middle" fill="#f0cc7a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="2">SALVUS PURPLE MARLIN LLC (SPM)</text>
+    <text x="450" y="178" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="Jost,sans-serif" font-size="11">Revenue Partnership Entity</text>
+    <text x="450" y="194" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="Jost,sans-serif" font-size="10">SL24: 70% · Purple Marlin (TPG): 30%</text>
+
+    <!-- SL24 -->
+    <rect x="100" y="240" width="220" height="60" rx="4" fill="#1a2f4a"/>
+    <text x="210" y="262" text-anchor="middle" fill="#f0cc7a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="1.5">SALVUS LEGACY 24 LLC</text>
+    <text x="210" y="278" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="Jost,sans-serif" font-size="10">Ownership Governance</text>
+    <text x="210" y="293" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="Jost,sans-serif" font-size="9">Bob · Chuck → ROQ · Pete</text>
+
+    <!-- SWM under SL24 (100% owned) -->
+    <rect x="100" y="318" width="220" height="52" rx="4" fill="#0d2a40" stroke="#b8892a" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="210" y="338" text-anchor="middle" fill="#f0cc7a" font-family="'DM Mono',monospace" font-size="9" letter-spacing="1.5">SALVUS WEALTH MGMT LLC</text>
+    <text x="210" y="354" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="Jost,sans-serif" font-size="10">Operating Entity · 100% owned by SL24</text>
+    <text x="210" y="367" text-anchor="middle" fill="rgba(255,255,255,0.28)" font-family="Jost,sans-serif" font-size="9">Employer · Payroll · HR · Benefits · All Expenses</text>
+    <line x1="210" y1="300" x2="210" y2="318" stroke="#b8892a" stroke-width="1.5" marker-end="url(#arr)"/>
+    <text x="240" y="312" fill="rgba(184,137,42,0.7)" font-family="'DM Mono',monospace" font-size="8">100% owned</text>
+
+    <!-- Purple Marlin -->
+    <rect x="580" y="256" width="210" height="56" rx="4" fill="#0d3d2a"/>
+    <text x="685" y="278" text-anchor="middle" fill="#7adaaa" font-family="'DM Mono',monospace" font-size="9" letter-spacing="1.5">PURPLE MARLIN LLC</text>
+    <text x="685" y="294" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="Jost,sans-serif" font-size="10">Gregory Rutherford (TPG)</text>
+    <text x="685" y="308" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="Jost,sans-serif" font-size="9">30% of SPM · Permanently outside SL24</text>
+
+    <!-- Arrows -->
+    <line x1="450" y1="74" x2="450" y2="134" stroke="#b8892a" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+    <line x1="350" y1="202" x2="255" y2="252" stroke="#b8892a" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="560" y1="202" x2="640" y2="252" stroke="#7a8f9a" stroke-width="1.5" marker-end="url(#arr2)" stroke-dasharray="4,3"/>
+
+    <!-- Labels on arrows -->
+    <text x="350" y="232" fill="#b8892a" font-family="'DM Mono',monospace" font-size="9" text-anchor="middle">70% ownership</text>
+    <text x="628" y="232" fill="#7a8f9a" font-family="'DM Mono',monospace" font-size="9" text-anchor="middle">30% ownership</text>
+    <text x="500" y="114" fill="rgba(184,137,42,0.7)" font-family="'DM Mono',monospace" font-size="9" text-anchor="middle">7% platform fee</text>
+  </svg>
+
+  <div class="callout gold">
+    <strong>The governance firewall:</strong> TPG (Purple Marlin) owns 30% of SPM — the revenue-sharing entity — but is permanently excluded from SL24, which holds all ownership governance rights, equity decisions, and partner admissions. SL24 owns SWM (Salvus Wealth Management LLC) 100% — SWM continues as the operating entity after deregistration, serving as the employer of record, payroll processor, HR administrator, benefits provider, and the entity that pays all firm operating expenses. This layered structure ensures complete operational continuity and governance control regardless of the revenue partnership with TPG.
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">Revenue Waterfall</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:20px">How Every Dollar <em>Flows</em> — 2027 Example</h3>
+
+  <!-- Revenue flow table -->
+  <div class="cmp-wrap">
+  <table class="cmp" style="max-width:680px;">
+    <thead><tr><th>Step</th><th>Description</th><th class="gold" style="text-align:right">Amount</th><th class="gold" style="text-align:right">Remaining</th></tr></thead>
+    <tbody>
+      <tr><td>① Gross Revenue</td><td>SWM $2.3M + ROQ $1.25M combined</td><td class="num">$3,550,000</td><td class="num">$3,550,000</td></tr>
+      <tr class="hl"><td>② Less: TPG 7% Fee</td><td>Platform fee on combined gross to ThePARTNERS</td><td class="num red">(248,500)</td><td class="num">$3,301,500</td></tr>
+      <tr><td>③ Less: Operating Expenses</td><td>Salaries, benefits, tech, O'Quinn benefits, Schwab fee</td><td class="num red">(~1,315,394)</td><td class="num">$1,996,106</td></tr>
+      <tr class="hl" style="background:#fdf8f0;"><td><strong>④ Net Ordinary Income (NOI)</strong></td><td><strong>Distributable to SL24 partners as K-1</strong></td><td class="num gold"><strong>$1,996,106</strong></td><td class="num gold"><strong>$1,996,106</strong></td></tr>
+      <tr><td>⑤ Partner K-1 Distributions</td><td>Split by SL24 ownership: Bob 38.3% · Chuck 32.5% · ROQ 29.2%</td><td class="num" colspan="2" style="text-align:center;color:var(--text2)">Bob ~$766K · Chuck ~$649K · ROQ ~$581K</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sl mt32">Ownership Evolution</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:20px">SL24 Ownership Schedule — <em>2026 to 2032</em></h3>
+
+  <!-- Ownership bar chart as SVG -->
+  <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:860px;display:block;margin:16px 0;">
+    <defs>
+      <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+      </pattern>
+    </defs>
+
+    <!-- Year labels -->
+    <text x="100" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2026</text>
+    <text x="215" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2027</text>
+    <text x="330" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2028</text>
+    <text x="445" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2029</text>
+    <text x="560" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2030</text>
+    <text x="675" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2031</text>
+    <text x="790" y="20" text-anchor="middle" fill="#0b1929" font-family="'DM Mono',monospace" font-size="10" font-weight="500">2032</text>
+
+    <!-- Data: [B%, C%, R%, P%] for each year -->
+    <!-- 2026: B50 C50 R0 P0 -->
+    <!-- 2027: B38.3 C32.5 R29.2 P0 -->
+    <!-- 2028: B44 C17.3 R29.2 P9.5 -->
+    <!-- 2029: B47.5 C0 R30 P12.5 -->
+    <!-- 2030: B45 C0 R33 P12 -->
+    <!-- 2031: B44 C0 R33 P13 -->
+    <!-- 2032: B0 C0 R33 P14 (Bob exits) -->
+
+    <!-- Colors: Bob=#e8b55a Chuck=#1aa8a8 ROQ=#27ae60 Pete=#8e44ad -->
+    <!-- Bar height = 200, y-start = 35 -->
+
+    <script type="text/javascript">/* SVG bars rendered inline below */</script>
+
+    <!-- 2026 -->
+    <rect x="45" y="35" width="110" height="100" fill="#e8b55a"/>
+    <text x="100" y="88" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">Bob 50%</text>
+    <rect x="45" y="135" width="110" height="100" fill="#1aa8a8"/>
+    <text x="100" y="188" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">Chuck 50%</text>
+
+    <!-- 2027 -->
+    <rect x="160" y="35" width="110" height="76.6" fill="#e8b55a"/>
+    <text x="215" y="76" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">Bob 38.3%</text>
+    <rect x="160" y="111.6" width="110" height="65" fill="#1aa8a8"/>
+    <text x="215" y="148" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">Chuck 32.5%</text>
+    <rect x="160" y="176.6" width="110" height="58.4" fill="#27ae60"/>
+    <text x="215" y="209" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">ROQ 29.2%</text>
+
+    <!-- 2028: B=44 C=8 R=38.5 P=9.5 -->
+    <rect x="275" y="35" width="110" height="88" fill="#e8b55a"/>
+    <text x="330" y="82" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">Bob 44%</text>
+    <rect x="275" y="123" width="110" height="16" fill="#1aa8a8"/>
+    <text x="330" y="135" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="9" font-weight="600">Chuck 8%</text>
+    <rect x="275" y="139" width="110" height="77" fill="#27ae60"/>
+    <text x="330" y="181" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">ROQ 38.5%</text>
+    <rect x="275" y="216" width="110" height="19" fill="#8e44ad"/>
+    <text x="330" y="229" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="9" font-weight="600">Pete 9.5%</text>
+
+    <!-- 2029: B=47 C=0 R=41.5 P=11.5 -->
+    <rect x="390" y="35" width="110" height="94" fill="#e8b55a"/>
+    <text x="445" y="85" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">Bob 47%</text>
+    <rect x="390" y="129" width="110" height="83" fill="#27ae60"/>
+    <text x="445" y="174" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">ROQ 41.5%</text>
+    <rect x="390" y="212" width="110" height="23" fill="#8e44ad"/>
+    <text x="445" y="228" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="10" font-weight="600">Pete 11.5%</text>
+    <text x="445" y="248" text-anchor="middle" fill="#1aa8a8" font-family="Jost,sans-serif" font-size="9" font-style="italic">Chuck exits</text>
+
+    <!-- 2030: B=47 C=0 R=41.5 P=11.5 stable -->
+    <rect x="505" y="35" width="110" height="94" fill="#e8b55a"/>
+    <text x="560" y="85" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">Bob 47%</text>
+    <rect x="505" y="129" width="110" height="83" fill="#27ae60"/>
+    <text x="560" y="174" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">ROQ 41.5%</text>
+    <rect x="505" y="212" width="110" height="23" fill="#8e44ad"/>
+    <text x="560" y="228" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="10" font-weight="600">Pete 11.5%</text>
+
+    <!-- 2031: B=44 C=0 R=43 P=13 -->
+    <rect x="620" y="35" width="110" height="88" fill="#e8b55a"/>
+    <text x="675" y="82" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">Bob 44%</text>
+    <rect x="620" y="123" width="110" height="86" fill="#27ae60"/>
+    <text x="675" y="169" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">ROQ 43%</text>
+    <rect x="620" y="209" width="110" height="26" fill="#8e44ad"/>
+    <text x="675" y="226" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="10" font-weight="600">Pete 13%</text>
+    <text x="675" y="248" text-anchor="middle" fill="#c0392b" font-family="Jost,sans-serif" font-size="9" font-style="italic">Bob exits ↑</text>
+
+    <!-- 2032: B=0 R=75 P=25 -->
+    <rect x="735" y="35" width="110" height="150" fill="#27ae60"/>
+    <text x="790" y="113" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="12" font-weight="600">ROQ 75%</text>
+    <rect x="735" y="185" width="110" height="50" fill="#8e44ad"/>
+    <text x="790" y="214" text-anchor="middle" fill="white" font-family="Jost,sans-serif" font-size="11" font-weight="600">Pete 25%</text>
+    <text x="790" y="248" text-anchor="middle" fill="#c0392b" font-family="Jost,sans-serif" font-size="9" font-style="italic">Bob fully exited</text>
+
+    <!-- Legend -->
+    <rect x="45" y="255" width="12" height="12" fill="#e8b55a" rx="2"/>
+    <text x="62" y="265" fill="#4a6070" font-family="Jost,sans-serif" font-size="11">Bob Joel</text>
+    <rect x="135" y="255" width="12" height="12" fill="#1aa8a8" rx="2"/>
+    <text x="152" y="265" fill="#4a6070" font-family="Jost,sans-serif" font-size="11">Chuck Woolston</text>
+    <rect x="275" y="255" width="12" height="12" fill="#27ae60" rx="2"/>
+    <text x="292" y="265" fill="#4a6070" font-family="Jost,sans-serif" font-size="11">Robert O'Quinn</text>
+    <rect x="415" y="255" width="12" height="12" fill="#8e44ad" rx="2"/>
+    <text x="432" y="265" fill="#4a6070" font-family="Jost,sans-serif" font-size="11">Pete Freidel</text>
+  </svg>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     03 — CHUCK'S EXIT
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 03</div>
+  <h2 class="sec-title">Chuck Woolston's <em>Exit</em></h2>
+  <p class="sec-sub">How the firm's co-founder captures the value he has built — and retires cleanly, with cash in hand.</p>
+</div>
+
+<div class="section">
+  <div class="sl">The Situation</div>
+  <h2 class="st">Chuck's Life's Work — <em>Valued Fairly</em></h2>
+  <p class="si">Chuck Woolston has co-built Salvus over many years. At 70, he is ready to transition out of day-to-day responsibilities while ensuring a clean, well-compensated exit. The challenge is classic in the RIA industry: an advisory business has tremendous value in its client relationships, but converting that value to cash requires a thoughtful structure that is fair to both the seller and the buyers who must continue building the firm.</p>
+
+  <div class="g2">
+    <div>
+      <div class="sl">Valuation Method</div>
+      <div class="sc">
+        <div class="sc-hdr">
+          <div class="sc-title">Blended Buyout Formula</div>
+          <div class="sc-sub">Industry-benchmarked · two-method average · both discounted</div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-row"><span class="sc-lbl">Method A: Revenue Multiple</span><span class="sc-val">6× net advisory revenue</span></div>
+          <div class="sc-row"><span class="sc-lbl">Method B: Earnings Multiple</span><span class="sc-val">9× TTM Net Ordinary Income</span></div>
+          <div class="sc-row"><span class="sc-lbl">Formula</span><span class="sc-val">(A + B) ÷ 2</span></div>
+          <div class="sc-row"><span class="sc-lbl">Illiquidity discount</span><span class="sc-val">−15%</span></div>
+          <div class="sc-row"><span class="sc-lbl">No-auction discount</span><span class="sc-val">−5%</span></div>
+          <div class="sc-row"><span class="sc-lbl"><strong>Chuck's 33.3% stake</strong></span><span class="sc-val gold"><strong>~$4.39M</strong></span></div>
+        </div>
+        <div class="sc-foot">Applied at time of each tranche purchase using TTM figures. This same formula governs all future SL24 equity transactions — creating consistency and predictability for all partners.</div>
+      </div>
+    </div>
+    <div>
+      <div class="sl">The Down Payment</div>
+      <div class="sc g">
+        <div class="sc-hdr">
+          <div class="sc-title">TPG Additional 10% — The Funding Mechanism</div>
+          <div class="sc-sub">$2.08M from TPG's add'l 10% purchase → directly funds Chuck's first tranche</div>
+        </div>
+        <div class="sc-body">
+          <div class="sc-row"><span class="sc-lbl">TPG purchases additional 10% of SWM revenue</span><span class="sc-val">$2,080,000</span></div>
+          <div class="sc-row"><span class="sc-lbl">These proceeds flow to Chuck as down payment</span><span class="sc-val green">$2,080,000</span></div>
+          <div class="sc-row"><span class="sc-lbl">Remaining balance to finance</span><span class="sc-val">$2,307,131</span></div>
+          <div class="sc-row"><span class="sc-lbl">Bank loan (Scenario B, 80%)</span><span class="sc-val green">$1,845,705</span></div>
+          <div class="sc-row"><span class="sc-lbl">Small seller note (20%, 6yr, 5.5%)</span><span class="sc-val">$461,426</span></div>
+        </div>
+        <div class="sc-foot">The TPG additional 10% proceeds essentially self-fund Chuck's down payment — a pre-engineered capital event. No additional fundraising required.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl mt24">The Two Scenarios</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:16px">Scenario A vs. Scenario B — <em>Chuck's Perspective</em></h3>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:20px;max-width:700px">The critical question for Chuck: does he receive cash at closing, or does he wait for annual note payments? Scenario B (recommended) delivers most of his proceeds at the 2027 close.</p>
+
+  <div class="sc-grid g2">
+    <div class="sc">
+      <div class="sc-hdr" style="background:#f7f3ec;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title">Scenario A — Pure Seller Note</div>
+          <span class="badge badge-gold">Current Baseline</span>
+        </div>
+        <div class="sc-sub">Chuck holds note for 6 years · deferred income · performance risk</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">TPG 20% deal (2026 close)</span><span class="sc-val">$1,840,000</span></div>
+        <div class="sc-row"><span class="sc-lbl">Down payment at 2027 close</span><span class="sc-val">$2,080,000</span></div>
+        <div class="sc-row" style="opacity:0.6"><span class="sc-lbl">Annual note pmts 2028–2033 (6yr)</span><span class="sc-val">$462K/yr</span></div>
+        <div class="sc-row" style="opacity:0.6"><span class="sc-lbl">Total note receipts over 6 years</span><span class="sc-val">$2,771,035</span></div>
+        <div class="sc-row" style="border-top:2px solid var(--rule);margin-top:4px;padding-top:10px"><span class="sc-lbl"><strong>Chuck's total from equity sales</strong></span><span class="sc-val"><strong>$6,691,035</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl" style="color:var(--red)">Cash at 2027 close</span><span class="sc-val" style="color:var(--red)">$2,080,000</span></div>
+        <div class="sc-row"><span class="sc-lbl" style="color:var(--red)">Note risk period</span><span class="sc-val" style="color:var(--red)">6 years (2028–2033)</span></div>
+      </div>
+      <div class="sc-foot" style="background:#fdf0ee;">⚠ Chuck holds $2.3M of performance risk through his retirement. If Salvus underperforms, his income suffers. Not recommended as the primary structure.</div>
+    </div>
+
+    <div class="sc g">
+      <div class="sc-hdr" style="background:#edf7f2;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title">Scenario B — Hybrid Bank Financing</div>
+          <span class="badge badge-green">Recommended</span>
+        </div>
+        <div class="sc-sub">O'Quinn borrows conventionally · Chuck gets cash at close · small note retained</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">TPG 20% deal (2026 close)</span><span class="sc-val">$1,840,000</span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Cash at 2027 close (down pmt + bank)</strong></span><span class="sc-val green"><strong>$3,925,705</strong></span></div>
+        <div class="sc-row" style="opacity:0.7"><span class="sc-lbl">Small note pmts 2028–2033 (6yr)</span><span class="sc-val">$92K/yr</span></div>
+        <div class="sc-row" style="opacity:0.7"><span class="sc-lbl">Total small note receipts over 6 years</span><span class="sc-val">$554,208</span></div>
+        <div class="sc-row" style="border-top:2px solid var(--rule);margin-top:4px;padding-top:10px"><span class="sc-lbl"><strong>Chuck's total from equity sales</strong></span><span class="sc-val"><strong>$6,319,912</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl" style="color:var(--green)">Cash at 2027 close</span><span class="sc-val green">$3,925,705</span></div>
+        <div class="sc-row"><span class="sc-lbl" style="color:var(--green)">Residual note risk</span><span class="sc-val green">Only $461K (20%)</span></div>
+      </div>
+      <div class="sc-foot" style="background:#edf7f2;">✓ Chuck receives 89% of his total buyout as cash within 12 months of the 2027 close. Retirement income is not dependent on firm performance. Clean exit. Lenders: Oak Street Funding or PPC Loan (conventional, not SBA — must accommodate tranched structure).</div>
+    </div>
+  </div>
+
+  <div class="callout gold mt24">
+    <strong>Why Scenario B is slightly lower in total:</strong> Under Scenario A, Chuck earns 5.5% interest on $2.3M for 6 years (building the total higher). Under Scenario B, the bank paid Chuck upfront so he loses that interest income — but gains immediate certainty and eliminates 6 years of performance risk. Most retiring advisors strongly prefer Scenario B's structure when offered the choice.
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">Transition Timeline</div>
+  <div class="timeline mt16">
+    <div class="tl-track"></div>
+    <div class="tl-item"><div class="tl-yr">Q1 2026</div><div class="tl-dot g"></div><div class="tl-content"><div class="tl-event">Pre-qualify with Oak Street Funding / PPC Loan</div><div class="tl-desc">O'Quinn completes personal financial pre-qualification. Get preliminary term sheet for ~$1.85M conventional loan. SL24 OA updated to permit third-party lender financing of equity purchases.</div></div></div>
+    <div class="tl-item"><div class="tl-yr">3/1/2027</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event">Chuck's First Tranche + O'Quinn Admission</div><div class="tl-desc">Simultaneous events: TPG exercises additional 10% purchase ($2.08M). O'Quinn admitted as equity partner (29.2% SL24). Chuck receives $3.93M at close (Scenario B). Bank loan closes concurrently.</div></div></div>
+    <div class="tl-item"><div class="tl-yr">2028</div><div class="tl-dot"></div><div class="tl-content"><div class="tl-event">First Major Equity Tranche + Pete Freidel Admitted</div><div class="tl-desc">Chuck sells ~24.5% stake: Pete buys 9.5% (100% bank-financed), Bob exercises ROFR for 5.7%, ROQ buys 9.3%. Bob holds 44% — above ROQ’s 38.5%. Chuck retains ~8% pending final 2029 tranche. Pete is cash-positive on K-1 income from day one.</div></div></div>
+    <div class="tl-item"><div class="tl-yr">2029</div><div class="tl-dot g"></div><div class="tl-content"><div class="tl-event">Chuck’s Final Tranche — Fully Exited by Year-End</div><div class="tl-desc">Chuck’s remaining ~8% stake purchased. He is no longer an SL24 member. Bob holds 47% (above ROQ’s 41.5%). Seller note payments to Chuck begin 2030 and run through 2035. Chuck’s retirement income is secured.</div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     04 — ROBERT O'QUINN
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 04</div>
+  <h2 class="sec-title">Robert O'Quinn — <em>The New Engine</em></h2>
+  <p class="sec-sub">The admission of O'Quinn as equity partner is the single most important event in Salvus's 5-year plan — doubling revenue and funding Chuck's exit simultaneously.</p>
+</div>
+
+<div class="section">
+  <p class="lead">Robert O'Quinn brings $145M in AUM and $1.25M in annual revenue to Salvus — nearly doubling the firm's asset base in a single transaction. His admission is not simply adding a partner; it is the revenue engine that makes Chuck's exit affordable, justifies the TPG deal's additional 10% purchase, and establishes Salvus as a genuine multi-advisor wealth management practice.</p>
+
+  <div class="stats s3">
+    <div class="stat n">
+      <div class="stat-lbl">O'Quinn AUM at Admission</div>
+      <div class="stat-val">$145M</div>
+      <div class="stat-sub">Client book joining Salvus platform 2027</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-lbl">O'Quinn Annual Revenue</div>
+      <div class="stat-val">$1.25M</div>
+      <div class="stat-sub">Adds to combined $3.55M gross revenue</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">Initial SL24 Ownership</div>
+      <div class="stat-val">29.2%</div>
+      <div class="stat-sub">2027 · growing to ~35% post-Bob exit</div>
+    </div>
+  </div>
+
+  <div class="sl">His Economics</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:16px">What O'Quinn Earns — <em>Year by Year</em></h3>
+
+  <div class="cmp-wrap">
+  <table class="cmp" style="max-width:780px;">
+    <thead>
+      <tr>
+        <th>Year</th><th>SL24 %</th><th class="gold">K-1 Income</th>
+        <th>Buyout Obligation (B)</th><th class="green">Net Distributable (B)</th><th>Context</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2027</td><td style="font-size:11px;color:var(--text3)">ROQ joins 3/1 · ROQ joins 3/1 · Chuck 1st tranche + down pmt</td><td class="num gold">$1,996K</td><td class="num red">($447K)</td><td class="num">—</td><td class="num red">($447K)</td><td class="num green">$1,549K</td><td class="num green">$1,621K</td><td class="num">4.46×</td></tr>
+      <tr class="hl"><td>2028</td><td>29.2%</td><td class="num gold">$610,000</td><td class="num">($219,508)</td><td class="num green">$404,234</td><td style="font-size:11px;color:var(--text3)">Chuck 2nd tranche · Pete admitted</td></tr>
+      <tr><td>2029</td><td>30.0%</td><td class="num gold">$673,859</td><td class="num">($187,397)</td><td class="num green">$486,462</td><td style="font-size:11px;color:var(--text3)">Chuck fully exits · obligation drops</td></tr>
+      <tr class="hl"><td>2030</td><td>33.0%</td><td class="num gold">$779,151</td><td class="num">($0)</td><td class="num green">$779,151</td><td style="font-size:11px;color:var(--text3)">No buyout obligation — peak earning year</td></tr>
+      <tr><td>2031</td><td>33.0%</td><td class="num gold">$819,254</td><td class="num">($0)</td><td class="num green">$819,254</td><td style="font-size:11px;color:var(--text3)">Bob exits — down pmt event separate</td></tr>
+      <tr class="hl" style="background:#fdf8f0;"><td>2032</td><td>33.0%</td><td class="num gold">$860,749</td><td class="num red">($464,316)</td><td class="num" style="color:var(--gold)">$396,433</td><td style="font-size:11px;color:var(--text3)">⚠ Both obligations overlap — Chuck note + Bob note</td></tr>
+      <tr><td>2033+</td><td>~35%</td><td class="num gold">$900K+</td><td class="num">($311K)</td><td class="num green">$590K+</td><td style="font-size:11px;color:var(--text3)">Chuck note ends · only Bob note continues</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2">Key observation</td><td class="num gold" colspan="2">2030–2031 are O'Quinn's highest net-income years</td><td class="num green" colspan="2">$779K–$819K with no buyout obligation</td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <div class="callout navy mt24">
+    <strong>The income partnership override (2026 only):</strong> Before O'Quinn is admitted as equity partner (pre-2027), he participates via an income partnership arrangement: 60% of his book's net revenue flows to him as compensation. In Q2 2026 billing catch-up (~$175K net), he receives $105K while Bob and Chuck each receive $35K. This arrangement converts to full equity K-1 distributions at the 2027 admission date.
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">His Admission Economics</div>
+  <div class="g2 mt16">
+    <div class="sc t">
+      <div class="sc-hdr">
+        <div class="sc-title">What O'Quinn Receives at Admission</div>
+        <div class="sc-sub">2027 · equity events at close</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">SL24 equity stake (29.2%)</span><span class="sc-val">Purchased via formula</span></div>
+        <div class="sc-row"><span class="sc-lbl">20% of his revenue sold to TPG via SPM</span><span class="sc-val">~$260K/yr reduced</span></div>
+        <div class="sc-row"><span class="sc-lbl">Schwab referral credit (~20bps)</span><span class="sc-val">~$300K/yr to firm</span></div>
+        <div class="sc-row"><span class="sc-lbl">His own transaction proceeds at admission</span><span class="sc-val">~$1.56M (60% of his sale)</span></div>
+        <div class="sc-row"><span class="sc-lbl">Annual K-1 from day one</span><span class="sc-val green">$594K (2027)</span></div>
+      </div>
+      <div class="sc-foot">O'Quinn's 60% share of his own 20% revenue sale at admission represents his largest single-year liquidity event prior to any future equity sale.</div>
+    </div>
+    <div class="sc">
+      <div class="sc-hdr">
+        <div class="sc-title">What O'Quinn Owes (His Obligations)</div>
+        <div class="sc-sub">Proportional share of annual buyout payments</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">Chuck buyout obligation (29.2% share, 2027–2033)</span><span class="sc-val">~$130–$209K/yr</span></div>
+        <div class="sc-row"><span class="sc-lbl">Bob buyout obligation (33% share, 2032–2038)</span><span class="sc-val">~$311–$464K/yr</span></div>
+        <div class="sc-row"><span class="sc-lbl">2032 peak year — both overlap</span><span class="sc-val red">~$464K combined</span></div>
+        <div class="sc-row"><span class="sc-lbl">2032 NOI (O'Quinn's K-1)</span><span class="sc-val">$861K</span></div>
+        <div class="sc-row"><span class="sc-lbl">2032 net after all obligations</span><span class="sc-val green">$396K</span></div>
+      </div>
+      <div class="sc-foot">Even in the worst year (2032, both obligations overlapping), O'Quinn nets $396K — a comfortable outcome. His personal bank loan for Chuck's purchase services from his K-1 income.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     05 — PETE FREIDEL
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 05</div>
+  <h2 class="sec-title">Pete Freidel — <em>Road to Partnership</em></h2>
+  <p class="sec-sub">How Salvus's newest advisor earns equity, what the path looks like, and how bank financing removes the capital barrier.</p>
+</div>
+
+<div class="section">
+  <p class="lead">Pete Freidel joins as an IAR with a clear and structured path to equity partnership — but that partnership must be earned, not given. Salvus has designed a 100-point scorecard across five categories that Pete must achieve before equity admission is offered. The target admission window is 2029 (standard path), with bank financing available to eliminate any down-payment burden.</p>
+
+  <!-- 5 category scorecard -->
+  <div class="sl">The 5-Category Scorecard</div>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--navy);margin-bottom:20px">100-Point Framework — <em>Earn the Equity</em></h3>
+
+  <div class="g3" style="gap:14px;margin-bottom:24px;">
+    <div class="sc n" style="border-top-color:var(--gold)">
+      <div class="sc-hdr">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title" style="font-size:14px;">Client Development</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:var(--gold);">30 pts</div>
+        </div>
+        <div class="sc-sub">AUM growth · new clients · retention</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">AUM threshold</span><span class="sc-val" style="font-size:11px">$25M+ attributed</span></div>
+        <div class="sc-row"><span class="sc-lbl">Net new clients/yr</span><span class="sc-val" style="font-size:11px">4+ annually</span></div>
+        <div class="sc-row"><span class="sc-lbl">Retention rate</span><span class="sc-val" style="font-size:11px">95%+ of his book</span></div>
+      </div>
+    </div>
+    <div class="sc n" style="border-top-color:var(--teal)">
+      <div class="sc-hdr">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title" style="font-size:14px;">Revenue Contribution</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:#1aa8a8;">25 pts</div>
+        </div>
+        <div class="sc-sub">Revenue generated · profitability</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">Annual revenue target</span><span class="sc-val" style="font-size:11px">$300K+ attributed</span></div>
+        <div class="sc-row"><span class="sc-lbl">Revenue growth rate</span><span class="sc-val" style="font-size:11px">15%+ YOY</span></div>
+        <div class="sc-row"><span class="sc-lbl">Fee realization</span><span class="sc-val" style="font-size:11px">Within firm range</span></div>
+      </div>
+    </div>
+    <div class="sc n" style="border-top-color:var(--green)">
+      <div class="sc-hdr">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title" style="font-size:14px;">Leadership & Culture</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:var(--green);">20 pts</div>
+        </div>
+        <div class="sc-sub">Team · values · initiative</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">Team collaboration</span><span class="sc-val" style="font-size:11px">360° assessment</span></div>
+        <div class="sc-row"><span class="sc-lbl">Values alignment</span><span class="sc-val" style="font-size:11px">Fiduciary · client-first</span></div>
+        <div class="sc-row"><span class="sc-lbl">Initiative / ownership</span><span class="sc-val" style="font-size:11px">Operates independently</span></div>
+      </div>
+    </div>
+    <div class="sc n" style="border-top-color:#8e44ad">
+      <div class="sc-hdr">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title" style="font-size:14px;">Technical Expertise</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:#8e44ad;">15 pts</div>
+        </div>
+        <div class="sc-sub">Planning · investment · compliance</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">CFP or equivalent</span><span class="sc-val" style="font-size:11px">Required</span></div>
+        <div class="sc-row"><span class="sc-lbl">Investment competency</span><span class="sc-val" style="font-size:11px">Salvus methodology</span></div>
+        <div class="sc-row"><span class="sc-lbl">Compliance record</span><span class="sc-val" style="font-size:11px">Clean · no issues</span></div>
+      </div>
+    </div>
+    <div class="sc n" style="border-top-color:#c0392b">
+      <div class="sc-hdr">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title" style="font-size:14px;">Operational Excellence</div>
+          <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:#c0392b;">10 pts</div>
+        </div>
+        <div class="sc-sub">Process · systems · reporting</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">CRM / Addepar proficiency</span><span class="sc-val" style="font-size:11px">Full adoption</span></div>
+        <div class="sc-row"><span class="sc-lbl">Client reporting quality</span><span class="sc-val" style="font-size:11px">Meets Salvus standard</span></div>
+        <div class="sc-row"><span class="sc-lbl">Process adherence</span><span class="sc-val" style="font-size:11px">Consistent</span></div>
+      </div>
+    </div>
+    <div class="sc" style="border-top-color:var(--navy);background:var(--navy);color:white;">
+      <div class="sc-hdr" style="border-bottom-color:rgba(255,255,255,0.08);">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title" style="color:var(--gold3);font-size:14px;">Admission Threshold</div>
+          <div style="font-family:'DM Mono',monospace;font-size:18px;font-weight:600;color:var(--gold);">80/100</div>
+        </div>
+        <div class="sc-sub" style="color:rgba(255,255,255,0.4)">Minimum score required for offer</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row" style="border-color:rgba(255,255,255,0.08)"><span style="font-size:12px;color:rgba(255,255,255,0.6)">Tracking begins</span><span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--gold)">2027 annually</span></div>
+        <div class="sc-row" style="border-color:rgba(255,255,255,0.08)"><span style="font-size:12px;color:rgba(255,255,255,0.6)">Accelerated path (80+ by year 1)</span><span style="font-family:'DM Mono',monospace;font-size:12px;color:#7adaaa">2028 offer</span></div>
+        <div class="sc-row" style="border-color:rgba(255,255,255,0.08)"><span style="font-size:12px;color:rgba(255,255,255,0.6)">Standard path (80+ by year 2)</span><span style="font-family:'DM Mono',monospace;font-size:12px;color:rgba(255,255,255,0.5)">2029 offer</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout navy" style="margin-bottom:16px">
+    <strong>Non-Compete and Non-Solicit Agreement:</strong> Pete (and Robert O'Quinn) both execute a non-compete and non-solicit agreement drafted by the firm's attorney simultaneously with the SL24 Operating Agreement. This is a condition of employment and equity consideration — not negotiable. The agreement is drafted before any equity admission discussions begin.
+  </div>
+
+  <div class="callout gold">
+    <strong>The scorecard is private — Pete is never shown it directly.</strong> Bob and O'Quinn track it annually as an internal management tool. The conversation with Pete about partnership readiness should be qualitative, not score-driven. This protects the process from gaming and ensures the decision reflects genuine holistic judgment.
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">Pete's Admission Economics</div>
+  <div class="g2 mt16">
+    <div class="sc g">
+      <div class="sc-hdr">
+        <div class="sc-title">Pete's Day-One Partnership Economics</div>
+        <div class="sc-sub">2029 · 9.5% SL24 · bank financed</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">Estimated stake value (9.5% SL24)</span><span class="sc-val">~$950,000</span></div>
+        <div class="sc-row"><span class="sc-lbl">Down payment required</span><span class="sc-val green">$0 (100% bank financed)</span></div>
+        <div class="sc-row"><span class="sc-lbl">Bank loan (Oak Street Funding)</span><span class="sc-val">~$950,000</span></div>
+        <div class="sc-row"><span class="sc-lbl">Annual bank loan payment</span><span class="sc-val red">(~$145,000/yr)</span></div>
+        <div class="sc-row"><span class="sc-lbl">Pete's K-1 income at 9.5%</span><span class="sc-val green">~$203,000/yr</span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Pete's net year one</strong></span><span class="sc-val green"><strong>~$58,000 net positive</strong></span></div>
+      </div>
+      <div class="sc-foot">Pete is cash-positive from day one of equity partnership — no personal capital required, no wait to break even. The 100% financing option from Oak Street Funding eliminates the barrier that blocks most internal succession plans.</div>
+    </div>
+    <div class="sc">
+      <div class="sc-hdr">
+        <div class="sc-title">Pete's Path to Full Partner</div>
+        <div class="sc-sub">Ownership trajectory · 2028–2032+</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">2029 (admission)</span><span class="sc-val">9.5% SL24</span></div>
+        <div class="sc-row"><span class="sc-lbl">2029 (Chuck exits)</span><span class="sc-val">12.5% SL24</span></div>
+        <div class="sc-row"><span class="sc-lbl">2030</span><span class="sc-val">12.0% SL24</span></div>
+        <div class="sc-row"><span class="sc-lbl">2031 (Bob exits)</span><span class="sc-val">13.0% SL24</span></div>
+        <div class="sc-row"><span class="sc-lbl">2032+</span><span class="sc-val">~14–30% SL24</span></div>
+        <div class="sc-row"><span class="sc-lbl">Long-term ceiling (co-owner with ROQ)</span><span class="sc-val green">~30–40% SL24</span></div>
+      </div>
+      <div class="sc-foot">As Bob's equity is absorbed by O'Quinn and Pete post-2031, Pete's stake grows substantially — potentially reaching 30–40% of a firm generating $2.6M+ in NOI. His long-term upside is very significant.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     06 — FIRM SURVIVABILITY
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 06</div>
+  <h2 class="sec-title">Firm <em>Survivability</em></h2>
+  <p class="sec-sub">Can Salvus sustain two successive founder buyouts — back to back — while continuing to pay partners meaningful incomes? The answer, with the right structure, is yes.</p>
+</div>
+
+<div class="section">
+  <p class="lead">The central financial question of this entire plan is simple: does the firm generate enough annual income to service the cost of buying out both Chuck (2027–2033) and Bob (2032–2038), with one year of overlap in 2032, while still leaving O'Quinn and Pete with meaningful distributable incomes? The model says yes — and shows why.</p>
+
+  <div class="stats s4">
+    <div class="stat g">
+      <div class="stat-lbl">2027 NOI (first combined year)</div>
+      <div class="stat-val">$2.00M</div>
+      <div class="stat-sub">After TPG 7% fee and all operating expenses</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">2032 Annual Obligation (A — worst year)</div>
+      <div class="stat-val">$1.40M</div>
+      <div class="stat-sub">Chuck note $462K + Bob note $942K overlapping</div>
+    </div>
+    <div class="stat g">
+      <div class="stat-lbl">2032 NOI Coverage (Scenario A)</div>
+      <div class="stat-val">1.86×</div>
+      <div class="stat-sub">$2.61M NOI ÷ $1.40M obligation · comfortable margin</div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl">2032 True Distributable (Scenario B)</div>
+      <div class="stat-val">$1.19M</div>
+      <div class="stat-sub">After all buyout obligations · splits among ROQ + Pete</div>
+    </div>
+  </div>
+
+  <!-- Key years condensed waterfall -->
+  <div class="sl">The Critical Years — Condensed Waterfall</div>
+  <div class="cmp-wrap">
+  <table class="cmp">
+    <thead>
+      <tr>
+        <th>Year</th><th>Event</th><th class="gold">Combined NOI</th>
+        <th>Chuck Obligation</th><th>Bob Obligation</th>
+        <th class="gold">Total Obligation</th>
+        <th class="green">Distributable (A)</th>
+        <th class="green">Distributable (B)</th>
+        <th>Coverage (A)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2026</td><td style="font-size:11px;color:var(--text3)">TPG 20% close · SWM only</td><td class="num gold">$1,119K</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num green">$1,119K</td><td class="num green">$1,119K</td><td class="num">—</td></tr>
+      <tr class="hl"><td>2027</td><td style="font-size:11px;color:var(--text3)">ROQ joins · Chuck 1st tranche</td><td class="num gold">$1,996K</td><td class="num red">($462K)</td><td class="num">—</td><td class="num red">($462K)</td><td class="num green">$1,571K</td><td class="num green">$1,643K</td><td class="num">4.40×</td></tr>
+      <tr><td>2028</td><td style="font-size:11px;color:var(--text3)">Chuck 1st tranche · Pete admitted</td><td class="num gold">$2,098K</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num green">$2,098K</td><td class="num green">$2,098K</td><td class="num">—</td></tr>
+      <tr class="hl"><td>2029</td><td style="font-size:11px;color:var(--text3)">Chuck final tranche — fully exits</td><td class="num gold">$2,206K</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num green">$2,206K</td><td class="num green">$2,206K</td><td class="num">—</td></tr>
+      <tr><td>2030</td><td style="font-size:11px;color:var(--text3)">Growth year · Chuck note continues</td><td class="num gold">$2,319K</td><td class="num red">($447K)</td><td class="num">—</td><td class="num red">($462K)</td><td class="num green">$1,857K</td><td class="num green">$1,929K</td><td class="num">5.02×</td></tr>
+      <tr class="hl"><td>2031</td><td style="font-size:11px;color:var(--text3)">Bob exits · Chuck note continues</td><td class="num gold">$2,437K</td><td class="num red">($462K)</td><td class="num">—</td><td class="num red">($462K)</td><td class="num green">$1,975K</td><td class="num green">$2,047K</td><td class="num">5.27×</td></tr>
+      <tr style="background:#fff8f0;"><td><strong>2032</strong></td><td style="font-size:11px;color:#c0392b;font-weight:600">⚠ BOTH overlap</td><td class="num gold"><strong>$2,608K</strong></td><td class="num red"><strong>($462K)</strong></td><td class="num red"><strong>($942K)</strong></td><td class="num red"><strong>($1,404K)</strong></td><td class="num" style="color:var(--gold)"><strong>$1,204K</strong></td><td class="num green"><strong>$1,190K</strong></td><td class="num" style="font-weight:700">1.86×</td></tr>
+      <tr class="hl"><td>2033</td><td style="font-size:11px;color:var(--text3)">Chuck + Bob notes both overlap — only 2 years (2032–2033)</td><td class="num gold">$2,700K+</td><td class="num">—</td><td class="num red">($927K)</td><td class="num red">($927K)</td><td class="num green">$1,773K+</td><td class="num green">$1,859K+</td><td class="num">2.91×</td></tr>
+      <tr><td>2038</td><td style="font-size:11px;color:var(--text3)">Bob's final note payment</td><td class="num gold">$2,608K</td><td class="num">—</td><td class="num red">($942K)</td><td class="num red">($942K)</td><td class="num green">$1,666K</td><td class="num green">$1,752K</td><td class="num">2.77×</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2">Verdict</td><td class="num gold" colspan="2">NOI never goes negative</td><td colspan="2" class="num green">Firm survives both buyouts comfortably</td><td colspan="3">Minimum coverage 1.86× in 2032 ✓</td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <div class="pq mt24">
+    <p>"The 2032 overlap year is the stress test. With $2.61M in NOI and $1.40M in total obligations, the firm retains $1.20M in distributable income — split between O'Quinn and Pete. Both partners remain cash-positive, and the coverage ratio of 1.86× provides a comfortable buffer even in a mild revenue downturn."</p>
+    <cite>— Salvus Financial Model · June 2026 · Verified Numbers</cite>
+  </div>
+
+  <div class="sl mt32">Bob's Exit — What Tina Needs to Know</div>
+  <div class="g2">
+    <div class="sc">
+      <div class="sc-hdr">
+        <div class="sc-title">Scenario A — Bob Holds the Note</div>
+        <div class="sc-sub">Lower upfront · steady income stream · performance risk</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">TPG deal proceeds (2026–2027)</span><span class="sc-val">$2,880,000</span></div>
+        <div class="sc-row"><span class="sc-lbl">Down payment at 2031 exit</span><span class="sc-val">$1,338,507</span></div>
+        <div class="sc-row"><span class="sc-lbl">Annual note income (2032–2038)</span><span class="sc-val">$942,118/yr</span></div>
+        <div class="sc-row"><span class="sc-lbl">Total note receipts over 7 years</span><span class="sc-val">$6,594,827</span></div>
+        <div class="sc-row" style="border-top:2px solid var(--rule);padding-top:8px;margin-top:4px;"><span class="sc-lbl"><strong>Bob's lifetime total (all sources)</strong></span><span class="sc-val"><strong>$10,813,334</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl" style="color:var(--red)">Performance risk through</span><span class="sc-val" style="color:var(--red)">2038</span></div>
+      </div>
+    </div>
+    <div class="sc g">
+      <div class="sc-hdr" style="background:#edf7f2;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="sc-title">Scenario B — Bob Gets Cash at Close</div>
+          <span class="badge badge-green">Recommended</span>
+        </div>
+        <div class="sc-sub">Large upfront payment · small note · clean retirement</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="sc-lbl">TPG deal proceeds (2026–2027)</span><span class="sc-val">$2,880,000</span></div>
+        <div class="sc-row"><span class="sc-lbl"><strong>Cash at 2031 exit (down pmt + bank)</strong></span><span class="sc-val green"><strong>$5,621,728</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl">Small note income (2032–2038)</span><span class="sc-val">$188,424/yr</span></div>
+        <div class="sc-row"><span class="sc-lbl">Total small note receipts</span><span class="sc-val">$1,318,965</span></div>
+        <div class="sc-row" style="border-top:2px solid var(--rule);padding-top:8px;margin-top:4px;"><span class="sc-lbl"><strong>Bob's lifetime total (all sources)</strong></span><span class="sc-val"><strong>$9,820,693</strong></span></div>
+        <div class="sc-row"><span class="sc-lbl" style="color:var(--green)">Performance risk after 2031</span><span class="sc-val green">Minimal (only $1.3M at risk)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout navy mt20">
+    <strong>For Tina:</strong> Under Scenario B, Bob and Tina enter retirement in 2031 with approximately $5.6M in fresh cash (on top of the $2.88M already received from the TPG deals in 2026–2027). A small note continues paying ~$188K/year through 2038 as bonus income. Total retirement-related equity proceeds: approximately $9.8M. Combined with Bob's retirement accounts, investment assets, and any Social Security or other income, this represents a very strong household financial position. The primary risk under Scenario B is essentially zero — O'Quinn and Pete have bank financing obligations, not Bob.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     07 — CRITICAL FACTORS & RISK
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 07</div>
+  <h2 class="sec-title">Critical Factors <em>&amp; Risk</em></h2>
+  <p class="sec-sub">What must go right, what could go wrong, and where the plan has real vulnerabilities that need attention now.</p>
+</div>
+
+<div class="section">
+
+  <div class="risk-item">
+    <div class="risk-tag tag-r">CRITICAL</div>
+    <div class="risk-body">
+      <div class="risk-title">Buy-Sell Agreement — Alternative Protection (Life Insurance Likely Unavailable)</div>
+      <div class="risk-desc">Traditional life-insurance-funded buy-sell agreements are likely unavailable to both Bob and Chuck given health history. This means the buy-sell must be structured around alternative protections: (1) disability buyout insurance — underwrite immediately, as this may still be available; (2) a contractual cross-purchase obligation triggered by incapacity, funded by a pre-built firm cash reserve; (3) an accelerated buyout schedule if a triggering health event occurs; and (4) a defined "disability bridge" period where the incapacitated partner's K-1 continues at a reduced level until buyout completes. The attorney must draft explicit disability and death provisions into the SL24 Operating Agreement — this is the most urgent unaddressed structural risk.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-r">CRITICAL</div>
+    <div class="risk-body">
+      <div class="risk-title">SL24 Operating Agreement — Attorney Review &amp; Finalization</div>
+      <div class="risk-desc">The SL24 OA must be finalized before any 2027 equity transactions occur. Critical provisions still needed: explicit permission for third-party lender financing of equity purchases, Bob's first right of refusal language, Pete's admission criteria pathway, TPG/Purple Marlin permanent exclusion, managing member succession, and the uniform valuation formula. Questions 8–18 from the attorney review remain open.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-r">CRITICAL</div>
+    <div class="risk-body">
+      <div class="risk-title">O'Quinn Pre-Qualification with Conventional RIA Lender</div>
+      <div class="risk-desc">O'Quinn must be pre-qualified with Oak Street Funding or PPC Loan in 2026 — well before the 2027 close. His personal credit, financial statements, and net worth will be underwritten. If there are issues, there may be 6–12 months to resolve them. Discovering a problem in Q1 2027 when the transaction is ready to close would be catastrophic for the timeline.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-y">IMPORTANT</div>
+    <div class="risk-body">
+      <div class="risk-title">AUM Retention Through the Transition</div>
+      <div class="risk-desc">The entire financial model assumes minimal client attrition through the ownership transition. In practice, some high-net-worth clients may follow Chuck personally or become uncertain during the change. A 10% revenue decline in 2027–2028 would reduce NOI by ~$200K — still manageable given the 4.4× coverage ratio in those years, but worth monitoring and communicating proactively to key clients.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-y">IMPORTANT</div>
+    <div class="risk-body">
+      <div class="risk-title">Sonja Elia — Operational Continuity and Succession</div>
+      <div class="risk-desc">Sonja is the operational backbone of the firm. As the transition adds complexity (new partners, new billing systems, Fidelity integration, Addepar reporting), her role becomes more critical — not less. Cross-training, salary review, and a formal key-person retention plan should be in place before the 2027 transition begins. A Sonja departure during the transition would be a significant operational risk.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-y">IMPORTANT</div>
+    <div class="risk-body">
+      <div class="risk-title">The 2032 Overlap Year — Revenue Sensitivity</div>
+      <div class="risk-desc">In 2032, both buyout obligations run simultaneously: Chuck's final note payment ($462K/yr) and Bob's first full buyout year ($942K/yr). Total: $1.40M against $2.61M NOI — a 1.86× coverage ratio. A severe market correction (−20% AUM) in 2031–2032 could reduce NOI to $1.6–1.8M and compress coverage below 1.3×. A 3–6 month debt service reserve fund, pre-funded from 2030 income, is strongly recommended.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-g">MANAGEABLE</div>
+    <div class="risk-body">
+      <div class="risk-title">Outstanding Billing and Operational Issues (O'Quinn / Freidel Onboarding)</div>
+      <div class="risk-desc">~13 client accounts with uncollected fees, Schwab NAA not executed, Fidelity billing gaps, and Addepar reporting format issues from advisor onboarding. These are operational, not existential — but must be fully resolved before 2027 so that combined revenue figures used in the buyout valuation are accurate and auditable.</div>
+    </div>
+  </div>
+
+  <div class="risk-item">
+    <div class="risk-tag tag-g">MANAGEABLE</div>
+    <div class="risk-body">
+      <div class="risk-title">Fee Compression Over Time</div>
+      <div class="risk-desc">The model assumes flat advisory fee rates. Industry-wide, fees are compressing at approximately 0.5 bps/year as clients become more fee-aware and competition from robo-advisors increases. At the current fee level of ~163 bps blended, Salvus has meaningful buffer — but the firm should monitor fee realization annually and offset any compression with AUM growth.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     08 — NEXT STEPS
+════════════════════════════════════════════════════════════════ -->
+<div class="sec-hdr page-break">
+  <div class="sec-num">Section 08</div>
+  <h2 class="sec-title">Next Steps — <em>By Person &amp; Date</em></h2>
+  <p class="sec-sub">The most urgent actions to protect this plan and ensure the 2027 transactions close on schedule.</p>
+</div>
+
+<div class="section">
+
+  <div class="ns-grid">
+    <div class="ns-card">
+      <div class="ns-hdr" style="background:var(--navy);">Bob Joel <span style="opacity:0.5;font-weight:300;font-size:10px;margin-left:8px">CIO · Primary Owner</span></div>
+      <div class="ns-body">
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q3:</strong> With attorney, draft disability and death provisions for SL24 OA buy-sell trigger. Life insurance likely unavailable — structure the buy-sell around disability insurance (underwrite immediately), cash reserve, and accelerated schedule provisions.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q3:</strong> Contact Oak Street Funding and PPC Loan. Describe tranched succession structure. Request preliminary term sheet for ~$1.85M conventional RIA loan for O'Quinn.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q4:</strong> Finalize SL24 Operating Agreement with attorney. Prioritize: lender permission language, Bob's ROFR, valuation formula, Pete admission pathway.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q4:</strong> Resolve all O'Quinn and Freidel onboarding billing gaps (13 accounts, Schwab NAA, Fidelity). Revenue baseline for 2027 valuation must be clean.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027 Q1:</strong> Begin non-qualified liquidity building. Target $2–3M outside retirement accounts before 2031 exit — currently estimated at $1.14M gap.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027 Q1:</strong> Begin informal conversations with Live Oak Bank about combination financing ($5M SBA + conventional) for the 2031 Bob exit. Establish the relationship early.</div></div>
+      </div>
+    </div>
+
+    <div class="ns-card">
+      <div class="ns-hdr" style="background:var(--teal);">Chuck Woolston <span style="opacity:0.5;font-weight:300;font-size:10px;margin-left:8px">CEO · Exiting Partner</span></div>
+      <div class="ns-body">
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q3:</strong> Meet with WJM CPA to model installment sale tax treatment for both Scenario A and Scenario B. Understand after-tax impact of each financing structure.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q4:</strong> Review and confirm SL24 Operating Agreement buyout provisions. Ensure the valuation formula, tranche schedule, and ROFR are acceptable before signing.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027 Q1:</strong> Develop client communication plan for key relationships. Personally introduce O'Quinn (and where appropriate, Pete) to high-value clients before formal transition announcements.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027 Q2:</strong> Execute first tranche closing documents. Decide Scenario A vs. Scenario B for financing — Scenario B strongly recommended to receive $3.93M at close vs. waiting 6 years for installments.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027–2028:</strong> Transition operational knowledge to Sonja Elia and O'Quinn. Maintain advisory relationship on key clients through the exit period if agreeable to all parties.</div></div>
+      </div>
+    </div>
+
+    <div class="ns-card">
+      <div class="ns-hdr" style="background:var(--green);">Robert O'Quinn <span style="opacity:0.5;font-weight:300;font-size:10px;margin-left:8px">IAR → Equity Partner 2027</span></div>
+      <div class="ns-body">
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q3:</strong> Complete personal financial pre-qualification with Oak Street Funding or PPC Loan. Provide personal financial statements, credit history, and asset documentation.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q3:</strong> Execute Schwab NAA (Network Advisory Agreement) for referral accounts. ~$300K/year in Schwab referral income is contingent on this being in place.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q4:</strong> Resolve AQR alternative accounts pending Schwab master agreement. Ensure all client accounts are properly onboarded and billing-eligible before year-end.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2026 Q4:</strong> <strong>Execute Non-Compete and Non-Solicit Agreement.</strong> Drafted simultaneously with the SL24 Operating Agreement by the same attorney. Both O'Quinn and Freidel sign before any equity transactions close.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027 Q1:</strong> Review and understand the SL24 Operating Agreement. Understand obligations, rights, valuation methodology, and the Pete Freidel admission process.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027 Q2:</strong> Execute equity admission closing. Loan closes concurrently. Begin participating in firm-level governance decisions as equity partner.</div></div>
+        <div class="ns-item"><div class="ns-check"></div><div><strong>2027–2028:</strong> Begin annual Pete Freidel scorecard tracking (internal, not shared with Pete). First formal assessment at year-end 2027.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div-sm">
+  <div class="sl">All Parties — The Non-Negotiables</div>
+  <div class="g2 mt16">
+    <div class="callout green">
+      <strong>Must complete before 3/1/2027 close:</strong><br>
+      • SL24 OA executed and fully signed<br>
+      • Non-compete/non-solicit signed by O'Quinn AND Freidel (same attorney, simultaneous)<br>
+      • Life/disability insurance policies bound<br>
+      • O'Quinn bank pre-qualification complete<br>
+      • All onboarding billing issues resolved<br>
+      • WJM CPA tax analysis complete (both scenarios)<br>
+      • TPG additional 10% MIPA amendment signed
+    </div>
+    <div class="callout gold">
+      <strong>The overarching principle:</strong> This plan only works if all parties execute their roles in the right sequence and on schedule. The 2027 transactions involve simultaneous events (TPG add'l 10%, O'Quinn admission, Chuck first tranche, bank loan close) that cannot be sequenced piecemeal. A 90-day project management approach — with a single attorney coordinating all closing documents — is the only way to ensure this closes cleanly.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════════ -->
+<div class="doc-footer">
+  <div>SALVUS LEGACY 24 LLC · FIRM SUCCESSION & PARTNERSHIP PLAN · JUNE 2026</div>
+  <div>STRICTLY CONFIDENTIAL · NOT FOR DISTRIBUTION · FOR PRINCIPAL USE ONLY</div>
+</div>
+
+</body>
+</html>

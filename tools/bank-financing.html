@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Financing for RIA Succession · Salvus Wealth Partners</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+:root{
+  --ink:#0f1a2a;--ink2:#1e3045;--ink3:#243a55;
+  --gold:#b8892a;--gold2:#d4a843;--gold3:#f0cc7a;--gold-pale:#faf3e0;
+  --cream:#f8f5ef;--rule:#ddd5c4;
+  --text:#2a3d52;--text2:#4a6070;--text3:#7a8f9a;
+  --green:#1a6b40;--green-pale:#e8f5ee;--green2:#27ae60;
+  --red:#9a2a1a;--red-pale:#fdf0ee;--red2:#c0392b;
+  --blue:#1a3a6b;--blue-pale:#e8edf5;--blue2:#2a5298;
+  --teal:#0d6b6b;--teal-pale:#e0f5f5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* COVER */
+.cover{min-height:100vh;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:64px;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(184,137,42,0.08) 0%,transparent 60%);}
+.cv{position:relative;z-index:1;}
+.c-firm{font-weight:300;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);margin-bottom:80px;}
+.c-eye{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:18px;}
+.c-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:56px;line-height:1.1;color:white;max-width:800px;}
+.c-title em{font-style:italic;color:var(--gold3);}
+.c-rule{width:60px;height:1px;background:var(--gold);margin:32px 0;}
+.c-sub{font-weight:300;font-size:15px;color:rgba(255,255,255,0.42);max-width:600px;line-height:1.85;}
+.c-bot{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,0.08);padding-top:32px;position:relative;z-index:1;}
+.c-meta{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:1px;line-height:2.3;}
+.c-meta strong{color:rgba(255,255,255,0.42);display:block;}
+.c-badge{background:rgba(184,137,42,0.15);border:1px solid rgba(184,137,42,0.3);color:var(--gold3);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border-radius:2px;font-family:'DM Mono',monospace;}
+
+/* LAYOUT */
+.doc{max-width:1140px;margin:0 auto;padding:64px 48px;}
+.sl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;color:var(--ink);line-height:1.15;margin-bottom:8px;}
+.st em{font-style:italic;color:var(--gold);}
+.si{font-size:15px;color:var(--text2);max-width:720px;line-height:1.85;margin-bottom:36px;font-weight:300;}
+hr.div{border:none;border-top:1px solid var(--rule);margin:52px 0;}
+
+/* VERDICT BANNER */
+.verdict{background:var(--green);color:white;border-radius:4px;padding:28px 36px;margin-bottom:32px;display:flex;gap:24px;align-items:flex-start;}
+.v-icon{font-size:32px;flex-shrink:0;margin-top:2px;}
+.v-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:6px;}
+.v-body{font-size:13px;line-height:1.75;color:rgba(255,255,255,0.85);}
+
+/* LENDER CARDS */
+.lender-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;}
+.lender-card{background:white;border:1px solid var(--rule);border-radius:6px;overflow:hidden;}
+.lh{padding:18px 20px 14px;border-bottom:1px solid var(--rule);}
+.lh-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.lh-type{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:1px;color:var(--text3);text-transform:uppercase;}
+.lb{padding:14px 20px;}
+.lb-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--cream);font-size:12px;}
+.lb-row:last-child{border:none;}
+.lb-lbl{color:var(--text2);}
+.lb-val{font-family:'DM Mono',monospace;font-weight:500;color:var(--ink);text-align:right;}
+.lf{padding:10px 20px;background:var(--cream);border-top:1px solid var(--rule);font-size:11px;color:var(--text3);line-height:1.6;}
+
+/* COMPARISON TABLE */
+.tw{overflow-x:auto;margin-bottom:24px;}
+.cmp{width:100%;border-collapse:collapse;font-size:12px;min-width:900px;}
+.cmp thead th{background:var(--ink);color:white;padding:10px 14px;text-align:left;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;border-right:1px solid rgba(255,255,255,0.08);}
+.cmp thead th:first-child{width:22%;}
+.cmp tbody tr{border-bottom:1px solid var(--rule);}
+.cmp tbody tr:hover{background:rgba(184,137,42,0.03);}
+.cmp tbody td{padding:10px 14px;vertical-align:top;border-right:1px solid var(--rule);}
+.cmp tbody td:first-child{font-weight:600;color:var(--ink);background:rgba(184,137,42,0.04);}
+.cmp tr.cat-row td{background:var(--ink2);color:rgba(255,255,255,0.6);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:6px 14px;font-family:'DM Mono',monospace;}
+.cmp tfoot td{background:var(--gold-pale);padding:10px 14px;font-weight:600;border-top:2px solid var(--gold);font-size:11px;}
+.good{color:var(--green);font-weight:600;}
+.bad{color:var(--red);font-weight:600;}
+.ok{color:var(--gold);font-weight:600;}
+
+/* PROS / CONS */
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+.pc{border-radius:6px;overflow:hidden;}
+.pc-hdr{padding:14px 18px;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:white;}
+.pc-body{background:white;border:1px solid var(--rule);border-top:none;padding:4px 0;}
+.pc-item{display:flex;gap:10px;padding:10px 18px;border-bottom:1px solid var(--cream);font-size:13px;line-height:1.6;}
+.pc-item:last-child{border-bottom:none;}
+.pc-icon{flex-shrink:0;font-size:13px;margin-top:2px;}
+
+/* SCENARIO CARDS */
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.sc{background:white;border:1px solid var(--rule);border-radius:6px;overflow:hidden;border-top:3px solid var(--gold);}
+.sc.green{border-top-color:var(--green);}
+.sc.red{border-top-color:var(--red);}
+.sc.blue{border-top-color:var(--blue);}
+.sc-hdr{padding:16px 20px 12px;border-bottom:1px solid var(--rule);}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.sc-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.sc-body{padding:14px 20px;}
+.sc-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--cream);font-size:12px;}
+.sc-row:last-child{border:none;}
+.sc-lbl{color:var(--text2);}
+.sc-val{font-family:'DM Mono',monospace;font-weight:600;color:var(--ink);}
+.sc-note{padding:10px 20px;background:var(--cream);border-top:1px solid var(--rule);font-size:11px;color:var(--text3);line-height:1.6;}
+
+/* PULL QUOTE */
+.pq{border-left:3px solid var(--gold);padding:18px 26px;margin:24px 0;background:var(--gold-pale);border-radius:0 4px 4px 0;}
+.pq p{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--ink2);line-height:1.65;}
+.pq cite{display:block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-top:8px;font-style:normal;}
+
+/* EXPLAIN */
+.ex{border-left:2px solid var(--gold);padding:12px 18px;background:var(--gold-pale);border-radius:0 4px 4px 0;font-size:13px;color:#5a4010;margin-bottom:18px;line-height:1.7;}
+.ex strong{color:#3a2800;display:block;margin-bottom:3px;}
+.ex.g{border-left-color:var(--green);background:var(--green-pale);color:#0a3a1a;}
+.ex.g strong{color:#062010;}
+.ex.r{border-left-color:var(--red);background:var(--red-pale);color:#5a1a0a;}
+.ex.b{border-left-color:var(--blue);background:var(--blue-pale);color:#0a1a4a;}
+
+/* NOTE TAG */
+.tag{display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.3px;margin-right:5px;}
+.tg{background:var(--gold-pale);color:#6b4f0a;border:1px solid #ddb84a;}
+.tgr{background:var(--green-pale);color:#0a4a26;border:1px solid #3a9a60;}
+.tr{background:var(--red-pale);color:#6a1a0a;border:1px solid #cc5a4a;}
+.tb{background:var(--blue-pale);color:#0a2a5a;border:1px solid #4a6aaa;}
+
+/* CHART */
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.ch-box{background:white;border:1px solid var(--rule);border-radius:6px;padding:18px 20px;}
+.ch-box h3{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.ch-box p{font-size:11px;color:var(--text3);margin-bottom:12px;}
+.ch-box canvas{max-height:220px;}
+
+/* REC BOX */
+.rb{background:var(--ink);color:white;border-radius:6px;padding:36px 40px;margin-bottom:28px;position:relative;overflow:hidden;}
+.rb::before{content:'';position:absolute;top:0;right:0;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,42,0.12),transparent 70%);}
+.rb-lbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;font-family:'DM Mono',monospace;}
+.rb-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:white;margin-bottom:16px;line-height:1.35;}
+.rb ul{list-style:none;position:relative;z-index:1;}
+.rb li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:13px;color:rgba(255,255,255,0.72);display:flex;gap:12px;line-height:1.65;}
+.rb li::before{content:'→';color:var(--gold2);flex-shrink:0;}
+.rb li:last-child{border:none;}
+.rb li strong{color:white;}
+
+/* STATS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat{background:white;border:1px solid var(--rule);border-radius:4px;padding:16px 18px;border-top:2px solid var(--gold);}
+.stat.g{border-top-color:var(--green);}
+.stat.r{border-top-color:var(--red);}
+.stat.b{border-top-color:var(--blue);}
+.stat-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:5px;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;color:var(--ink);line-height:1.1;}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+
+.footer{border-top:1px solid var(--rule);padding:22px 48px;max-width:1140px;margin:0 auto;display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+
+@media(max-width:860px){.lender-grid,.pc-grid,.sc-grid,.ch-grid{grid-template-columns:1fr;}.stat-row{grid-template-columns:repeat(2,1fr);}.cover{padding:36px;}.c-title{font-size:36px;}.doc{padding:36px 20px;}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cv">
+    <div class="c-firm">Salvus Legacy 24 LLC · Financing Strategy</div>
+    <div class="c-eye">Bank Financing for RIA Succession</div>
+    <h1 class="c-title">Third-Party<br><em>Bank Financing</em><br>as an Exit Tool</h1>
+    <div class="c-rule"></div>
+    <p class="c-sub">A comprehensive analysis of specialist RIA lenders — Live Oak Bank, Oak Street Funding, SkyView Partners, and PPC Loan — as an alternative or complement to seller-note financing for Chuck's exit and Bob's eventual retirement. With pro/con analysis, side-by-side term comparison, and specific application to Salvus's 2027–2031 transaction calendar.</p>
+  </div>
+  <div class="c-bot">
+    <div class="c-meta"><strong>Prepared for</strong>Robert W. Joel, CFP · Salvus Legacy 24 LLC<br>June 2026 · For discussion with counsel and WJM CPA</div>
+    <div class="c-badge">Confidential · Internal Planning</div>
+  </div>
+</div>
+
+<div class="doc">
+
+<!-- S1: THE VERDICT -->
+<div class="sl">Section 01</div>
+<h2 class="st">The <em>Verdict</em></h2>
+<p class="si">Bank financing is a genuinely compelling addition to the Salvus succession toolkit — but with a critical constraint that changes how it applies. The short answer: it should be central to O'Quinn and Pete financing their purchases, and it may solve the single biggest gap in the plan — funding Bob's exit with cash rather than paper.</p>
+
+<div class="verdict">
+  <div class="v-icon">✓</div>
+  <div>
+    <div class="v-title">Bank Financing Is Worthy — With One Critical Caveat</div>
+    <div class="v-body">Specialist RIA lenders — Live Oak, Oak Street Funding, SkyView Partners, and PPC Loan — actively finance internal partner buyouts at Salvus's firm size. The loan goes to the <strong>buyer</strong> (O'Quinn, Pete, eventually the buyers of Bob's stake), not to Salvus itself. This is transformative: it means Chuck and Bob receive cash at closing rather than holding seller notes for years. The caveat: SBA 7(a) loans cannot fund tranched/partial buyouts — a direct conflict with Salvus's multi-year succession design. Conventional loans from Oak Street, SkyView, or PPC can. Use the right product for each transaction.</div>
+  </div>
+</div>
+
+<div class="stat-row">
+  <div class="stat g"><div class="stat-lbl">2025 Live Oak RIA Lending</div><div class="stat-val">Record</div><div class="stat-sub">"Biggest lending year we've ever had" — James Hughes, MD, Live Oak Bank (WealthManagement.com Dec 2025)</div></div>
+  <div class="stat"><div class="stat-lbl">SBA 7(a) Max Loan</div><div class="stat-val">$5M</div><div class="stat-sub">Can pair with conventional financing for deals above $5M (Live Oak combination program)</div></div>
+  <div class="stat b"><div class="stat-lbl">Live Oak Avg Rate (2025)</div><div class="stat-val">9.20%</div><div class="stat-sub">Variable, prime + spread. 98.7% of Live Oak loans carry variable rates (GoSBA 2025)</div></div>
+  <div class="stat"><div class="stat-lbl">Conventional RIA Loan Typical Rate</div><div class="stat-val">8–10%</div><div class="stat-sub">Fixed or variable · SkyView Partners, Oak Street Funding, PPC Loan · 2025 market</div></div>
+</div>
+
+<hr class="div">
+
+<!-- S2: THE LENDERS -->
+<div class="sl">Section 02</div>
+<h2 class="st">The <em>Four</em> Specialist RIA Lenders</h2>
+<p class="si">These are not general commercial banks. Each has a dedicated investment advisory lending team that underwrites RIA businesses as going concerns — using recurring revenue, client retention, and AUM stability as collateral proxies rather than hard assets. Salvus fits their target profile precisely.</p>
+
+<div class="lender-grid">
+  <div class="lender-card">
+    <div class="lh" style="border-left:4px solid #0d6b6b">
+      <div class="lh-name">Live Oak Bank</div>
+      <div class="lh-type">SBA 7(a) Primary · Conventional Available · #1 SBA Lender 2025</div>
+    </div>
+    <div class="lb">
+      <div class="lb-row"><span class="lb-lbl">Loan type</span><span class="lb-val">SBA 7(a) + Conventional</span></div>
+      <div class="lb-row"><span class="lb-lbl">Max amount</span><span class="lb-val">$5M SBA / Higher conventional</span></div>
+      <div class="lb-row"><span class="lb-lbl">Term</span><span class="lb-val">Up to 10 years</span></div>
+      <div class="lb-row"><span class="lb-lbl">Rate (2025 avg)</span><span class="lb-val">~9.20% variable</span></div>
+      <div class="lb-row"><span class="lb-lbl">Down payment</span><span class="lb-val">10–20% typically</span></div>
+      <div class="lb-row"><span class="lb-lbl">RIA specialization</span><span class="lb-val">Yes — dedicated team</span></div>
+      <div class="lb-row"><span class="lb-lbl">Target AUM range</span><span class="lb-val">$75M – $2B</span></div>
+      <div class="lb-row"><span class="lb-lbl">Partial/tranched buyout</span><span class="lb-val" style="color:var(--red)">❌ SBA rules prohibit</span></div>
+    </div>
+    <div class="lf">Broke the dam for RIA lending in 2012. Preferred Lender Program (PLP) status = faster SBA process. Combination program pairs $5M SBA + conventional for larger deals. Best for full, clean acquisitions.</div>
+  </div>
+  <div class="lender-card">
+    <div class="lh" style="border-left:4px solid #1a6b40">
+      <div class="lh-name">Oak Street Funding</div>
+      <div class="lh-type">Conventional Loans · No SBA · Founded 2003</div>
+    </div>
+    <div class="lb">
+      <div class="lb-row"><span class="lb-lbl">Loan type</span><span class="lb-val">Conventional only</span></div>
+      <div class="lb-row"><span class="lb-lbl">Max amount</span><span class="lb-val">Flexible — based on creditworthiness</span></div>
+      <div class="lb-row"><span class="lb-lbl">Term</span><span class="lb-val">Up to 10 years</span></div>
+      <div class="lb-row"><span class="lb-lbl">Rate</span><span class="lb-val">Market-based, often fixed available</span></div>
+      <div class="lb-row"><span class="lb-lbl">Down payment</span><span class="lb-val">Can do 100% financing for RIAs</span></div>
+      <div class="lb-row"><span class="lb-lbl">RIA specialization</span><span class="lb-val">Yes — 20+ years RIA focus</span></div>
+      <div class="lb-row"><span class="lb-lbl">Partial/tranched buyout</span><span class="lb-val" style="color:var(--green)">✓ Possible with conventional</span></div>
+      <div class="lb-row"><span class="lb-lbl">100% financing</span><span class="lb-val" style="color:var(--green)">✓ Available for RIAs</span></div>
+    </div>
+    <div class="lf">Specifically markets to RIA acquisition and succession. 100% financing is a key differentiator. Recently added Westfield Bank's RIA lending capabilities. Good for tranched deals.</div>
+  </div>
+  <div class="lender-card">
+    <div class="lh" style="border-left:4px solid #1a3a6b">
+      <div class="lh-name">SkyView Partners</div>
+      <div class="lh-type">Broker / Marketplace · 25+ Bank Partners</div>
+    </div>
+    <div class="lb">
+      <div class="lb-row"><span class="lb-lbl">Loan type</span><span class="lb-val">Conventional (via bank network)</span></div>
+      <div class="lb-row"><span class="lb-lbl">Max amount</span><span class="lb-val">Varies by bank partner</span></div>
+      <div class="lb-row"><span class="lb-lbl">Term</span><span class="lb-val">Typically 5–10 years</span></div>
+      <div class="lb-row"><span class="lb-lbl">Rate</span><span class="lb-val">Competitive — bank dependent</span></div>
+      <div class="lb-row"><span class="lb-lbl">Down payment</span><span class="lb-val">Varies; can be low</span></div>
+      <div class="lb-row"><span class="lb-lbl">RIA specialization</span><span class="lb-val">Yes — exclusively RIA</span></div>
+      <div class="lb-row"><span class="lb-lbl">Partial/tranched buyout</span><span class="lb-val" style="color:var(--green)">✓ Conventional allows</span></div>
+      <div class="lb-row"><span class="lb-lbl">Unique feature</span><span class="lb-val">$1B+ financed; shops 25+ banks</span></div>
+    </div>
+    <div class="lf">Positions as "anti-SBA" — argues conventional loans have fewer restrictions and lower rates. Acts as intermediary/broker to find the best bank for each deal. Good for complex structures.</div>
+  </div>
+</div>
+
+<!-- PPC -->
+<div class="lender-card" style="max-width:380px;margin-bottom:28px">
+  <div class="lh" style="border-left:4px solid #6a2a7a">
+    <div class="lh-name">PPC Loan</div>
+    <div class="lh-type">Conventional · Internal Equity Focus · 30% YOY Growth 2025</div>
+  </div>
+  <div class="lb" style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+    <div class="lb-row" style="grid-column:span 2"><span class="lb-lbl">Specialty</span><span class="lb-val">Internal equity transitions, partner admissions</span></div>
+    <div class="lb-row" style="grid-column:span 2"><span class="lb-lbl">2025 growth</span><span class="lb-val">30–35% loan volume increase</span></div>
+    <div class="lb-row" style="grid-column:span 2"><span class="lb-lbl">Focus</span><span class="lb-val">Founder exit / 3–10 year succession horizon</span></div>
+    <div class="lb-row" style="grid-column:span 2"><span class="lb-lbl">Partial/tranched</span><span class="lb-val" style="color:var(--green)">✓ Core business model</span></div>
+  </div>
+  <div class="lf">"RIAs are looking to transition internally. A lot of times, the founder may be looking to exit in the next 3, 5, or even 10 years, so we'll continue working with firms throughout that equity transition." — Dustin Mangone, Director, PPC Loan (WealthManagement.com 2025)</div>
+</div>
+
+<hr class="div">
+
+<!-- S3: MASTER COMPARISON -->
+<div class="sl">Section 03</div>
+<h2 class="st">Head-to-Head <em>Comparison</em></h2>
+<p class="si">SBA 7(a) loans versus conventional RIA specialist loans — and how each maps to Salvus's specific transaction structure. The key dividing line is not cost — it's whether the product can accommodate the tranched, multi-year equity transfer Salvus has designed.</p>
+
+<div class="tw">
+<table class="cmp">
+  <thead>
+    <tr>
+      <th>Factor</th>
+      <th>SBA 7(a) — Live Oak</th>
+      <th>Conventional — Oak Street / SkyView / PPC</th>
+      <th>Seller Note (current plan)</th>
+      <th>Salvus Application</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="cat-row"><td colspan="5">Structure & Eligibility</td></tr>
+    <tr>
+      <td>Partial / tranched buyout</td>
+      <td class="bad">❌ SBA rules prohibit partial equity purchases — must be full ownership transfer</td>
+      <td class="good">✓ Conventional loans can fund partial stakes and incremental tranches</td>
+      <td class="good">✓ Fully compatible with tranches</td>
+      <td><span class="tr">Critical issue</span> Salvus's multi-tranche structure is incompatible with SBA. Must use conventional for tranched deals.</td>
+    </tr>
+    <tr>
+      <td>Who gets the loan</td>
+      <td>Buyer (O'Quinn, Pete, or future buyers of Bob's equity)</td>
+      <td>Buyer — same as SBA</td>
+      <td>N/A — seller finances directly</td>
+      <td>Bob and Chuck receive <strong>cash at close</strong> rather than holding a note. Transformative difference.</td>
+    </tr>
+    <tr>
+      <td>Max loan amount</td>
+      <td>$5M (can combine with conventional above $5M)</td>
+      <td>Flexible — larger deals possible</td>
+      <td>Unlimited — tied to buyout size</td>
+      <td>Chuck's buyout ~$4.1M fits SBA if tranching not required. Bob's exit ~$8–12M needs conventional or combination.</td>
+    </tr>
+    <tr>
+      <td>100% financing (no down payment)</td>
+      <td class="ok">Partial — SBA requires some equity injection</td>
+      <td class="good">✓ Oak Street explicitly offers 100% financing for RIA successors</td>
+      <td class="ok">Down payment required (20% in our model)</td>
+      <td>Potential to eliminate or reduce down payment requirement for O'Quinn and Pete — freeing capital.</td>
+    </tr>
+
+    <tr class="cat-row"><td colspan="5">Interest Rate & Cost</td></tr>
+    <tr>
+      <td>Interest rate</td>
+      <td>Prime + 2.75% = ~8.25–9.50% variable (2025 avg: 9.20%)</td>
+      <td>Typically 8–10% fixed or variable depending on lender and deal</td>
+      <td>5.5% (our model) — seller sets the rate</td>
+      <td>Bank financing costs 3–4% more per year than the seller note. On $2M balance: ~$60–80K/yr more in interest.</td>
+    </tr>
+    <tr>
+      <td>Rate type</td>
+      <td class="bad">Variable — 98.7% of Live Oak SBA loans. Rate risk over 10 years.</td>
+      <td class="ok">Fixed available — conventional lenders have more flexibility</td>
+      <td class="good">Fixed — seller and buyer agree at origination</td>
+      <td>Rate certainty is valuable during a 6-year succession. Fixed conventional preferred.</td>
+    </tr>
+    <tr>
+      <td>SBA guarantee fee</td>
+      <td>1.45–3.75% of guaranteed portion — $16K–$35K+ upfront cost on typical deal</td>
+      <td class="good">None — no government guarantee fee</td>
+      <td class="good">None</td>
+      <td>Upfront SBA fee reduces net proceeds to seller. Conventional avoids this cost.</td>
+    </tr>
+    <tr>
+      <td>Prepayment penalty</td>
+      <td>SBA 7(a) has prepayment penalties in first 3 years</td>
+      <td>Varies by lender — often lower or none</td>
+      <td>Negotiable — no required penalty</td>
+      <td>Salvus succession plan has defined tranches — prepayment terms matter if timing shifts.</td>
+    </tr>
+
+    <tr class="cat-row"><td colspan="5">Terms & Process</td></tr>
+    <tr>
+      <td>Loan term</td>
+      <td>Up to 10 years for acquisition / working capital</td>
+      <td>Typically 5–10 years</td>
+      <td>6 years (our model) — flexible</td>
+      <td>Bank loan terms align well with seller note terms. Cash flow impact to buyer is similar.</td>
+    </tr>
+    <tr>
+      <td>Financial covenants</td>
+      <td class="good">Less restrictive — SBA 7(a) generally lacks stringent covenants (debt coverage, LTV)</td>
+      <td class="ok">More stringent than SBA — lender-specific covenants on DSCR, revenue retention</td>
+      <td class="good">Negotiated privately — can be minimal</td>
+      <td>Covenants may include AUM retention minimums and revenue thresholds — manageable for Salvus.</td>
+    </tr>
+    <tr>
+      <td>Closing speed</td>
+      <td>45–90 days typical for SBA process</td>
+      <td>30–60 days — fewer SBA paperwork requirements</td>
+      <td>Can close concurrently with equity transfer — very fast</td>
+      <td>Allow 60–90 days in transaction planning calendar for bank financing contingency.</td>
+    </tr>
+    <tr>
+      <td>Process complexity</td>
+      <td>Significant SBA paperwork, underwriting, personal guarantee required</td>
+      <td>More streamlined than SBA; still requires full underwriting</td>
+      <td>Attorney drafts note — simplest process</td>
+      <td>Both O'Quinn and Pete (as buyers) must qualify personally. Their income and assets matter to underwriting.</td>
+    </tr>
+
+    <tr class="cat-row"><td colspan="5">Impact on Salvus Stakeholders</td></tr>
+    <tr>
+      <td>Chuck's exit (2027–2029)</td>
+      <td>Chuck receives cash at closing for each tranche if O'Quinn/Pete use bank loans</td>
+      <td>Same cash-at-close benefit for Chuck</td>
+      <td>Chuck holds seller note — deferred income, performance risk, installment tax treatment</td>
+      <td><span class="tgr">Strongly favors bank financing</span> Chuck gets cash, not paper. Eliminates performance risk in retirement.</td>
+    </tr>
+    <tr>
+      <td>Bob's exit (2031)</td>
+      <td>Viable if full exit — but $8–12M stake may exceed SBA $5M limit. Combination financing needed.</td>
+      <td>Conventional loans better suited for Bob's larger stake — no $5M cap</td>
+      <td>Bob holds note in retirement — 7-year performance exposure after exit</td>
+      <td><span class="tgr">Critical for Path A/B from exit analysis</span> Conventional bank loan gives Bob cash, eliminates note risk.</td>
+    </tr>
+    <tr>
+      <td>O'Quinn (buyer)</td>
+      <td>Can use SBA if buying Chuck's full remaining stake in one event. Can't use for tranched purchases.</td>
+      <td>Preferred — can finance each tranche conventionally, or full amount at once</td>
+      <td>O'Quinn pays Chuck via K-1 income over time — slower, tighter cash flow</td>
+      <td>O'Quinn should pre-qualify with Live Oak or SkyView in 2026 before 2027 transactions begin.</td>
+    </tr>
+    <tr>
+      <td>Pete Freidel (buyer)</td>
+      <td>SBA option if buying full stake at one event. Otherwise conventional.</td>
+      <td>Best path for Pete — smaller initial stake, tranched, 100% financing possible</td>
+      <td>Seller note from Bob/ROQ required — creates obligation on senior partners</td>
+      <td>Oak Street 100% financing eliminates need for Pete to source a down payment — lowers the admission barrier.</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td><strong>Overall Verdict</strong></td>
+      <td>Best for: One-time full acquisitions under $5M. Not for tranched Salvus structure.</td>
+      <td><strong>Best for Salvus</strong> — flexible, can handle tranches, fixed rates, no SBA cap or restrictions.</td>
+      <td>Keep as backstop. Lower rate but shifts performance risk to seller in retirement.</td>
+      <td>Hybrid: conventional bank financing for buyers + seller note as subordinated backstop where needed.</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+
+<div class="pq">
+  <p>"SBA loans preclude partial buyouts and tranched succession planning — buying 10 to 25 to 33 percent out over a number of years. That's clearly a deal structure we look favorably upon."</p>
+  <cite>— Succession Lending / WealthManagement.com · Nov 2024 · Precisely describes Salvus's structure</cite>
+</div>
+
+<div class="pq">
+  <p>"On the succession side, RIAs are looking to transition internally. A lot of times, the founder may be looking to exit in the next three, five, or even ten years, so we'll continue to work with those firms throughout the course of that equity transition."</p>
+  <cite>— Dustin Mangone, Director, Investment Advisor Program, PPC Loan · WealthManagement.com · Dec 2025</cite>
+</div>
+
+<hr class="div">
+
+<!-- S4: PROS & CONS -->
+<div class="sl">Section 04</div>
+<h2 class="st">Pros &amp; <em>Cons</em> — Bank Financing vs. Seller Note</h2>
+
+<div class="pc-grid">
+  <div class="pc">
+    <div class="pc-hdr" style="background:var(--green)">✓ Pros — Bank Financing</div>
+    <div class="pc-body">
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>Chuck and Bob get cash at closing.</strong> The single most important benefit. Instead of holding a seller note for 6+ years, Chuck receives a check. Bob, when he exits, does too. No performance risk. No waiting. No exposure to a firm you no longer run.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>Eliminates counterparty risk for sellers.</strong> A seller note is only as good as the firm's future performance. A bank loan transfers that risk to the buyer and the bank — the seller is out clean.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>O'Quinn and Pete can finance 100%.</strong> Oak Street Funding explicitly offers 100% financing for RIA successors — no down payment required. This eliminates the capital constraint that often blocks internal succession.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>No seller note on Bob's books during retirement.</strong> Holding a $6–8M seller note while retired is a liability in disguise — your income depends on people you no longer manage. Bank financing removes this exposure entirely.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>RIA-specific underwriting understands your business.</strong> Live Oak, Oak Street, and SkyView underwrite RIAs as going concerns — they understand AUM retention, fee revenue, and client attrition. They will not require hard collateral that an RIA doesn't have.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>Installment sale tax benefit still available.</strong> Even if Chuck receives cash from the bank loan, the <em>equity transfer</em> can still be structured as an installment sale for tax purposes if the bank's disbursement matches the closing schedule. Coordinate with WJM CPA.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--green)">●</div><div><strong>2025 is a hot lending market.</strong> Live Oak reported record volume in 2025. PPC Loan grew 30–35%. Conditions and lender appetite are currently favorable.</div></div>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="pc-hdr" style="background:var(--red)">✗ Cons — Bank Financing</div>
+    <div class="pc-body">
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>Higher interest rate — significantly.</strong> Our seller note model assumes 5.5%. Bank financing in 2025 is 8–10%+ (SBA avg 9.20%). On a $4M buyout, the extra 3–4% is $120–160K/year in additional interest cost to the buyer. This reduces their K-1 take-home.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>SBA 7(a) cannot fund tranched succession.</strong> This is not a minor issue — it is disqualifying for a significant portion of Salvus's plan. Any tranched or partial equity purchase cannot use SBA financing. Must use conventional or hybrid.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>Variable rate risk.</strong> 98.7% of Live Oak SBA loans carry variable rates. Over a 10-year term, a 200bps rate increase adds $40K+/year to the buyer's obligation. Fixed conventional loans are preferred for predictability.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>Buyer must personally qualify.</strong> O'Quinn and Pete will be underwritten on their personal financial statements, credit history, and net worth. If either has significant personal debt, limited assets, or credit issues, approval is not guaranteed.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>Covenants may restrict flexibility.</strong> Conventional bank loans often include AUM retention minimums, revenue covenants, and change-of-control provisions. These can limit future deal flexibility and require bank consent for additional equity transactions.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>SBA guarantee fee is an upfront cost.</strong> For a $4M SBA loan, guarantee fees can run $50–70K or more. This cost is borne by the buyer but indirectly affects deal economics. Conventional loans avoid this.</div></div>
+      <div class="pc-item"><div class="pc-icon" style="color:var(--red)">●</div><div><strong>60–90 day closing timeline.</strong> Bank underwriting takes time. The Salvus 2027 transaction calendar is already complex (TPG additional 10%, O'Quinn equity admission, Chuck first tranche). Start the pre-approval process in 2026.</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- S5: SCENARIOS -->
+<div class="sl">Section 05</div>
+<h2 class="st">Applied to <em>Salvus</em> — Four Scenarios</h2>
+<p class="si">How bank financing specifically applies to each of the four major equity transactions in the Salvus 2027–2031 plan. Each scenario shows the structure, lender product, annual cost to the buyer, and benefit to the seller.</p>
+
+<div class="sc-grid">
+  <div class="sc green">
+    <div class="sc-hdr">
+      <div class="sc-title">Scenario A — Chuck's Buyout (2027–2029)</div>
+      <div class="sc-sub">O'Quinn + Bob as buyers · $4.1M total · tranched over 3 years</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-row"><span class="sc-lbl">Recommended structure</span><span class="sc-val">Conventional loan (Oak Street / PPC)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Reason — not SBA</span><span class="sc-val">Tranched — SBA prohibits partial purchases</span></div>
+      <div class="sc-row"><span class="sc-lbl">Down payment (2027 tranche)</span><span class="sc-val">0–20% (Oak Street can do 100%)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Loan amount (per tranche)</span><span class="sc-val">~$1.0M–$2.1M per event</span></div>
+      <div class="sc-row"><span class="sc-lbl">Rate assumption</span><span class="sc-val">9.0% fixed conventional</span></div>
+      <div class="sc-row"><span class="sc-lbl">Annual payment (full amount)</span><span class="sc-val">~$510K/yr (vs. $393K seller note)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Extra annual cost vs. seller note</span><span class="sc-val" style="color:var(--red)">~$117K/yr additional</span></div>
+      <div class="sc-row"><span class="sc-lbl">Benefit to Chuck</span><span class="sc-val" style="color:var(--green)">Cash at each tranche close — no note</span></div>
+    </div>
+    <div class="sc-note"><strong>Verdict:</strong> Use conventional bank financing for Chuck's buyout. The $117K/yr extra cost is manageable given the combined NOI of $2M+. Chuck escapes note exposure entirely. Pre-qualify O'Quinn with Oak Street or PPC in 2026.</div>
+  </div>
+
+  <div class="sc">
+    <div class="sc-hdr">
+      <div class="sc-title">Scenario B — Pete Freidel Admission (2028–2029)</div>
+      <div class="sc-sub">Pete as buyer · ~$800K–$1.2M initial stake · 9.5% of SL24</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-row"><span class="sc-lbl">Recommended structure</span><span class="sc-val">Conventional — Oak Street 100% financing</span></div>
+      <div class="sc-row"><span class="sc-lbl">Reason</span><span class="sc-val">Partial admission, Pete may have limited capital</span></div>
+      <div class="sc-row"><span class="sc-lbl">Loan amount</span><span class="sc-val">~$800K–$1.2M (9.5% of SL24 blended value)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Down payment</span><span class="sc-val">$0 if Oak Street 100% financing</span></div>
+      <div class="sc-row"><span class="sc-lbl">Annual payment</span><span class="sc-val">~$120–180K/yr at 9% / 10yr</span></div>
+      <div class="sc-row"><span class="sc-lbl">Pete's K-1 income at 9.5%</span><span class="sc-val">~$200K+ from day one (2028+)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Net after loan payment</span><span class="sc-val">~$20–80K net gain from year one</span></div>
+      <div class="sc-row"><span class="sc-lbl">Benefit to existing partners</span><span class="sc-val" style="color:var(--green)">No seller note obligation on Bob/ROQ</span></div>
+    </div>
+    <div class="sc-note"><strong>Verdict:</strong> Bank financing eliminates the seller note that Bob and O'Quinn would otherwise hold. Pete finances his own admission — cleaner for all parties. The 100% financing option makes admission accessible regardless of Pete's personal capital position.</div>
+  </div>
+
+  <div class="sc" style="border-top-color:var(--blue)">
+    <div class="sc-hdr">
+      <div class="sc-title">Scenario C — Bob's Exit (2031) · Combination Financing</div>
+      <div class="sc-sub">O'Quinn + Pete as buyers · ~$8–12M stake · Largest transaction</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-row"><span class="sc-lbl">Recommended structure</span><span class="sc-val">SBA $5M + Conventional for balance</span></div>
+      <div class="sc-row"><span class="sc-lbl">Or: TPG Path A</span><span class="sc-val">TPG exercises option → Bob gets cash</span></div>
+      <div class="sc-row"><span class="sc-lbl">Total loan needed</span><span class="sc-val">~$8–12M (est. at 2031 valuations)</span></div>
+      <div class="sc-row"><span class="sc-lbl">SBA 7(a) portion</span><span class="sc-val">$5M max (Live Oak combination program)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Conventional balance</span><span class="sc-val">$3–7M (Oak Street / SkyView)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Annual payment (total)</span><span class="sc-val">~$1.0–1.4M/yr at 9% / 10yr</span></div>
+      <div class="sc-row"><span class="sc-lbl">Bob receives</span><span class="sc-val" style="color:var(--green)">Cash — no note in retirement</span></div>
+      <div class="sc-row"><span class="sc-lbl">Can O'Quinn + Pete cover it?</span><span class="sc-val">At 2031 combined NOI ~$3M+: Yes</span></div>
+    </div>
+    <div class="sc-note"><strong>Verdict:</strong> Combination financing (SBA $5M + conventional) is viable for Bob's exit if TPG Path A is not chosen. Live Oak's combination program is designed exactly for this. O'Quinn and Pete's combined K-1 income at 2031 likely covers annual payments with margin. Pre-negotiate with Live Oak now — let them know you will need combination financing in 2031.</div>
+  </div>
+
+  <div class="sc" style="border-top-color:var(--teal)">
+    <div class="sc-hdr">
+      <div class="sc-title">Scenario D — Hybrid Structure (Recommended)</div>
+      <div class="sc-sub">Bank loan for large cash portion · Small seller note as subordinated piece</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-row"><span class="sc-lbl">Bank loan</span><span class="sc-val">80% of transaction — cash to seller</span></div>
+      <div class="sc-row"><span class="sc-lbl">Seller note</span><span class="sc-val">20% — subordinated, lower rate</span></div>
+      <div class="sc-row"><span class="sc-lbl">Why hybrid?</span><span class="sc-val">Banks sometimes require seller participation</span></div>
+      <div class="sc-row"><span class="sc-lbl">Seller note at 20% of Chuck buyout</span><span class="sc-val">~$820K (manageable)</span></div>
+      <div class="sc-row"><span class="sc-lbl">Seller gets cash immediately</span><span class="sc-val" style="color:var(--green)">~80% = $3.3M at close</span></div>
+      <div class="sc-row"><span class="sc-lbl">Seller note income (small)</span><span class="sc-val">~$150K/yr for 6 years</span></div>
+      <div class="sc-row"><span class="sc-lbl">Risk reduction vs. pure seller note</span><span class="sc-val" style="color:var(--green)">80% of risk eliminated</span></div>
+    </div>
+    <div class="sc-note"><strong>Verdict:</strong> Many RIA transactions use a hybrid — bank provides the bulk, seller holds a small subordinated note (often required by lender to demonstrate seller confidence). This is likely the most practical structure for Chuck's buyout, giving Chuck 80% cash at close while keeping bank loan amounts manageable.</div>
+  </div>
+</div>
+
+<div class="ch-grid">
+  <div class="ch-box">
+    <h3>Annual Payment Comparison — Chuck Buyout ($4.1M)</h3>
+    <p>Seller note at 5.5% vs. conventional bank at 9% · 6-year term · same principal</p>
+    <canvas id="c1" height="220"></canvas>
+  </div>
+  <div class="ch-box">
+    <h3>Chuck's Net Proceeds — Seller Note vs. Bank Financing</h3>
+    <p>How much Chuck has actually received by each year · cumulative · both structures</p>
+    <canvas id="c2" height="220"></canvas>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- S6: RECOMMENDATION -->
+<div class="sl">Section 06</div>
+<h2 class="st">The <em>Recommendation</em></h2>
+
+<div class="rb">
+  <div class="rb-lbl">Salvus Legacy 24 · For Discussion with Counsel &amp; WJM CPA · June 2026</div>
+  <h3 class="rb-title">Conventional Bank Financing Should Be Central to the Plan — Not Optional</h3>
+  <ul>
+    <li><strong>Replace the seller note with conventional bank financing for Chuck's tranched buyout.</strong> Use Oak Street Funding or PPC Loan (not SBA — tranching is incompatible with SBA rules). O'Quinn borrows to buy Chuck's tranches; Chuck receives cash at each close. The extra ~$117K/year in interest is a real cost to O'Quinn but is covered by his growing K-1 income and eliminates Chuck's note risk entirely.</li>
+    <li><strong>Use bank financing for Pete's admission.</strong> Oak Street's 100% financing option eliminates the need for Pete to source a down payment — and eliminates the seller note Bob and O'Quinn would otherwise hold. Pete's first-year K-1 income at 9.5% (~$200K+) likely covers his annual loan payment with money left over.</li>
+    <li><strong>Keep a small seller note (20%) as a hybrid subordinated piece.</strong> Many bank lenders require seller participation as a show of confidence in the firm. A 20% seller note ($820K for Chuck) is manageable and gives the bank the signal it wants while delivering 80% of the proceeds to Chuck as cash.</li>
+    <li><strong>For Bob's exit, pursue a combination financing structure now.</strong> Start conversations with Live Oak about their $5M SBA + conventional combination program in 2026 or early 2027 — well before the 2031 exit. This is the most direct path to Bob receiving cash rather than a note. Pre-approval signals from Live Oak also validate Salvus's creditworthiness and firm quality to O'Quinn and Pete as buyers.</li>
+    <li><strong>Have O'Quinn and Pete pre-qualify in 2026.</strong> Both need to appear credit-worthy to bank underwriters. Their personal financial statements, net worth, and credit history need to be clean. Start this process early — it may reveal issues that need time to address.</li>
+    <li><strong>Update the SL24 Operating Agreement to accommodate bank financing.</strong> The OA needs to explicitly permit equity purchases financed by third-party lenders, including any lender consent-to-transfer provisions that banks may require. The attorney needs this in the agreement before 2027 transactions begin.</li>
+    <li><strong>Do not abandon the seller note entirely</strong> — it is the lowest-cost option (5.5% vs. 9%+) and remains valuable as a subordinated piece in a hybrid structure. The hybrid model — 80% bank / 20% seller note — is likely the practical optimum for Chuck's buyout.</li>
+  </ul>
+</div>
+
+<!-- ACTION LIST -->
+<div class="ex g"><strong>Immediate Actions (2026):</strong> (1) Contact Oak Street Funding and PPC Loan — describe the tranched succession structure and get term sheets. (2) Have O'Quinn and Pete each complete a pre-qualification assessment. (3) Bring bank financing terms to the attorney — update the SL24 OA to permit third-party lender financing of equity purchases. (4) Contact Live Oak about their combination program for the 2031 Bob exit — start that relationship now.</div>
+
+<div class="ex"><strong>Update Required to All Planning Documents:</strong> The dashboard model currently assumes a pure seller note. All three documents — the Ownership &amp; Economics Dashboard, the Chuck Woolston Equity Buyout Framework, and the Pete Freidel Partnership Criteria — should be updated to reflect the hybrid bank/seller note structure. The Chuck document should add a bank financing scenario comparison. The dashboard should add a slider for the bank/seller note split ratio. The Pete document should note that 100% bank financing eliminates the down payment barrier to admission.</div>
+
+<div class="ex b"><strong>Key contacts to reach:</strong> Oak Street Funding (oakstreetfunding.com · RIA acquisition financing) · PPC Loan (ppcloan.com · internal equity focus) · SkyView Partners (skyview.com · conventional marketplace · $1B+ financed) · Live Oak Bank (liveoak.bank/investment-advisory · #1 SBA lender · combination program for larger deals)</div>
+
+</div>
+
+<div class="footer">
+  <div>SALVUS LEGACY 24 LLC · BANK FINANCING ANALYSIS · JUNE 2026</div>
+  <div>CONFIDENTIAL · FOR DISCUSSION WITH COUNSEL AND WJM CPA · NOT FOR DISTRIBUTION</div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'DM Sans',sans-serif";
+Chart.defaults.font.size = 11;
+
+// C1: Annual payment comparison
+const principal = 4107196;
+const sellerRate = 0.055, bankRate = 0.09;
+const yrs = 6;
+const pmt = (r, n, p) => p * (r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+const sellerPmt = pmt(sellerRate, yrs, principal);
+const bankPmt   = pmt(bankRate, yrs, principal);
+const hybridBank = pmt(bankRate, yrs, principal * 0.80);
+const hybridNote = pmt(sellerRate, yrs, principal * 0.20);
+const hybridTotal = hybridBank + hybridNote;
+
+new Chart(document.getElementById('c1'),{
+  type:'bar',
+  data:{
+    labels:['Seller Note Only\n(5.5%/6yr)','Bank Loan Only\n(9.0%/6yr)','Hybrid 80/20\n(Bank+Note)'],
+    datasets:[
+      {label:'Annual Payment to Seller/Bank',data:[Math.round(sellerPmt),Math.round(bankPmt),Math.round(hybridTotal)],backgroundColor:['rgba(26,107,64,0.7)','rgba(26,58,122,0.7)','rgba(184,137,42,0.7)'],borderColor:['#1a6b40','#1a3a7a','#b8892a'],borderWidth:1.5,borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'$'+Math.round(c.raw).toLocaleString()+'/yr'}}},scales:{y:{ticks:{callback:v=>'$'+Math.round(v/1000)+'K'}}}}
+});
+
+// C2: Chuck cumulative proceeds comparison
+const chuckDown = 2080000;
+const years = ['At close','Yr 1','Yr 2','Yr 3','Yr 4','Yr 5','Yr 6'];
+const sellerCum = [chuckDown];
+const bankCum   = [principal]; // full amount at close with bank
+for(let i=1;i<=6;i++){
+  sellerCum.push(chuckDown + sellerPmt*i);
+  bankCum.push(principal); // already received everything
+}
+
+new Chart(document.getElementById('c2'),{
+  type:'line',
+  data:{
+    labels:years,
+    datasets:[
+      {label:'Bank Financing (cash at close)',data:bankCum,borderColor:'#1a6b40',backgroundColor:'rgba(26,107,64,0.1)',fill:true,tension:0.2,pointRadius:5,pointBackgroundColor:'#1a6b40'},
+      {label:'Seller Note (deferred)',data:sellerCum,borderColor:'#b8892a',backgroundColor:'rgba(184,137,42,0.1)',fill:true,tension:0.2,pointRadius:5,pointBackgroundColor:'#b8892a',borderDash:[4,3]},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>'$'+(v/1e6).toFixed(2)+'M'}}}}
+});
+</script>
+</body>
+</html>

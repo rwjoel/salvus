@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peter Freidel — Partnership Criteria Framework · Salvus Legacy 24</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+:root{
+  --ink:#0a1e2a;--ink2:#0d2d3d;--teal:#0d6b6b;--teal2:#1a9a9a;--teal3:#7df7f7;
+  --teal-pale:#e0f5f5;--cream:#f5fbfb;--rule:#c8e0e0;
+  --text:#1a3540;--text2:#3a5560;--text3:#6a8590;
+  --gold:#b8892a;--gold-pale:#faf3e0;
+  --green:#1a6b40;--green-pale:#e8f5ee;
+  --red:#9a2a1a;--red-pale:#fdf0ee;
+  --blue:#1a3a6b;--blue-pale:#e8edf5;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);font-size:14px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* COVER */
+.cover{min-height:100vh;background:linear-gradient(155deg,#050e16 0%,#0a1e2a 50%,#0d2d3d 100%);display:flex;flex-direction:column;justify-content:space-between;padding:64px;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:linear-gradient(135deg,transparent 30%,rgba(13,107,107,0.08) 100%);border-left:1px solid rgba(13,180,180,0.1);}
+.c-circle{position:absolute;width:340px;height:340px;border-radius:50%;border:1px solid rgba(13,180,180,0.07);}
+.c-top{position:relative;z-index:1;}
+.c-firm{font-weight:300;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal2);margin-bottom:80px;}
+.c-eye{font-weight:300;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:20px;}
+.c-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:54px;line-height:1.1;color:white;max-width:720px;}
+.c-title em{font-style:italic;color:var(--teal3);}
+.c-rule{width:60px;height:1px;background:var(--teal);margin:32px 0;}
+.c-sub{font-weight:300;font-size:15px;color:rgba(255,255,255,0.4);max-width:540px;line-height:1.8;}
+.c-bot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,0.07);padding-top:32px;}
+.c-meta{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:1px;line-height:2.2;}
+.c-meta strong{color:rgba(255,255,255,0.4);display:block;margin-bottom:2px;}
+.c-badge{background:rgba(13,107,107,0.2);border:1px solid rgba(13,180,180,0.25);color:var(--teal3);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border-radius:2px;}
+
+/* DOC */
+.doc{max-width:1100px;margin:0 auto;padding:64px 48px;}
+.sl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.st{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:400;color:var(--ink);line-height:1.15;margin-bottom:8px;}
+.st em{font-style:italic;color:var(--teal);}
+.si{font-size:15px;color:var(--text2);max-width:700px;line-height:1.8;margin-bottom:40px;font-weight:300;}
+hr.div{border:none;border-top:1px solid var(--rule);margin:56px 0;}
+
+/* PULL QUOTE */
+.pq{border-left:3px solid var(--teal);padding:20px 28px;margin:28px 0;background:var(--teal-pale);border-radius:0 4px 4px 0;}
+.pq p{font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;color:var(--ink2);line-height:1.6;}
+.pq cite{display:block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-top:10px;font-style:normal;}
+
+/* STAT CARDS */
+.sg{display:grid;gap:14px;margin-bottom:24px;}
+.sg4{grid-template-columns:repeat(4,1fr);}
+.sg3{grid-template-columns:repeat(3,1fr);}
+.sg2{grid-template-columns:repeat(2,1fr);}
+.sc{background:white;border:1px solid var(--rule);border-radius:4px;padding:20px 22px;position:relative;}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal);border-radius:4px 4px 0 0;}
+.sc.go::before{background:var(--gold);}
+.sc.gr::before{background:var(--green);}
+.sc.nv::before{background:var(--ink);}
+.sc.rd::before{background:var(--red);}
+.sc-lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+.sc-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;color:var(--ink);line-height:1;margin-bottom:4px;}
+.sc-sub{font-size:11px;color:var(--text3);line-height:1.5;}
+
+/* CHARTS */
+.ch-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.ch-box{background:white;border:1px solid var(--rule);border-radius:4px;padding:20px;}
+.ch-box h3{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.ch-box p{font-size:11px;color:var(--text3);margin-bottom:14px;}
+.ch-box canvas{max-height:200px;}
+
+/* TABLES */
+.tw{overflow-x:auto;margin-bottom:24px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{background:linear-gradient(135deg,var(--ink),var(--ink2));color:white;padding:10px 14px;text-align:left;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;}
+thead th:not(:first-child){text-align:right;}
+tbody tr{border-bottom:1px solid var(--rule);}
+tbody tr:hover{background:var(--teal-pale);}
+tbody td{padding:10px 14px;}
+tbody td:not(:first-child){text-align:right;font-family:'DM Mono',monospace;font-size:12px;}
+tr.hl{background:rgba(13,107,107,0.06);}
+tr.hl td{font-weight:600;}
+tr.sh td{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--text3);padding:8px 14px;background:rgba(13,107,107,0.04);}
+tfoot td{padding:10px 14px;font-weight:700;background:rgba(13,107,107,0.06);border-top:2px solid var(--rule);font-family:'DM Mono',monospace;font-size:12px;text-align:right;}
+tfoot td:first-child{text-align:left;font-family:'Jost',sans-serif;}
+
+/* TAGS */
+.tag{display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:600;text-transform:uppercase;}
+.tt{background:var(--teal-pale);color:#0a4040;border:1px solid var(--teal);}
+.tg{background:var(--gold-pale);color:#6b4f0a;border:1px solid #ddb84a;}
+.tgr{background:var(--green-pale);color:#0a4a26;border:1px solid #3a9a60;}
+.tb{background:var(--blue-pale);color:#0a2a5a;border:1px solid #4a6aaa;}
+.tn{background:rgba(13,37,69,0.06);color:var(--ink);border:1px solid rgba(13,37,69,0.2);}
+.tr{background:var(--red-pale);color:#6a1a0a;border:1px solid #cc5a4a;}
+
+/* CRITERIA CARDS */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.cc{border:1px solid var(--rule);border-radius:4px;overflow:hidden;background:white;}
+.cch{padding:18px 22px 14px;border-bottom:1px solid var(--rule);display:flex;gap:14px;align-items:flex-start;}
+.ci{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.ci-t{background:var(--teal-pale);}
+.ci-g{background:var(--gold-pale);}
+.ci-gr{background:var(--green-pale);}
+.ci-b{background:var(--blue-pale);}
+.ci-r{background:var(--red-pale);}
+.cn{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:3px;}
+.cw{font-size:11px;color:var(--text3);}
+.ccb{padding:16px 22px;}
+.cm{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(13,107,107,0.08);font-size:13px;}
+.cm:last-child{border-bottom:none;}
+.cmn{width:22px;height:22px;border-radius:50%;background:var(--teal);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.cmn.g{background:var(--gold);}
+.cmn.gr{background:var(--green);}
+.cmn.b{background:var(--blue);}
+.cmn.r{background:var(--red);}
+.cmt{flex:1;line-height:1.5;}
+.cmt strong{color:var(--ink);display:block;margin-bottom:2px;}
+.cmth{font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);font-weight:500;margin-top:3px;}
+
+/* SCORECARD */
+.score-wrap{overflow-x:auto;margin-bottom:24px;}
+.score-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:800px;}
+.score-tbl thead th{background:linear-gradient(135deg,var(--ink),var(--ink2));color:white;padding:10px 12px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+.score-tbl thead th:not(:first-child){text-align:center;}
+.score-tbl tbody tr{border-bottom:1px solid var(--rule);}
+.score-tbl tbody tr:hover{background:var(--teal-pale);}
+.score-tbl tbody td{padding:9px 12px;}
+.score-tbl tbody td:not(:first-child){text-align:center;font-family:'DM Mono',monospace;font-size:11px;}
+.score-tbl tr.cat{background:rgba(13,107,107,0.08);}
+.score-tbl tr.cat td{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--teal);padding:9px 12px;}
+.score-tbl tfoot td{padding:10px 12px;font-weight:700;background:linear-gradient(135deg,var(--ink),var(--ink2));color:white;border-top:2px solid var(--teal);}
+.wp{display:inline-block;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;}
+.wp-h{background:var(--teal-pale);color:var(--teal);}
+.wp-m{background:var(--gold-pale);color:#6b4f0a;}
+.wp-l{background:rgba(13,37,69,0.06);color:var(--text3);}
+
+/* PATHWAY */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px;}
+.pc{border:1px solid var(--rule);border-radius:4px;background:white;overflow:hidden;}
+.pct{padding:20px 22px 16px;border-bottom:1px solid var(--rule);}
+.pn{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--rule);line-height:1;}
+.pname{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.ptl{font-family:'DM Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:1px;text-transform:uppercase;}
+.pcb{padding:16px 22px;}
+.pi{padding:7px 0;border-bottom:1px solid rgba(13,107,107,0.08);font-size:13px;color:var(--text2);display:flex;gap:8px;align-items:flex-start;line-height:1.5;}
+.pi:last-child{border-bottom:none;}
+.pi::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0;}
+.pcf{padding:14px 22px;background:var(--teal-pale);border-top:1px solid var(--rule);}
+.po strong{display:block;font-size:13px;color:var(--ink);margin-bottom:2px;}
+.po{font-size:12px;color:var(--text3);}
+
+/* BARS */
+.bars{margin-bottom:16px;}
+.bi{margin-bottom:10px;}
+.bi-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;}
+.bi-row span:last-child{font-family:'DM Mono',monospace;font-weight:600;}
+.bt{height:8px;background:var(--teal-pale);border-radius:3px;overflow:hidden;border:1px solid var(--rule);}
+.bf{height:100%;border-radius:3px;}
+.bf-t{background:linear-gradient(90deg,var(--teal),var(--teal2));}
+.bf-g{background:linear-gradient(90deg,var(--gold),#e8b55a);}
+.bf-gr{background:linear-gradient(90deg,var(--green),#27ae60);}
+.bf-r{background:linear-gradient(90deg,var(--red),#c0392b);}
+
+/* SRC GRID */
+.srg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+.src{background:white;border:1px solid var(--rule);border-radius:4px;padding:18px 20px;border-left:3px solid var(--rule);}
+.src.t{border-left-color:var(--teal);}
+.src.g{border-left-color:var(--green);}
+.sn{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:6px;font-family:'DM Mono',monospace;}
+.sq{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--ink2);line-height:1.6;margin-bottom:6px;}
+.ss{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;}
+
+.note{border-left:2px solid var(--teal);padding:12px 18px;background:var(--teal-pale);border-radius:0 3px 3px 0;font-size:13px;color:#0a4040;margin-bottom:20px;line-height:1.7;}
+.note strong{color:#062828;}
+.note-gold{border-left-color:var(--gold);background:var(--gold-pale);color:#5a4010;}
+.note-gold strong{color:#3a2800;}
+
+/* REC BOX */
+.rb{background:linear-gradient(135deg,#050e16 0%,#0a1e2a 100%);color:white;border-radius:4px;padding:36px 40px;margin-bottom:24px;position:relative;overflow:hidden;}
+.rb::before{content:'';position:absolute;top:0;right:0;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(13,107,107,0.2) 0%,transparent 70%);}
+.rb-lbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--teal2);margin-bottom:14px;}
+.rb-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:white;margin-bottom:18px;line-height:1.3;}
+.rb ul{list-style:none;position:relative;z-index:1;}
+.rb li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:13px;color:rgba(255,255,255,0.72);display:flex;gap:12px;align-items:flex-start;line-height:1.6;}
+.rb li::before{content:'→';color:var(--teal2);flex-shrink:0;margin-top:2px;}
+.rb li:last-child{border-bottom:none;}
+.rb li strong{color:white;}
+
+.doc-footer{border-top:1px solid var(--rule);padding:22px 48px;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+
+@media(max-width:800px){.cover{padding:36px;}.c-title{font-size:36px;}.doc{padding:36px 20px;}.sg4,.sg3,.ch-row,.cg,.pg,.srg,.sg2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="c-circle" style="top:-100px;right:-100px;"></div>
+  <div class="c-circle" style="top:80px;right:80px;width:200px;height:200px;"></div>
+  <div class="c-top">
+    <div class="c-firm">Salvus Legacy 24 LLC · Internal Use Only</div>
+    <div class="c-eye">Equity Partner Admission Framework</div>
+    <h1 class="c-title">Criteria &amp; Pathway to<br><em>Partnership</em><br>Peter Freidel, IAR</h1>
+    <div class="c-rule"></div>
+    <p class="c-sub">A structured, research-backed framework defining the revenue milestones, relationship metrics, behavioral benchmarks, and firm contribution thresholds that would warrant admission of Peter Freidel as an equity partner in Salvus Legacy 24 LLC — grounded in Schwab, DeVoe, AGS, and industry best practices.</p>
+  </div>
+  <div class="c-bot">
+    <div class="c-meta"><strong>Prepared for</strong>Robert W. Joel, CFP · Internal Planning Only<br>Salvus Legacy 24 LLC · June 2026<br>Not for distribution to Peter Freidel at this time</div>
+    <div class="c-badge">Confidential · Internal</div>
+  </div>
+</div>
+
+<div class="doc">
+
+<!-- S1: WHY -->
+<div class="sl">Section 01</div>
+<h2 class="st">Why This <em>Framework</em> Matters</h2>
+<p class="si">Admitting a new equity partner is one of the most consequential decisions a firm can make. Done right, it accelerates growth, deepens client retention, and builds the next generation of leadership. Done wrong, it creates misaligned incentives and is extremely difficult to unwind. This framework establishes objective, measurable criteria so that Pete's path to equity is clear, fair, and tied to verifiable firm contribution — not tenure, sentiment, or informal expectation.</p>
+
+<div class="pq"><p>"Equity continues to serve as a strategic lever for talent retention and succession planning. One in three RIA staff are equity owners — and the firms that get this right are the ones that define the path before the conversation."</p><cite>— Schwab 2025 RIA Benchmarking Survey · 1,288 firms · 16,000+ employees</cite></div>
+
+<div class="sg sg4">
+  <div class="sc"><div class="sc-lbl">Pete's Current Role</div><div class="sc-val">IAR</div><div class="sc-sub">Investment Adviser Representative · No current equity in SL24 or SPM.</div></div>
+  <div class="sc go"><div class="sc-lbl">Target Admission Window</div><div class="sc-val">2028–29</div><div class="sc-sub">After O'Quinn equity is established and Chuck's exit is well underway.</div></div>
+  <div class="sc gr"><div class="sc-lbl">Next-gen seeking ownership path</div><div class="sc-val">46%</div><div class="sc-sub">DeVoe 2025 Talent Survey — Pete is not unique in wanting equity.</div></div>
+  <div class="sc nv"><div class="sc-lbl">Proposed Pete Equity Cap</div><div class="sc-val">&lt;O'Quinn</div><div class="sc-sub">Pete's initial SL24 % should be below O'Quinn's at admission — reflecting seniority difference.</div></div>
+</div>
+
+<div class="note note-gold"><strong>Important:</strong> This document is for internal planning purposes only. Nothing creates any obligation, promise, or expectation of partnership for Pete Freidel. Admission as an equity partner requires formal approval by SL24 Managing Members and execution of an amended Operating Agreement. Pete should not be shown this document at this stage.</div>
+
+<hr class="div">
+
+<!-- S2: INDUSTRY DATA -->
+<div class="sl">Section 02</div>
+<h2 class="st">What the <em>Industry</em> Says</h2>
+<p class="si">Six data sources from 2025–2026 establish the market context for next-gen equity admission, retention economics, and typical partnership criteria. This research supports both the urgency of having a framework and the specific criteria thresholds in Section 3.</p>
+
+<div class="sg sg4">
+  <div class="sc"><div class="sc-lbl">Next-gen prioritizing career path</div><div class="sc-val">68%</div><div class="sc-sub">DeVoe 2025 Talent & Growth Survey · among all next-gen advisors</div></div>
+  <div class="sc"><div class="sc-lbl">Seeking clear ownership path</div><div class="sc-val">46%</div><div class="sc-sub">DeVoe 2025 · half of next-gen advisors actively looking</div></div>
+  <div class="sc gr"><div class="sc-lbl">Firms with written career paths</div><div class="sc-val">38%</div><div class="sc-sub">Down from 60% two years ago · DeVoe 2025 · "drift toward mediocrity"</div></div>
+  <div class="sc go"><div class="sc-lbl">$250M+ firms offering equity to recruit</div><div class="sc-val">34%</div><div class="sc-sub">Schwab 2025 · rises to 53% above $5B AUM</div></div>
+</div>
+
+<div class="ch-row">
+  <div class="ch-box">
+    <h3>Equity as Recruiting Tool — % of RIA Firms Offering</h3>
+    <p>By AUM band · Schwab 2025 RIA Benchmarking · 1,288 firms</p>
+    <canvas id="c1" height="180"></canvas>
+  </div>
+  <div class="ch-box">
+    <h3>What Next-Gen Advisors Prioritize</h3>
+    <p>DeVoe 2025 Talent & Growth Survey · % citing as key factor</p>
+    <canvas id="c2" height="180"></canvas>
+  </div>
+</div>
+
+<div class="srg">
+  <div class="src t"><div class="sn">Schwab 2025 RIA Benchmarking · 1,288 firms</div><div class="sq">"Equity continues to serve as a strategic lever for talent retention. One in three staff are equity owners. Of firms managing more than $250M, 34% offered equity to recruit advisors with portable books — rising to 53% above $5B."</div><div class="ss">Schwab 2025 RIA Benchmarking Survey · February 2026</div></div>
+  <div class="src t"><div class="sn">DeVoe & Co. · 2025 Talent & Growth Survey</div><div class="sq">"68% of next-gen advisors prioritize a well-defined career path. 46% seek a clear path to ownership. Only 38% of RIAs have clearly articulated career paths — down from nearly 60% two years ago. Firms are slipping backward."</div><div class="ss">DeVoe 2025 Talent & Growth Survey · Rising Advisor Turnover</div></div>
+  <div class="src t"><div class="sn">AGS Deal Room Report · 2026</div><div class="sq">"More than half of surveyed firms have established next-generation partners. The average transaction in 2025 included 29% equity consideration — rising to an expected 33% in 2026. Equity is the key tool in succession."</div><div class="ss">AGS 2026 RIA Deal Room Report · 276 transactions tracked</div></div>
+  <div class="src t"><div class="sn">Select Advisors Institute · March 2026</div><div class="sq">"Define the pathway to partnership early — include expectations, timelines, and performance benchmarks. Have an objective and recurring valuation mechanism. Clarity and transparency are the foundations of a successful equity track."</div><div class="ss">How RIA Firms Structure Long-Term Incentive Plans · March 2026</div></div>
+</div>
+
+<!-- Retention economics -->
+<div class="ch-row">
+  <div class="ch-box">
+    <h3>Succession Planning Impact on Firm Valuation Multiple</h3>
+    <p>EBITDA multiple premium for G2 advisor in equity · Mercer Capital · CT Acquisitions 2025</p>
+    <canvas id="c3" height="180"></canvas>
+  </div>
+  <div class="ch-box">
+    <h3>Revenue Multiple — Typical Partnership Admission Criteria</h3>
+    <p>Industry revenue thresholds for partner track admission · Schwab · DeVoe · FP Transitions 2025</p>
+    <div class="bars" style="margin-top:12px">
+      <div class="bi"><div class="bi-row"><span>Schwab 2025 — high end threshold</span><span style="color:var(--green)">$750K+ revenue</span></div><div class="bt"><div class="bf bf-gr" style="width:100%"></div></div></div>
+      <div class="bi"><div class="bi-row"><span>Schwab 2025 — typical threshold</span><span style="color:var(--teal)">$500K revenue</span></div><div class="bt"><div class="bf bf-t" style="width:67%"></div></div></div>
+      <div class="bi"><div class="bi-row"><span>FP Transitions — minimum observed</span><span>$400K revenue</span></div><div class="bt"><div class="bf bf-g" style="width:53%"></div></div></div>
+      <div class="bi"><div class="bi-row"><span>Freidel Framework threshold (this doc)</span><span style="color:var(--teal);font-weight:700">$500K / $750K pref.</span></div><div class="bt"><div class="bf bf-t" style="width:67%;background:repeating-linear-gradient(45deg,var(--teal),var(--teal) 4px,var(--teal2) 4px,var(--teal2) 8px)"></div></div></div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">AUM range for primary management at admission: $75M (threshold) to $125M+ (preferred) · DeVoe · FP Transitions</div>
+    </div>
+  </div>
+</div>
+
+<div class="note"><strong>The retention economics are clear:</strong> At Salvus's $535M pro forma AUM, offering equity to recruit and retain Pete is consistent with what 38% of peer firms already do (Schwab 2025). The cost of losing Pete — recruiting, transition, client risk — almost certainly exceeds the dilution cost of a disciplined equity admission. A defined framework serves Pete better than a vague promise, and protects Salvus from both premature admission and losing a valuable advisor.</div>
+
+<hr class="div">
+
+<!-- S3: CRITERIA CATEGORIES -->
+<div class="sl">Section 03</div>
+<h2 class="st">The Five <em>Criteria</em> Categories</h2>
+<p class="si">Partnership admission at Salvus must be evaluated across five dimensions. No single metric is sufficient — Pete must demonstrate strength across all five categories to warrant equity admission. The categories and weights are calibrated against Schwab, DeVoe, and FP Transitions industry benchmarks.</p>
+
+<div class="cg">
+
+  <div class="cc">
+    <div class="cch"><div class="ci ci-g">💰</div><div><div class="cn">Revenue Generation</div><div class="cw">Weight: 30% · Highest importance · Schwab 2025 threshold: $500K–$750K</div></div></div>
+    <div class="ccb">
+      <div class="cm"><div class="cmn g">1</div><div class="cmt"><strong>Personally attributable revenue</strong>Advisory fee revenue directly tied to Pete's relationships — not inherited from Bob, Chuck, or O'Quinn. This is the single most important metric per Schwab 2025.<div class="cmth">Threshold: $500,000+/yr · Preferred: $750,000+</div></div></div>
+      <div class="cm"><div class="cmn g">2</div><div class="cmt"><strong>Net new organic revenue (24 months)</strong>Revenue Pete originated independently — new clients he brought to the firm, not transitions or hand-offs. Tests origination vs. service.<div class="cmth">Threshold: $150,000+ net new over trailing 24 months</div></div></div>
+      <div class="cm"><div class="cmn g">3</div><div class="cmt"><strong>Book growth rate on existing clients</strong>Year-over-year growth on Pete's existing client base through AUM appreciation, referrals, and expanded service.<div class="cmth">Threshold: 10%+ annual growth for 2 consecutive years</div></div></div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cch"><div class="ci ci-t">🤝</div><div><div class="cn">Client Relationship Ownership</div><div class="cw">Weight: 25% · Critical differentiator · FP Transitions 2025 benchmarks</div></div></div>
+    <div class="ccb">
+      <div class="cm"><div class="cmn">1</div><div class="cmt"><strong>Primary advisor households owned</strong>Clients where Pete is the primary relationship holder — clients who would follow Pete if he left. Tests relationship depth vs. service role.<div class="cmth">Threshold: 40+ households · Preferred: 60+</div></div></div>
+      <div class="cm"><div class="cmn">2</div><div class="cmt"><strong>AUM under primary relationship management</strong>Total AUM in households where Pete is the primary advisor — not co-advisor or service role.<div class="cmth">Threshold: $75M+ · Preferred: $100M+</div></div></div>
+      <div class="cm"><div class="cmn">3</div><div class="cmt"><strong>Client retention rate on Pete's book</strong>% of Pete's clients retained over trailing 24 months — measures relationship quality and stickiness.<div class="cmth">Threshold: 95%+ retention · Preferred: 97%+</div></div></div>
+      <div class="cm"><div class="cmn">4</div><div class="cmt"><strong>Client satisfaction — no unresolved complaints</strong>Clean compliance record on client-facing interactions. Any unresolved client complaint is disqualifying.<div class="cmth">Threshold: Clean record · No unresolved complaints on U4</div></div></div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cch"><div class="ci ci-gr">📈</div><div><div class="cn">Business Development</div><div class="cw">Weight: 20% · Origination ability · Carson Group test: "can they bring in, not just service?"</div></div></div>
+    <div class="ccb">
+      <div class="cm"><div class="cmn gr">1</div><div class="cmt"><strong>New client originations (self-sourced, 24 months)</strong>Clients Pete brought to the firm through his own network — not firm referrals or introductions from Bob or O'Quinn.<div class="cmth">Threshold: 8+ new households · Preferred: 15+</div></div></div>
+      <div class="cm"><div class="cmn gr">2</div><div class="cmt"><strong>Referral source development</strong>CPAs, attorneys, or other professionals Pete has independently cultivated as referral relationships — not firm-inherited relationships.<div class="cmth">Threshold: 3+ active referral sources generating leads</div></div></div>
+      <div class="cm"><div class="cmn gr">3</div><div class="cmt"><strong>Average AUM of self-originated new clients</strong>Quality metric — Pete should be attracting meaningful clients, not just adding small accounts.<div class="cmth">Threshold: $500K+ average AUM for originations</div></div></div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cch"><div class="ci ci-b">🏛️</div><div><div class="cn">Firm Leadership &amp; Culture</div><div class="cw">Weight: 15% · Qualitative but critical · unanimous partner approval required</div></div></div>
+    <div class="ccb">
+      <div class="cm"><div class="cmn b">1</div><div class="cmt"><strong>Team leadership and mentorship</strong>Does Pete actively develop team members, mentor junior staff, or contribute to Sonja's operational effectiveness? Partners lead — they don't just produce.<div class="cmth">Threshold: Demonstrated team contribution — assessed by Bob annually</div></div></div>
+      <div class="cm"><div class="cmn b">2</div><div class="cmt"><strong>Strategic firm contributions</strong>Has Pete contributed to firm strategy, service model improvements, technology adoption, or any firm-building initiative beyond his own book?<div class="cmth">Threshold: At least 2 identifiable firm-building contributions</div></div></div>
+      <div class="cm"><div class="cmn b">3</div><div class="cmt"><strong>Cultural alignment and values fit</strong>Does Pete embody the Salvus values — fiduciary first, client-centric, collaborative, transparent? Bob and O'Quinn must both affirm this. A veto from either is disqualifying.<div class="cmth">Threshold: Unanimous positive assessment from all existing equity partners</div></div></div>
+      <div class="cm"><div class="cmn b">4</div><div class="cmt"><strong>Full commitment to Salvus — no divided practice</strong>Pete must demonstrate 100% of his practice is within Salvus. No outside books, competing affiliations, or divided loyalties.<div class="cmth">Threshold: 100% of practice within Salvus · No exceptions</div></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Full-width credentials card -->
+<div class="cc" style="margin-bottom:24px;">
+  <div class="cch"><div class="ci ci-r">⚖️</div><div><div class="cn">Professional Credentials &amp; Compliance</div><div class="cw">Weight: 10% · Table stakes — necessary but not sufficient on their own</div></div></div>
+  <div class="ccb" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div class="cm" style="padding-right:20px;border-right:1px solid rgba(13,107,107,0.08)"><div class="cmn r">1</div><div class="cmt"><strong>CFP or equivalent (CFA, CPA)</strong>Industry standard for comprehensive planning. Pete should hold or be within 12 months of CFP certification.<div class="cmth">Threshold: CFP certified (or within 12 months of exam)</div></div></div>
+    <div class="cm" style="padding:0 20px;border-right:1px solid rgba(13,107,107,0.08)"><div class="cmn r">2</div><div class="cmt"><strong>Minimum 3-year tenure at Salvus</strong>Enough time to be fully integrated with clients, systems, and culture — not just getting started.<div class="cmth">Threshold: 3+ years as Salvus IAR before equity consideration</div></div></div>
+    <div class="cm" style="padding-left:20px"><div class="cmn r">3</div><div class="cmt"><strong>Clean regulatory record — absolute</strong>No material complaints, regulatory actions, or compliance violations. Partners must be unimpeachable.<div class="cmth">Threshold: Clean U4/U5 · No pending complaints · Annual attestation</div></div></div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- S4: SCORECARD -->
+<div class="sl">Section 04</div>
+<h2 class="st">The <em>Scorecard</em></h2>
+<p class="si">The following 100-point scorecard translates the five categories into an annual assessment. Pete must score a minimum of 75 points overall with no category below its minimum threshold to be considered for equity admission. Bob completes this scorecard annually beginning in 2027.</p>
+
+<div class="score-wrap">
+<table class="score-tbl">
+  <thead><tr><th style="width:36%">Criterion</th><th>Weight</th><th>Below Threshold</th><th>Meets Threshold</th><th>Exceeds Threshold</th><th>Max Pts</th></tr></thead>
+  <tbody>
+    <tr class="cat"><td colspan="6">Category 1 — Revenue Generation (30 pts max)</td></tr>
+    <tr><td style="padding-left:22px">Personally attributable revenue</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Under $500K → 0</td><td>$500K–$749K → 6</td><td>$750K+ → 12</td><td>12</td></tr>
+    <tr><td style="padding-left:22px">Net new organic revenue (24mo)</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Under $100K → 0</td><td>$100K–$149K → 6</td><td>$150K+ → 10</td><td>10</td></tr>
+    <tr><td style="padding-left:22px">Book growth rate (2yr avg)</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">Under 7% → 0</td><td>7–9.9% → 4</td><td>10%+ → 8</td><td>8</td></tr>
+    <tr class="cat"><td colspan="6">Category 2 — Client Relationship Ownership (25 pts max)</td></tr>
+    <tr><td style="padding-left:22px">Primary advisor households</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Under 40 → 0</td><td>40–59 → 5</td><td>60+ → 10</td><td>10</td></tr>
+    <tr><td style="padding-left:22px">AUM under primary management</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Under $75M → 0</td><td>$75M–$99M → 5</td><td>$100M+ → 8</td><td>8</td></tr>
+    <tr><td style="padding-left:22px">Client retention rate</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">Under 93% → 0</td><td>93–94.9% → 2</td><td>95%+ → 4</td><td>4</td></tr>
+    <tr><td style="padding-left:22px">No unresolved client complaints</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Any complaint → 0 · Disqualifying</td><td>—</td><td>Clean record → 3</td><td>3</td></tr>
+    <tr class="cat"><td colspan="6">Category 3 — Business Development (20 pts max)</td></tr>
+    <tr><td style="padding-left:22px">New client originations (24mo)</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Under 8 → 0</td><td>8–14 → 6</td><td>15+ → 10</td><td>10</td></tr>
+    <tr><td style="padding-left:22px">Active referral sources cultivated</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">Under 3 → 0</td><td>3–4 → 4</td><td>5+ → 6</td><td>6</td></tr>
+    <tr><td style="padding-left:22px">Avg AUM of self-originated clients</td><td><span class="wp wp-l">Low</span></td><td style="color:#9a2a1a">Under $300K → 0</td><td>$300K–$499K → 2</td><td>$500K+ → 4</td><td>4</td></tr>
+    <tr class="cat"><td colspan="6">Category 4 — Leadership &amp; Culture (15 pts max)</td></tr>
+    <tr><td style="padding-left:22px">Team leadership / mentorship</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">No evidence → 0</td><td>Adequate → 3</td><td>Strong → 5</td><td>5</td></tr>
+    <tr><td style="padding-left:22px">Strategic firm contributions (2+)</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">None → 0</td><td>1 identified → 3</td><td>2+ identified → 4</td><td>4</td></tr>
+    <tr><td style="padding-left:22px">Culture fit — unanimous partner vote</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Any veto → 0 · Disqualifying</td><td>—</td><td>Unanimous → 6</td><td>6</td></tr>
+    <tr class="cat"><td colspan="6">Category 5 — Credentials &amp; Compliance (10 pts max)</td></tr>
+    <tr><td style="padding-left:22px">Professional designation (CFP/CFA/CPA)</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">None → 0</td><td>In progress → 2</td><td>Certified → 4</td><td>4</td></tr>
+    <tr><td style="padding-left:22px">Tenure at Salvus (years)</td><td><span class="wp wp-m">Med</span></td><td style="color:#9a2a1a">Under 3 yrs → 0</td><td>3 yrs → 2</td><td>4+ yrs → 3</td><td>3</td></tr>
+    <tr><td style="padding-left:22px">Clean compliance record</td><td><span class="wp wp-h">High</span></td><td style="color:#9a2a1a">Any material issue → 0 · Disqualifying</td><td>—</td><td>Clean → 3</td><td>3</td></tr>
+  </tbody>
+  <tfoot>
+    <tr><td><strong>TOTAL POSSIBLE SCORE</strong></td><td colspan="4"></td><td style="color:var(--teal3)"><strong>100 pts</strong></td></tr>
+    <tr><td><strong>ADMISSION THRESHOLD</strong></td><td colspan="4" style="text-align:left;font-family:'Jost',sans-serif;color:rgba(255,255,255,0.7);font-size:12px">Minimum 75 points · No category below minimum · No disqualifying event · Unanimous equity partner approval</td><td style="color:var(--teal3)"><strong>75 pts</strong></td></tr>
+  </tfoot>
+</table>
+</div>
+
+<hr class="div">
+
+<!-- S5: THREE PATHWAYS -->
+<div class="sl">Section 05</div>
+<h2 class="st">Three <em>Pathways</em> to Partnership</h2>
+<p class="si">Depending on Pete's trajectory, one of three pathways is likely. The pathway determines timing — not the criteria, which remain constant. Annual scorecard reviews drive the determination.</p>
+
+<div class="pg">
+  <div class="pc">
+    <div class="pct"><div class="pn">A</div><div class="pname">Accelerated Path</div><div class="ptl">Admission Target: Q2 2028</div></div>
+    <div class="pcb">
+      <div class="pi">Reaches $500K+ revenue by end of 2027</div>
+      <div class="pi">Builds 50+ primary households organically</div>
+      <div class="pi">15+ self-originated new clients in 2027</div>
+      <div class="pi">CFP certified by mid-2027</div>
+      <div class="pi">Scores 80+ on annual scorecard</div>
+      <div class="pi">Unanimous partner approval (Bob + O'Quinn)</div>
+    </div>
+    <div class="pcf"><div class="po"><strong>Initial equity: 8–12% of SL24</strong>Based on revenue contribution at blended internal multiple. Pete funds via seller note at agreed terms.</div></div>
+  </div>
+  <div class="pc">
+    <div class="pct" style="background:linear-gradient(135deg,rgba(13,107,107,0.08),rgba(13,107,107,0.03))"><div class="pn" style="color:var(--teal);opacity:0.5">B</div><div class="pname">Standard Path</div><div class="ptl" style="color:var(--gold)">Admission Target: Q2 2029</div></div>
+    <div class="pcb">
+      <div class="pi">Reaches $500K+ revenue by end of 2028</div>
+      <div class="pi">Builds 40–60 primary households over 2027–28</div>
+      <div class="pi">Consistent but not exceptional origination (8–14 new clients)</div>
+      <div class="pi">CFP in progress or completed by admission</div>
+      <div class="pi">Scores 75–80 on annual scorecard</div>
+      <div class="pi">Unanimous partner approval</div>
+    </div>
+    <div class="pcf" style="background:var(--gold-pale)"><div class="po"><strong>Initial equity: 6–10% of SL24</strong>Smaller initial stake reflecting later entry and more modest revenue base. Same internal multiple formula.</div></div>
+  </div>
+  <div class="pc">
+    <div class="pct"><div class="pn">C</div><div class="pname">Extended Path</div><div class="ptl">Admission: 2030 or later</div></div>
+    <div class="pcb">
+      <div class="pi">Has not reached revenue or relationship thresholds by 2029</div>
+      <div class="pi">Annual scorecard review continues each year</div>
+      <div class="pi">Bob sets specific improvement targets annually</div>
+      <div class="pi">Pete must show trajectory — not just levels</div>
+      <div class="pi">Partnership conversation deferred, not cancelled</div>
+      <div class="pi">Pete remains as IAR with competitive comp</div>
+    </div>
+    <div class="pcf"><div class="po"><strong>Equity deferred — not denied</strong>Pete is kept informed that equity is available upon meeting criteria. No timeline guarantee is given.</div></div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- S6: EQUITY TERMS -->
+<div class="sl">Section 06</div>
+<h2 class="st">Equity <em>Terms</em> at Admission</h2>
+<p class="si">When Pete qualifies, the following terms govern the transaction — mirroring the framework used for the Chuck buyout to create consistency and fairness across all SL24 equity transactions.</p>
+
+<div class="sg sg3">
+  <div class="sc"><div class="sc-lbl">Valuation Method</div><div class="sc-val">Blended</div><div class="sc-sub">Same as Chuck framework: avg of 6x net revenue + 9x Net Ordinary Income, less illiquidity and no-auction discounts.</div></div>
+  <div class="sc"><div class="sc-lbl">Pete's Revenue Basis</div><div class="sc-val">TTM</div><div class="sc-sub">Trailing 12 months of personally attributable advisory revenue at the date of admission.</div></div>
+  <div class="sc gr"><div class="sc-lbl">Pete's Initial Equity Range</div><div class="sc-val">6–12%</div><div class="sc-sub">Of SL24. Less than O'Quinn's % at admission — reflecting later entry and lower revenue base.</div></div>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th>Term</th><th style="text-align:left">Structure</th><th style="text-align:left">Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Valuation formula</td><td style="text-align:left">Blended: (6x net revenue + 9x NOI) ÷ 2, less 20% total discounts</td><td style="text-align:left">Same as Chuck buyout — consistent precedent across all SL24 transactions</td></tr>
+    <tr><td>Down payment</td><td style="text-align:left">10–20% cash at close</td><td style="text-align:left">Pete funds from savings or firm K-1 distributions accumulated pre-admission</td></tr>
+    <tr><td>Balance financing</td><td style="text-align:left">Seller note from Bob / O'Quinn at 5.5%, 5–6 year term</td><td style="text-align:left">Monthly payments from Pete's SL24 K-1 distributions</td></tr>
+    <tr><td>SL24 ownership cap at admission</td><td style="text-align:left">Less than O'Quinn's % at time of Pete's admission</td><td style="text-align:left">Reflects seniority. Can increase as O'Quinn and Bob reduce stakes over time.</td></tr>
+    <tr><td>Vesting</td><td style="text-align:left">100% at admission — no cliff or gradual vest</td><td style="text-align:left">Equity is purchased, not granted. Full rights from day one of admission.</td></tr>
+    <tr><td>First right of refusal</td><td style="text-align:left">Bob first, then O'Quinn, then future SL24 members</td><td style="text-align:left">Pete may not sell to TPG/Purple Marlin — permanently excluded from SL24</td></tr>
+    <tr><td>Managing Member rights</td><td style="text-align:left">Pete has economic rights but is not a Managing Member at admission</td><td style="text-align:left">Managing Member status requires separate designation by Bob — not automatic with equity</td></tr>
+    <tr><td>Non-compete / non-solicit</td><td style="text-align:left">24-month non-solicit of Salvus clients and staff upon exit</td><td style="text-align:left">Standard for equity partners — protects firm value and client relationships</td></tr>
+  </tbody>
+</table>
+</div>
+
+<hr class="div">
+
+<!-- S7: RECOMMENDATION -->
+<div class="sl">Section 07</div>
+<h2 class="st">The <em>Recommendation</em></h2>
+
+<div class="rb">
+  <div class="rb-lbl">Internal Planning · Bob Joel · June 2026</div>
+  <h3 class="rb-title">A Clear, Objective, Measurable Path — No Promises Until Criteria Are Met</h3>
+  <ul>
+    <li><strong>Do not discuss equity with Pete at this stage.</strong> The framework exists for internal planning. Any premature conversation creates expectations that are difficult to walk back — and may not be appropriate if Pete does not meet the criteria. Let performance drive the conversation.</li>
+    <li><strong>Begin annual scorecard tracking in 2027.</strong> Document Pete's revenue, relationships, originations, and firm contributions each year — even informally. This creates an objective record and protects Salvus in any future dispute or misunderstanding.</li>
+    <li><strong>Set performance expectations with Pete explicitly — without mentioning equity.</strong> Tell Pete what you need from him in terms of revenue growth, client ownership, and origination. This gives him every opportunity to earn partnership without creating a binding commitment.</li>
+    <li><strong>Target the Standard Path (2029 admission)</strong> as the base case. If Pete accelerates — pull forward. If he stalls — defer without guilt. The scorecard is the arbiter, not tenure, relationship, or sentiment.</li>
+    <li><strong>This same framework applies to any future IAR considering partnership</strong> — creating a consistent, fair, and legally defensible process for all future equity admissions at Salvus Legacy 24 LLC. Consistency matters as much as the criteria themselves.</li>
+  </ul>
+</div>
+
+<!-- BANK FINANCING ADDITION FOR PETE -->
+<div class="sl" style="margin-top:36px">Bank Financing for Pete's Admission</div>
+<h3 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:8px">Removing the <em>Capital Barrier</em> to Partnership</h3>
+<p style="font-size:14px;color:var(--text2);max-width:700px;margin-bottom:20px;font-weight:300">The single biggest practical obstacle to Pete's equity admission is capital — he needs to fund a purchase of $800K–$1.2M+ at admission. Specialist RIA lenders have eliminated this barrier for advisors at Pete's career stage.</p>
+
+<div class="sg sg3" style="margin-bottom:20px">
+  <div class="sc"><div class="sc-lbl">Oak Street Funding</div><div class="sc-val" style="font-size:20px">100%</div><div class="sc-sub">Up to 100% financing for RIA equity admissions · no down payment required · no SBA cap or restriction · conventional loan</div></div>
+  <div class="sc"><div class="sc-lbl">PPC Loan</div><div class="sc-val" style="font-size:20px">Internal</div><div class="sc-sub">Specifically designed for internal equity transitions · 30% YOY growth 2025 · works with multi-year succession plans</div></div>
+  <div class="sc" style="border-top-color:var(--teal)"><div class="sc-lbl">Loan Economics for Pete (est.)</div><div class="sc-val" style="font-size:20px">+$80K</div><div class="sc-sub">Est. net gain Yr 1: K-1 ~$200K − loan payment ~$120K = ~$80K net. Pete is cash-positive from day one.</div></div>
+</div>
+
+<div class="tw" style="margin-bottom:24px">
+<table>
+  <thead><tr><th>Scenario</th><th style="text-align:right">Pete's Initial Stake</th><th style="text-align:right">Est. Purchase Price</th><th style="text-align:right">Financing</th><th style="text-align:right">Annual Loan Payment</th><th style="text-align:right">Pete's K-1 Income</th><th style="text-align:right">Net Year 1</th></tr></thead>
+  <tbody>
+    <tr><td>Accelerated path (2028 · 9.5%)</td><td>9.5% SL24</td><td>~$950,000</td><td>100% bank (Oak Street)</td><td>~$145,000/yr</td><td>~$203,000</td><td style="color:var(--green)">~$58,000 net</td></tr>
+    <tr><td>Standard path (2029 · 7.5%)</td><td>7.5% SL24</td><td>~$750,000</td><td>100% bank (Oak Street)</td><td>~$115,000/yr</td><td>~$160,000</td><td style="color:var(--green)">~$45,000 net</td></tr>
+    <tr class="hl"><td>With 20% down (if Pete has capital)</td><td>9.5% SL24</td><td>~$950,000</td><td>80% bank + 20% cash</td><td>~$116,000/yr</td><td>~$203,000</td><td style="color:var(--green)">~$87,000 net</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note" style="border-left-color:var(--teal);background:var(--teal-pale);color:#0a4040"><strong style="color:#062828">Key insight for Pete's admission:</strong> Oak Street Funding offers 100% financing for RIA equity admissions — Pete does not need to have personal capital saved. His first-year K-1 income (~$160–200K) more than covers his annual loan payment (~$115–145K), making him cash-positive from day one. This removes the down payment barrier that often delays or prevents internal succession. The SL24 Operating Agreement must explicitly permit equity purchases financed by third-party conventional lenders, including any lender consent-to-transfer provisions, before Pete's admission can proceed.</div>
+
+<div class="note note-gold"><strong>A note on fairness and culture:</strong> The criteria in this framework are set at a level that Pete can realistically achieve with strong performance — they are not designed to exclude him. The goal is a partner who has genuinely earned equity through verifiable contribution. That standard protects Chuck's legacy, Bob's interest, O'Quinn's dilution tolerance, and the firm's long-term value equally. Fairness here is not just ethical — it's strategic.</div>
+
+</div>
+
+<div class="doc-footer">
+  <div>SALVUS LEGACY 24 LLC · PETER FREIDEL PARTNERSHIP CRITERIA FRAMEWORK · JUNE 2026</div>
+  <div>STRICTLY CONFIDENTIAL · INTERNAL USE ONLY · NOT FOR DISTRIBUTION TO PETE FREIDEL</div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'DM Sans',sans-serif";
+Chart.defaults.font.size = 11;
+
+// C1: Equity as recruiting tool by AUM band
+new Chart(document.getElementById('c1'),{
+  type:'bar',
+  data:{
+    labels:['All firms','$250M+ AUM','$500M+ AUM\n(Salvus range)','$1B+ AUM','$5B+ AUM'],
+    datasets:[{
+      label:'% Offering Equity to Recruit',
+      data:[22,34,38,41,53],
+      backgroundColor:['rgba(13,107,107,0.25)','rgba(13,107,107,0.4)','rgba(13,107,107,0.7)','rgba(13,107,107,0.55)','rgba(13,107,107,0.85)'],
+      borderColor:['#0d6b6b','#0d6b6b','#0d6b6b','#0d6b6b','#0d6b6b'],
+      borderWidth:1.5,borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'% of firms'}}},
+    scales:{y:{ticks:{callback:v=>v+'%'},max:65}}
+  }
+});
+
+// C2: What next-gen advisors prioritize
+new Chart(document.getElementById('c2'),{
+  type:'bar',
+  data:{
+    labels:['Defined career\npath','Path to\nownership','Cultural\nfit','Formal\ncoaching','Comp\ntransparency','Work/life\nbalance'],
+    datasets:[{
+      label:'% citing as key factor',
+      data:[68,46,55,33,45,70],
+      backgroundColor:['rgba(13,37,69,0.7)','rgba(13,107,107,0.8)','rgba(13,107,107,0.5)','rgba(184,137,42,0.5)','rgba(184,137,42,0.4)','rgba(13,37,69,0.4)'],
+      borderColor:['#0d2545','#0d6b6b','#0d6b6b','#b8892a','#b8892a','#0d2545'],
+      borderWidth:1.5,borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{y:{ticks:{callback:v=>v+'%'},max:85}}
+  }
+});
+
+// C3: Succession planning uplift
+new Chart(document.getElementById('c3'),{
+  type:'bar',
+  data:{
+    labels:['No succession\nplan','Written plan\nonly','G2 with equity\n(like O\'Quinn)','Full succession\ndocumented'],
+    datasets:[{
+      label:'EBITDA Multiple',
+      data:[8.0,8.5,9.5,10.5],
+      backgroundColor:['rgba(154,42,26,0.4)','rgba(184,137,42,0.5)','rgba(26,107,64,0.6)','rgba(26,107,64,0.85)'],
+      borderColor:['#9a2a1a','#b8892a','#1a6b40','#1a6b40'],
+      borderWidth:2,borderRadius:4
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'x EBITDA'}}},
+    scales:{y:{min:6,max:12,ticks:{callback:v=>v+'x'}}}
+  }
+});
+</script>
+
+</body>
+</html>
