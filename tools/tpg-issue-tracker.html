@@ -27,7 +27,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
 
 /* ── MASTHEAD ───────────────────────────────────── */
 .masthead{
-  height:68px;background:var(--n0);
+  height:72px;background:var(--n0);
   border-bottom:1px solid rgba(255,255,255,0.06);
   display:flex;align-items:center;justify-content:space-between;
   padding:0 28px;position:relative;flex-shrink:0;
@@ -39,21 +39,21 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
 
 /* SWP LOGO */
 .swp-logo{display:flex;align-items:center;gap:14px;}
-.swp-img{height:32px;width:auto;display:block;filter:brightness(1);}
+.swp-img{height:38px;width:auto;display:block;filter:brightness(1.05);}
 .swp-sep{width:1px;height:28px;background:rgba(255,255,255,0.15);margin:0 10px;}
-.swp-partner{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;font-family:'Jost',sans-serif;font-weight:300;text-transform:uppercase;}
+.swp-partner{font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:1.5px;font-family:'Jost',sans-serif;font-weight:500;text-transform:uppercase;}
 
 /* MASTHEAD RIGHT */
 .mast-right{display:flex;align-items:center;gap:14px;}
 .mast-pulse{display:flex;align-items:center;gap:6px;}
 .pulse-dot{width:6px;height:6px;border-radius:50%;background:#27ae60;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
-.pulse-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);font-weight:500;}
-.mast-date{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:0.5px;}
+.pulse-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.55);font-weight:700;}
+.mast-date{font-family:'DM Mono',monospace;font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:0.5px;font-weight:500;}
 .mast-actions{display:flex;gap:6px;}
 
 /* ── LAYOUT ─────────────────────────────────────── */
-.shell{display:flex;height:calc(100vh - 68px);}
+.shell{display:flex;height:calc(100vh - 72px);}
 
 /* ── SIDEBAR ────────────────────────────────────── */
 .sidebar{
@@ -63,16 +63,16 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
 }
 .sb-section{padding:20px 0 4px;}
 .sb-hdr{
-  padding:0 18px 6px;
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
-  text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:500;
+  padding:0 18px 7px;
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,255,255,0.45);font-weight:700;
 }
 .sb-rule{height:1px;background:rgba(255,255,255,0.05);margin:0 18px 6px;}
 .sb-item{
   display:flex;align-items:center;justify-content:space-between;
-  padding:8px 18px;cursor:pointer;font-size:13px;
-  color:rgba(255,255,255,0.55);transition:all 0.12s;
-  border-right:2px solid transparent;font-weight:400;
+  padding:9px 18px;cursor:pointer;font-size:13.5px;
+  color:rgba(255,255,255,0.6);transition:all 0.12s;
+  border-right:2px solid transparent;font-weight:500;
 }
 .sb-item:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.72);}
 .sb-item.active{
@@ -80,9 +80,9 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
   border-right-color:var(--g1);
 }
 .sb-badge{
-  font-family:'DM Mono',monospace;font-size:9px;min-width:18px;text-align:center;
-  padding:1px 5px;border-radius:8px;
-  background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.28);
+  font-family:'DM Mono',monospace;font-size:10px;min-width:20px;text-align:center;
+  padding:2px 6px;border-radius:8px;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);font-weight:600;
 }
 .sb-badge.live{background:rgba(176,48,32,0.2);color:#e07060;}
 .sb-item.active .sb-badge{background:rgba(184,137,42,0.15);color:var(--g2);}
@@ -94,14 +94,14 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
 /* CONTENT HEADER */
 .content-hdr{
   background:white;border-bottom:1px solid var(--rule);
-  padding:16px 24px;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 26px;display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;gap:10px;flex-shrink:0;
 }
 .ch-left h2{
-  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;
+  font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;
   color:var(--n1);line-height:1;
 }
-.ch-left p{font-size:12px;color:var(--t2);margin-top:4px;font-weight:400;}
+.ch-left p{font-size:13px;color:var(--t1);margin-top:5px;font-weight:500;}
 .ch-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 
 /* METRICS STRIP */
@@ -110,14 +110,14 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
   display:flex;flex-shrink:0;
 }
 .metric{
-  flex:1;padding:12px 16px;border-right:1px solid var(--rule);
+  flex:1;padding:15px 16px;border-right:1px solid var(--rule);
   text-align:center;cursor:pointer;transition:background 0.12s;
 }
 .metric:last-child{border:none;}
 .metric:hover{background:var(--c0);}
 .metric.active-m{background:var(--g4);border-bottom:2px solid var(--g1);}
 .m-val{
-  font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;
+  font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;
   color:var(--n1);line-height:1;
 }
 .m-val.red{color:var(--red);}
@@ -126,7 +126,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
 .m-val.green{color:var(--green);}
 .m-val.purple{color:var(--purple);}
 .m-val.warn{color:var(--red);}
-.m-lbl{font-size:10px;color:var(--t2);font-family:'DM Mono',monospace;letter-spacing:0.5px;margin-top:3px;text-transform:uppercase;font-weight:500;}
+.m-lbl{font-size:11px;color:var(--t1);font-family:'DM Mono',monospace;letter-spacing:0.5px;margin-top:4px;text-transform:uppercase;font-weight:700;}
 
 /* ISSUE SCROLL */
 .issue-scroll{flex:1;overflow-y:auto;padding:16px 20px 32px;}
@@ -586,7 +586,12 @@ async function save() {
 // ── UTIL ─────────────────────────────────────────
 const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 const days = d => Math.floor((Date.now()-new Date(d))/864e5);
-const fd = d => new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const fd = d => {
+  const dt = new Date(d);
+  const date = dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const time = dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
+  return date + ' · ' + time;
+};
 
 function filtered() {
   let list = [...issues];
