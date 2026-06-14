@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Salvus — TPG Service Level Agreement</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+:root{
+  --navy:#0b1929;--navy2:#122035;
+  --gold:#b8892a;--gold2:#d4a843;--gold3:#f0cc7a;
+  --cream:#f7f3ec;--cream2:#ede8df;--rule:#d9cfc0;
+  --text:#2a3d52;--text2:#4a6070;--text3:#7a8f9a;
+  --green:#1a6b40;--red:#c0392b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:white;color:var(--text);font-size:13px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;}
+
+/* COVER */
+.cover{background:var(--navy);padding:72px 80px;min-height:280px;position:relative;overflow:hidden;}
+.cover::after{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(184,137,42,0.08),transparent 70%);}
+.cover-eye{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);margin-bottom:12px;}
+.cover-title{font-size:42px;font-weight:300;color:white;line-height:1.1;margin-bottom:10px;}
+.cover-title em{font-style:italic;color:var(--gold3);}
+.cover-rule{width:48px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));margin:18px 0;}
+.cover-sub{font-size:13px;color:rgba(255,255,255,0.4);font-weight:300;max-width:560px;line-height:1.85;}
+.cover-parties{display:flex;gap:40px;margin-top:32px;flex-wrap:wrap;}
+.cp{border-left:2px solid var(--gold);padding-left:16px;}
+.cp-name{font-size:12px;font-weight:600;color:white;}
+.cp-role{font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:1px;margin-top:2px;font-family:'DM Mono',monospace;}
+
+/* DOC BODY */
+.doc{max-width:860px;margin:0 auto;padding:56px 48px 80px;}
+
+/* SECTION */
+.sec{margin-bottom:40px;}
+.sec-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--navy);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--navy);}
+.sub-title{font-size:12px;font-weight:700;color:var(--navy);margin:16px 0 6px;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* TEXT */
+.clause{font-size:13px;color:var(--text2);line-height:1.85;margin-bottom:10px;}
+.clause strong{color:var(--text);font-weight:600;}
+.indent{padding-left:24px;margin-bottom:8px;font-size:13px;color:var(--text2);line-height:1.8;}
+.indent-2{padding-left:48px;margin-bottom:6px;font-size:12.5px;color:var(--text2);line-height:1.8;}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin:14px 0;}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tbl th{background:var(--navy);color:white;padding:9px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;font-weight:500;}
+.tbl th.gold{color:var(--gold2);}
+.tbl tbody tr{border-bottom:1px solid var(--cream2);}
+.tbl tbody tr:hover{background:#fdf8f0;}
+.tbl tbody td{padding:9px 14px;vertical-align:top;}
+.tbl tbody td:first-child{font-weight:600;color:var(--navy);}
+.tbl tfoot td{background:var(--cream2);padding:9px 14px;font-weight:600;border-top:2px solid var(--gold);font-size:11px;}
+
+/* CALLOUT */
+.note{background:#fdf8f0;border:1px solid #e8c97a;border-radius:4px;padding:12px 18px;margin:14px 0;font-size:12px;color:#5a3a00;line-height:1.7;}
+.note strong{display:block;margin-bottom:3px;}
+.warn{background:#fdf0ee;border:1px solid #e8a090;border-radius:4px;padding:12px 18px;margin:14px 0;font-size:12px;color:#5a0a00;line-height:1.7;}
+
+/* SIGNATURE */
+.sig-block{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;}
+.sig{border-top:1px solid var(--navy);padding-top:12px;}
+.sig-name{font-size:12px;font-weight:600;color:var(--navy);}
+.sig-title{font-size:11px;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace;}
+.sig-line{height:40px;border-bottom:1px solid var(--rule);margin:16px 0 8px;}
+.sig-date{font-size:11px;color:var(--text3);}
+
+/* FOOTER */
+.footer{background:var(--navy);color:rgba(255,255,255,0.25);padding:18px 48px;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.5px;}
+
+hr.div{border:none;border-top:1px solid var(--rule);margin:32px 0;}
+.mono{font-family:'DM Mono',monospace;}
+
+@media print{body{background:white;}.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+@media(max-width:700px){.doc{padding:32px 20px;}.sig-block{grid-template-columns:1fr;}.cover{padding:48px 28px;}.cover-title{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-eye">Side Letter to Business Management Agreement · Confidential</div>
+  <h1 class="cover-title">Service Level <em>Agreement</em></h1>
+  <div class="cover-rule"></div>
+  <p class="cover-sub">This Service Level Agreement ("SLA") is entered into as a side letter to the Business Management Agreement between Salvus Purple Marlin LLC and The Partners Wealth Management LLC ("ThePARTNERS"), and sets forth the operational standards, contact structure, performance metrics, and remedies governing the parties' relationship.</p>
+  <div class="cover-parties">
+    <div class="cp">
+      <div class="cp-name">Salvus Purple Marlin LLC</div>
+      <div class="cp-role">Robert W. Joel · Managing Member</div>
+    </div>
+    <div class="cp">
+      <div class="cp-name">The Partners Wealth Management LLC</div>
+      <div class="cp-role">Gregory Rutherford · Chief Executive Officer</div>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+  <!-- RECITALS -->
+  <div class="sec">
+    <div class="sec-num">Recitals</div>
+    <h2 class="sec-title">Background &amp; Purpose</h2>
+    <p class="clause">WHEREAS, Salvus Purple Marlin LLC ("Salvus") and The Partners Wealth Management LLC ("ThePARTNERS") have entered into a Business Management Agreement (the "BMA") pursuant to which ThePARTNERS provides investment advisory, operational, and platform services to Salvus and its affiliated investment advisor representatives ("IARs");</p>
+    <p class="clause">WHEREAS, in exchange for such services, Salvus pays ThePARTNERS a platform fee equal to seven percent (7%) of gross advisory revenue collected from Salvus clients (the "Platform Fee");</p>
+    <p class="clause">WHEREAS, the parties desire to set forth specific, measurable operational standards governing ThePARTNERS' service obligations, the contact structure for day-to-day operations, and the consequences of sustained underperformance;</p>
+    <p class="clause">NOW THEREFORE, in consideration of the mutual covenants set forth herein, the parties agree as follows:</p>
+  </div>
+
+  <hr class="div">
+
+  <!-- SECTION 1 -->
+  <div class="sec">
+    <div class="sec-num">Section 1</div>
+    <h2 class="sec-title">Dedicated Contact Structure</h2>
+
+    <div class="sub-title">1.1 Transition Period (First 12 Months Post-BMA Effective Date)</div>
+    <p class="clause">During the first twelve (12) months following the effective date of the BMA ("Transition Period"), ThePARTNERS shall maintain two dedicated service lanes for Salvus:</p>
+
+    <p class="indent"><strong>(a) Lane 1 — Business &amp; Billing:</strong> Gary Gordon or Chris Lein shall serve as Salvus's named relationship manager for all billing, compensation, and business-level issues. Either Gary Gordon or Chris Lein shall be reachable by direct phone and email during normal business hours and shall have full authority to resolve billing disputes, compensation questions, and escalate to the Chief Executive Officer where required.</p>
+
+    <p class="indent"><strong>(b) Lane 2 — Platform &amp; Operations:</strong> ThePARTNERS shall grant Salvus's designated operations contact (currently Sonja Elia) direct access to ThePARTNERS' Amplify platform representative for all operational, account, and platform questions. For the avoidance of doubt, Salvus's operations contact shall not be required to route platform questions through ThePARTNERS' internal Home Office staff. Direct access shall mean the ability to contact the Amplify representative directly by phone or email and receive a response without an intermediate relay through ThePARTNERS personnel.</p>
+
+    <p class="indent"><strong>(c) Trading:</strong> Salvus and its IARs shall have direct access to the Amplify trading desk by phone during market hours for all trading-related issues. This direct access shall be maintained permanently, including after the Transition Period.</p>
+
+    <div class="sub-title">1.2 Steady State (After 12 Months)</div>
+    <p class="clause">Following the Transition Period, ThePARTNERS shall designate a single named senior relationship manager — either Gary Gordon, Chris Lein, or a mutually agreed successor of equivalent seniority — as Salvus's primary point of contact for all business, billing, and operational matters. Direct Amplify trading line access shall be retained permanently under Section 1.1(c).</p>
+
+    <div class="sub-title">1.3 Weekly Standing Call</div>
+    <p class="clause">ThePARTNERS shall maintain a standing weekly call with Salvus every Friday morning at a mutually agreed time. The named relationship manager under Section 1.1(a) or Section 1.2 shall participate on behalf of ThePARTNERS. The purpose of the call is to review open items, upcoming billing cycles, platform issues, and any operational changes. No formal agenda is required. Either party may cancel a given week's call with 24 hours notice; cancellation does not waive the standing obligation.</p>
+
+    <div class="sub-title">1.4 Named Contact Continuity</div>
+    <p class="clause">If ThePARTNERS intends to change either named contact identified in Sections 1.1 or 1.2, ThePARTNERS shall provide Salvus with no less than thirty (30) days written notice and shall ensure an overlap transition period of no less than two (2) weeks during which both outgoing and incoming contacts are available to Salvus.</p>
+  </div>
+
+  <hr class="div">
+
+  <!-- SECTION 2 -->
+  <div class="sec">
+    <div class="sec-num">Section 2</div>
+    <h2 class="sec-title">Response &amp; Resolution Standards</h2>
+
+    <div class="sub-title">2.1 Service Standards Table</div>
+    <p class="clause">ThePARTNERS shall meet the following response and resolution standards. All timeframes are in business days unless otherwise noted.</p>
+
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Examples</th>
+          <th class="gold">Standard</th>
+          <th>Primary Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Billing &amp; compensation disputes</td>
+          <td>Fee calculation errors, compensation questions, payout discrepancies</td>
+          <td style="color:#27ae60;font-weight:600;">Resolution within 2 business days</td>
+          <td>Gary Gordon or Chris Lein (direct)</td>
+        </tr>
+        <tr>
+          <td>Undisputed payment holdback</td>
+          <td>Where a billing question affects only a portion of the payout, the uncontested balance shall be paid separately</td>
+          <td style="color:#27ae60;font-weight:600;">Pay uncontested portion within 2 business days of identifying the split</td>
+          <td>Gary Gordon or Chris Lein</td>
+        </tr>
+        <tr>
+          <td>Account openings</td>
+          <td>New client account setup, paperwork processing, custodian submission</td>
+          <td style="color:#27ae60;font-weight:600;">Response and resolution within 1 business day</td>
+          <td>Single named operations contact (direct Amplify access)</td>
+        </tr>
+        <tr>
+          <td>Service requests</td>
+          <td>Account maintenance, beneficiary changes, address updates, RMDs</td>
+          <td style="color:#27ae60;font-weight:600;">Response and resolution within 1 business day</td>
+          <td>Single named operations contact</td>
+        </tr>
+        <tr>
+          <td>Cashiering</td>
+          <td>Deposits, withdrawals, transfers, wire instructions</td>
+          <td style="color:#27ae60;font-weight:600;">Response and resolution within 1 business day</td>
+          <td>Single named operations contact</td>
+        </tr>
+        <tr>
+          <td>Amplify platform issues</td>
+          <td>Reporting errors, portal access, data discrepancies, system questions</td>
+          <td style="color:#27ae60;font-weight:600;">Response and resolution within 1 business day</td>
+          <td>Single named operations contact with direct Amplify access</td>
+        </tr>
+        <tr>
+          <td>Trading issues</td>
+          <td>Trade execution, order status, rebalancing questions</td>
+          <td style="color:#c0392b;font-weight:600;">Same day resolution</td>
+          <td>Direct Amplify trading line (Salvus calls directly)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="sub-title">2.2 Documentation of Issues</div>
+    <p class="clause">Any service issue that is not resolved within the applicable standard in Section 2.1 shall be documented by Salvus in writing (email to the named contact is sufficient) and acknowledged by ThePARTNERS in writing within twenty-four (24) hours of receipt. The Friday weekly call shall serve as a standing venue for reviewing open items. Both parties agree to maintain a shared running log of open issues, updated weekly.</p>
+
+    <div class="note">
+      <strong>Note on billing timing:</strong> Salvus billing is quarterly. The billing standards in Section 2.1 apply to each quarterly billing cycle. For non-standard or stub billing periods, both parties shall agree in writing on the calculation methodology — including the Schwab referral fee estimation method — before billing is processed.
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- SECTION 3 -->
+  <div class="sec">
+    <div class="sec-num">Section 3</div>
+    <h2 class="sec-title">Performance Standards &amp; Fee Reduction</h2>
+
+    <div class="sub-title">3.1 Strike System</div>
+    <p class="clause">A "Service Failure" occurs when ThePARTNERS fails to meet a standard set forth in Section 2.1, as documented in writing pursuant to Section 2.2. Strikes accumulate as follows:</p>
+
+    <p class="indent"><strong>Strike 1:</strong> First documented Service Failure. ThePARTNERS acknowledges the failure in writing within twenty-four (24) hours of Salvus's written notice. The failure and resolution are logged in the weekly Friday call.</p>
+
+    <p class="indent"><strong>Strike 2:</strong> Second documented Service Failure within ninety (90) days of Strike 1. A thirty (30) day cure period is initiated. Gregory Rutherford personally joins the Friday weekly call for the duration of the cure period. ThePARTNERS provides a written remediation plan within five (5) business days of Strike 2.</p>
+
+    <p class="indent"><strong>Strike 3:</strong> Third documented Service Failure within one hundred eighty (180) days of Strike 1, or failure to cure within the thirty (30) day cure period initiated at Strike 2. A "Fee Reduction Trigger" is activated as set forth in Section 3.2.</p>
+
+    <div class="sub-title">3.2 Fee Reduction Schedule</div>
+    <p class="clause">Upon activation of a Fee Reduction Trigger under Section 3.1, the Platform Fee shall be reduced for the immediately following calendar quarter as follows:</p>
+
+    <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Trigger Event</th><th class="gold">Platform Fee Reduction</th><th>Duration</th></tr></thead>
+      <tbody>
+        <tr><td>First Fee Reduction Trigger</td><td style="color:#27ae60;font-weight:600;">7% → 6% (reduction of 1%)</td><td>Following calendar quarter</td></tr>
+        <tr><td>Second Fee Reduction Trigger within 12 months of first</td><td style="color:#27ae60;font-weight:600;">6% → 5% (reduction of 1%)</td><td>Following calendar quarter</td></tr>
+        <tr><td>Three or more Fee Reduction Triggers within any 12-month period</td><td style="color:#c0392b;font-weight:600;">Salvus termination right activated</td><td>See Section 4.1(e)</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="2">Fee reductions apply to gross advisory revenue for the applicable quarter only and do not permanently modify the BMA Platform Fee unless separately agreed in writing.</td><td></td></tr></tfoot>
+    </table>
+    </div>
+
+    <div class="sub-title">3.3 Strike Reset</div>
+    <p class="clause">Strikes reset to zero if no Service Failure occurs for a continuous period of one hundred eighty (180) days. Fee reduction triggers do not reset — they accumulate on a rolling twelve (12) month basis for purposes of Section 3.2.</p>
+  </div>
+
+  <hr class="div">
+
+  <!-- SECTION 4 -->
+  <div class="sec">
+    <div class="sec-num">Section 4</div>
+    <h2 class="sec-title">Termination Rights</h2>
+
+    <div class="sub-title">4.1 Immediate Termination Rights</div>
+    <p class="clause">Salvus may terminate the BMA upon ninety (90) days written notice to ThePARTNERS, with no early termination penalty, upon the occurrence of any of the following events:</p>
+
+    <p class="indent"><strong>(a) Regulatory Action:</strong> Any regulatory enforcement action, suspension, bar, or material sanction imposed by the SEC, FINRA, any state securities regulator, or any other applicable regulatory authority against ThePARTNERS as an entity, or against Gregory Rutherford personally in his capacity as an investment adviser or officer of ThePARTNERS.</p>
+
+    <p class="indent"><strong>(b) Material Misrepresentation:</strong> ThePARTNERS materially misrepresented a service, capability, resource, or financial condition that was a material inducement to Salvus entering into the BMA or this SLA, and such misrepresentation is not cured within thirty (30) days of written notice from Salvus.</p>
+
+    <p class="indent"><strong>(c) Change of Control:</strong> Gregory Rutherford ceases to maintain a controlling interest in Purple Marlin LLC or ThePARTNERS. If Gregory Rutherford intends to enter into any transaction that would reduce his ownership below a controlling interest, ThePARTNERS shall provide Salvus with no less than thirty (30) days written notice prior to the closing of such transaction. Upon receipt of such notice — or upon Salvus's discovery of an undisclosed change of control — Salvus shall have the right to terminate the BMA pursuant to this Section 4.1(c).</p>
+
+    <p class="indent"><strong>(d) Insolvency:</strong> ThePARTNERS files for bankruptcy protection, makes a general assignment for the benefit of creditors, or has a receiver appointed over a material portion of its assets.</p>
+
+    <p class="indent"><strong>(e) Billing Fraud or Misappropriation:</strong> ThePARTNERS intentionally withholds, miscalculates, or misappropriates client advisory fees or IAR compensation beyond a de minimis amount, and fails to cure such misappropriation within ten (10) business days of written notice from Salvus.</p>
+
+    <p class="indent"><strong>(f) Chronic Service Failure:</strong> Three (3) or more Fee Reduction Triggers are activated within any rolling twelve (12) month period pursuant to Section 3.2.</p>
+
+    <div class="sub-title">4.2 Standard Termination</div>
+    <p class="clause">Either party may terminate the BMA without cause upon ninety (90) days written notice to the other party, subject to any additional termination provisions in the BMA itself. This SLA shall terminate automatically upon termination of the BMA.</p>
+
+    <div class="warn">
+      <strong>Note for attorney review:</strong> Section 4.1(c) (Change of Control) should be cross-referenced against the MIPA to ensure consistency with any change of control provisions in the Membership Interest Purchase Agreement between Purple Marlin LLC and Salvus Legacy 24 LLC. The "controlling interest" standard should be defined by reference to the applicable state law definition or a specific percentage agreed between the parties.
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- SECTION 5 -->
+  <div class="sec">
+    <div class="sec-num">Section 5</div>
+    <h2 class="sec-title">General Provisions</h2>
+
+    <div class="sub-title">5.1 Relationship to BMA</div>
+    <p class="clause">This SLA is a side letter to and is incorporated into the BMA. In the event of any conflict between the terms of this SLA and the BMA, the terms of this SLA shall control with respect to the subject matter herein. All other terms of the BMA remain in full force and effect.</p>
+
+    <div class="sub-title">5.2 Amendment</div>
+    <p class="clause">This SLA may be amended only by a written instrument signed by authorized representatives of both parties. Verbal agreements or email exchanges shall not constitute amendments to this SLA.</p>
+
+    <div class="sub-title">5.3 Governing Law &amp; Dispute Resolution</div>
+    <p class="clause">This SLA shall be governed by the laws of the State of Delaware, consistent with the BMA. Any disputes arising under this SLA shall be resolved by binding arbitration under AAA Commercial Rules, consistent with the BMA.</p>
+
+    <div class="sub-title">5.4 Effective Date</div>
+    <p class="clause">This SLA shall be effective as of the date of the last signature below and shall remain in effect for the duration of the BMA unless earlier terminated pursuant to Section 4.</p>
+  </div>
+
+  <hr class="div">
+
+  <!-- SIGNATURES -->
+  <div class="sec">
+    <div class="sec-num">Signatures</div>
+    <h2 class="sec-title">Execution</h2>
+    <p class="clause">IN WITNESS WHEREOF, the parties have executed this Service Level Agreement as of the date last written below.</p>
+
+    <div class="sig-block">
+      <div class="sig">
+        <div class="sig-name">Salvus Purple Marlin LLC</div>
+        <div class="sig-title">By: Salvus Legacy 24 LLC, its Managing Member</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">Robert W. Joel, CFP</div>
+        <div class="sig-title">Managing Member · Salvus Legacy 24 LLC</div>
+        <div class="sig-date" style="margin-top:12px;">Date: ________________________</div>
+      </div>
+      <div class="sig">
+        <div class="sig-name">The Partners Wealth Management LLC</div>
+        <div class="sig-title">ThePARTNERS</div>
+        <div class="sig-line"></div>
+        <div class="sig-name">Gregory Rutherford</div>
+        <div class="sig-title">Chief Executive Officer · ThePARTNERS</div>
+        <div class="sig-date" style="margin-top:12px;">Date: ________________________</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div>SALVUS PURPLE MARLIN LLC · SERVICE LEVEL AGREEMENT · SIDE LETTER TO BMA · CONFIDENTIAL</div>
+  <div>DRAFT — SUBJECT TO ATTORNEY REVIEW · JUNE 2026</div>
+</div>
+
+</body>
+</html>
