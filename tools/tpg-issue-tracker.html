@@ -292,6 +292,21 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
   .metrics{flex-wrap:wrap;}
   .metric{min-width:50%;}
 }
+
+.status-dot{width:7px;height:7px;border-radius:50%;background:#27ae60;animation:pulse 2s infinite;}
+.status-dot.error{background:var(--red);animation:none;}
+.status-dot.loading{background:var(--amber);animation:pulse 1s infinite;}
+.status-lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,0.55);font-weight:600;}
+.mast-status{display:flex;align-items:center;gap:6px;}
+.error-banner{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:4px;padding:10px 14px;font-size:12px;color:var(--red);margin-bottom:14px;display:none;}
+.loading-state{display:flex;align-items:center;justify-content:center;height:200px;}
+.spinner{width:32px;height:32px;border:3px solid var(--c2);border-top-color:var(--g1);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ic-attach-strip{margin:6px 14px 0;padding:7px 10px;background:var(--c0);border:1px solid var(--rule);border-radius:3px;font-size:11.5px;line-height:1.7;}
+.ic-attach-strip strong{display:inline;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;margin-right:8px;font-weight:700;color:var(--t2);}
+.attach-link{display:inline-flex;align-items:center;gap:4px;color:var(--blue);text-decoration:none;margin-right:10px;font-size:11.5px;font-weight:500;}
+.attach-link:hover{text-decoration:underline;}
+
 </style>
 </head>
 <body>
@@ -304,9 +319,9 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
     <div class="swp-partner">× ThePARTNERS Operations Tracker</div>
   </div>
   <div class="mast-right">
-    <div class="mast-pulse">
-      <div class="pulse-dot"></div>
-      <div class="pulse-label">Live</div>
+    <div class="mast-status">
+      <div class="status-dot loading" id="status-dot"></div>
+      <div class="status-lbl" id="status-lbl">Connecting...</div>
     </div>
     <div class="mast-date" id="live-date"></div>
     <div class="mast-actions">
@@ -363,7 +378,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
   <div class="content-hdr">
     <div class="ch-left">
       <h2 id="view-title">All Issues</h2>
-      <p id="view-sub">Oldest first — unresolved items requiring attention</p>
+      <p id="view-sub">Synced with Airtable — unresolved items requiring attention</p>
     </div>
     <div class="ch-right">
       <select class="btn btn-outline btn-sm" id="sort-sel" onchange="render()" style="cursor:pointer;padding:5px 10px;">
@@ -390,7 +405,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
   </div>
 
   <div class="issue-scroll" id="issue-scroll">
-    <div class="empty"><div class="empty-icon">📋</div><p>No issues logged yet.<br>Click <strong>+ Log Issue</strong> to get started.</p></div>
+    <div class="loading-state"><div class="spinner"></div></div><div class="empty-icon">📋</div><p>No issues logged yet.<br>Click <strong>+ Log Issue</strong> to get started.</p></div>
   </div>
 </div>
 </div>
@@ -403,6 +418,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
     <button class="m-close" onclick="close_('m-new')">×</button>
   </div>
   <div class="mbody">
+    <div class="error-banner" id="new-error"></div>
     <div class="fr"><label>Issue Title *</label><input id="n-title" placeholder="Brief, clear description of the problem"></div>
     <div class="fg2">
       <div class="fr"><label>Category *</label>
@@ -474,6 +490,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
     <button class="m-close" onclick="close_('m-update')">×</button>
   </div>
   <div class="mbody">
+    <div class="error-banner" id="update-error"></div>
     <div class="fr"><label>Title</label><input id="u-title"></div>
     <div class="fg2">
       <div class="fr"><label>Status</label>
@@ -497,6 +514,7 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
         </select>
       </div>
     </div>
+    <div style="font-size:11px;color:var(--t3);font-family:'DM Mono',monospace;padding:6px 0;margin-bottom:8px;border-top:1px solid var(--rule);" id="u-attach-info"></div>
     <div class="fr"><label>Update Note <span style="font-weight:300;color:var(--t3)">(appended to history)</span></label>
       <textarea id="u-note" placeholder="What happened since last update? What is the current status?" style="min-height:80px;"></textarea>
     </div>
@@ -554,304 +572,477 @@ body{font-family:'Jost',sans-serif;background:var(--n1);color:var(--t0);font-siz
 </div>
 
 <script>
-// ── DATA ─────────────────────────────────────────
-const SK = 'swp_tpg_v2';
+// Config loaded from URL params or defaults
+// URL format: ?at=YOUR_AIRTABLE_TOKEN&base=YOUR_BASE_ID
+const _p = new URLSearchParams(window.location.search);
+const AT_TOKEN = _p.get('at')  || localStorage.getItem('swp_at_token') || '';
+const BASE_ID  = _p.get('base')|| localStorage.getItem('swp_base_id')  || 'appBiDdZ82AjZO5Zg';
+if (_p.get('at'))   localStorage.setItem('swp_at_token', _p.get('at'));
+if (_p.get('base')) localStorage.setItem('swp_base_id',  _p.get('base'));
+const TABLE    = 'Issues';
+const API      = 'https://api.airtable.com/v0/' + BASE_ID + '/' + encodeURIComponent(TABLE);
+const HDRS     = {'Authorization': 'Bearer ' + AT_TOKEN, 'Content-Type': 'application/json'};
+
 let issues = [], cur = 'all', editId = null;
 
 const CATS = {
-  'schwab-new-accounts':'Schwab · New Accounts',
+  'schwab-new-accounts':   'Schwab · New Accounts',
   'schwab-account-service':'Schwab · Account Service',
-  'schwab-trading':'Schwab · Trading',
-  'fidelity-new-accounts':'Fidelity · New Accounts',
+  'schwab-trading':        'Schwab · Trading',
+  'fidelity-new-accounts': 'Fidelity · New Accounts',
   'fidelity-account-service':'Fidelity · Account Service',
-  'fidelity-trading':'Fidelity · Trading',
-  amplify:'Amplify', billing:'Billing', payments:'Payments',
-  compliance:'Compliance', other:'Other'
+  'fidelity-trading':      'Fidelity · Trading',
+  'amplify':'Amplify', 'billing':'Billing', 'payments':'Payments',
+  'compliance':'Compliance', 'other':'Other'
 };
 const SLBL = {
-  open:'🔴 Open','in-progress':'🟡 In Progress',
-  'next-steps':'🔵 Next Steps', escalated:'🟣 Escalated', resolved:'🟢 Resolved'
+  'open':'Open', 'in-progress':'In Progress',
+  'next-steps':'Next Steps', 'escalated':'Escalated', 'resolved':'Resolved'
+};
+const SEMOJI = {
+  'open':'🔴', 'in-progress':'🟡', 'next-steps':'🔵', 'escalated':'🟣', 'resolved':'🟢'
 };
 
-// ── STORAGE ──────────────────────────────────────
-async function load() {
-  try { const r = await window.storage.get(SK); if(r?.value) issues = JSON.parse(r.value); }
-  catch(e){ issues=[]; }
-  all();
-}
-async function save() {
-  try { await window.storage.set(SK, JSON.stringify(issues)); } catch(e){}
-}
-
-// ── UTIL ─────────────────────────────────────────
-const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-const days = d => Math.floor((Date.now()-new Date(d))/864e5);
-const fd = d => {
-  const dt = new Date(d);
-  const date = dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  const time = dt.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
-  return date + ' · ' + time;
-};
-
-function filtered() {
-  let list = [...issues];
-  const hr = document.getElementById('hide-res')?.checked;
-  if(cur.startsWith('s-')){
-    const s = cur.slice(2); list = list.filter(i=>i.status===s);
-  } else if(cur!=='all'){
-    list = list.filter(i=>i.cat===cur);
-    if(hr) list = list.filter(i=>i.status!=='resolved');
-  } else {
-    if(hr) list = list.filter(i=>i.status!=='resolved');
+// ── AIRTABLE API ──────────────────────────────────
+async function atFetch(url, opts) {
+  opts = opts || {};
+  const r = await fetch(url, Object.assign({}, opts, {
+    headers: Object.assign({}, HDRS, opts.headers || {})
+  }));
+  if (!r.ok) {
+    let msg = 'HTTP ' + r.status;
+    try { const e = await r.json(); msg = (e.error && e.error.message) || msg; } catch(x) {}
+    throw new Error(msg);
   }
-  const s = document.getElementById('sort-sel')?.value||'age-asc';
-  if(s==='age-asc') list.sort((a,b)=>new Date(a.ts)-new Date(b.ts));
-  else if(s==='age-desc') list.sort((a,b)=>new Date(b.ts)-new Date(a.ts));
-  else if(s==='status'){
-    const o={escalated:0,open:1,'in-progress':2,'next-steps':3,resolved:4};
-    list.sort((a,b)=>(o[a.status]||5)-(o[b.status]||5));
-  } else list.sort((a,b)=>a.cat.localeCompare(b.cat));
+  return r.json();
+}
+
+async function loadIssues() {
+  if (!AT_TOKEN) {
+    setStatus('error', 'Setup required');
+    document.getElementById('issue-scroll').innerHTML =
+      '<div class="empty"><div class="empty-icon">🔑</div>' +
+      '<p><strong>Setup Required</strong><br>Open this page with your Airtable token in the URL:<br><br>' +
+      '<code style="background:var(--c1);padding:4px 8px;border-radius:3px;font-size:11px;">' +
+      window.location.pathname + '?at=YOUR_TOKEN</code><br><br>' +
+      'Once opened with the token, it will be remembered in this browser.</p></div>';
+    return;
+  }
+  setStatus('loading', 'Syncing...');
+  try {
+    let all = [], offset = null;
+    do {
+      let url = API + '?pageSize=100&sort[0][field]=Created&sort[0][direction]=asc';
+      if (offset) url += '&offset=' + offset;
+      const d = await atFetch(url);
+      all = all.concat(d.records || []);
+      offset = d.offset || null;
+    } while (offset);
+
+    issues = all.map(function(r) {
+      return {
+        id:      r.id,
+        title:   r.fields['Title']       || '',
+        cat:     r.fields['Category']    || 'other',
+        status:  r.fields['Status']      || 'open',
+        assign:  r.fields['Assigned']    || '',
+        client:  r.fields['Client']      || '',
+        desc:    r.fields['Description'] || '',
+        next:    r.fields['Next Steps']  || '',
+        by:      r.fields['Logged By']   || '',
+        ts:      r.fields['Created']     || r.createdTime,
+        history: JSON.parse(r.fields['History'] || '[]'),
+      attachments: r.fields['Attachments'] || []
+      };
+    });
+
+    setStatus('ok', 'Live · Airtable');
+    allRender();
+  } catch(e) {
+    setStatus('error', 'Connection error');
+    document.getElementById('issue-scroll').innerHTML =
+      '<div class="empty"><div class="empty-icon">⚠️</div><p>Could not connect to Airtable.<br>' +
+      '<small style="color:var(--red)">' + e.message + '</small><br><br>' +
+      '<button class="btn btn-dark" onclick="loadIssues()">Try Again</button></p></div>';
+  }
+}
+
+async function createIssue(fields) {
+  return atFetch(API, {method:'POST', body: JSON.stringify({records:[{fields:fields}]})});
+}
+async function updateIssue(id, fields) {
+  return atFetch(API + '/' + id, {method:'PATCH', body: JSON.stringify({fields:fields})});
+}
+async function deleteIssueAT(id) {
+  return atFetch(API + '/' + id, {method:'DELETE'});
+}
+
+// ── HELPERS ───────────────────────────────────────
+function days(d) { return Math.floor((Date.now() - new Date(d)) / 86400000); }
+function fd(d) {
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) +
+    ' · ' + dt.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', hour12:true});
+}
+function setStatus(state, label) {
+  const dot = document.getElementById('status-dot');
+  const lbl = document.getElementById('status-lbl');
+  if (dot) dot.className = 'status-dot' + (state === 'error' ? ' error' : state === 'loading' ? ' loading' : '');
+  if (lbl) lbl.textContent = label;
+}
+function $id(id) { return document.getElementById(id); }
+
+// ── FILTER & RENDER ───────────────────────────────
+function getFiltered() {
+  let list = issues.slice();
+  const hr = $id('hide-res') && $id('hide-res').checked;
+  if (cur.startsWith('s-')) {
+    list = list.filter(function(i){ return i.status === cur.slice(2); });
+  } else if (cur !== 'all') {
+    list = list.filter(function(i){ return i.cat === cur; });
+    if (hr) list = list.filter(function(i){ return i.status !== 'resolved'; });
+  } else {
+    if (hr) list = list.filter(function(i){ return i.status !== 'resolved'; });
+  }
+  const s = ($id('sort-sel') && $id('sort-sel').value) || 'age-asc';
+  if (s === 'age-asc')  list.sort(function(a,b){ return new Date(a.ts) - new Date(b.ts); });
+  if (s === 'age-desc') list.sort(function(a,b){ return new Date(b.ts) - new Date(a.ts); });
+  if (s === 'status') {
+    const o = {escalated:0, open:1, 'in-progress':2, 'next-steps':3, resolved:4};
+    list.sort(function(a,b){ return (o[a.status]||5) - (o[b.status]||5); });
+  }
+  if (s === 'cat') list.sort(function(a,b){ return a.cat.localeCompare(b.cat); });
   return list;
 }
 
-// ── RENDER ───────────────────────────────────────
 function render() {
-  counts(); const list = filtered();
-  const wrap = document.getElementById('issue-scroll');
-  if(!list.length){
-    wrap.innerHTML=`<div class="empty"><div class="empty-icon">✓</div><p>No issues in this view — all clear.</p></div>`;
+  const list = getFiltered();
+  const wrap = $id('issue-scroll');
+  if (!list.length) {
+    wrap.innerHTML = '<div class="empty"><div class="empty-icon">✓</div><p>No issues in this view.</p></div>';
     return;
   }
-  let html='', lastCat='';
-  const grouped = (cur==='all'||!cur.startsWith('s-'));
-  list.forEach(issue=>{
-    if(grouped && issue.cat!==lastCat){
-      html+=`<div class="cat-divider"><div class="cd-label">${CATS[issue.cat]||issue.cat}</div><div class="cd-line"></div><div class="cd-count">${list.filter(i=>i.cat===issue.cat).length}</div></div>`;
-      lastCat=issue.cat;
+  let html = '', lastCat = '';
+  const grouped = cur === 'all' || !cur.startsWith('s-');
+  list.forEach(function(i) {
+    if (grouped && i.cat !== lastCat) {
+      const catN = list.filter(function(x){ return x.cat === i.cat; }).length;
+      html += '<div class="cat-divider"><div class="cd-label">' + (CATS[i.cat]||i.cat) +
+        '</div><div class="cd-line"></div><div class="cd-count">' + catN + '</div></div>';
+      lastCat = i.cat;
     }
-    html+=card(issue);
+    html += buildCard(i);
   });
-  wrap.innerHTML=html;
+  wrap.innerHTML = html;
 }
 
-function card(i){
-  const d=days(i.ts), sc='s-'+i.status;
-  const age = d>=5?`<span class="chip chip-age warn">${d}d ⚠</span>`:
-              d>=2?`<span class="chip chip-age aging">${d}d</span>`:
-              `<span class="chip chip-age">${d}d</span>`;
-  const hist=(i.history||[]).slice().reverse().map(h=>
-    `<div class="hist-entry"><div class="hist-meta">${fd(h.ts)} · ${h.by||''}</div><div class="hist-note">${h.note}</div></div>`
-  ).join('');
-  return `<div class="icard ${sc}">
-  <div class="ic-row">
-    <div class="ic-body">
-      <div class="ic-title">${i.title}${i.client?` <span class="ic-client">— ${i.client}</span>`:''}</div>
-      <div class="ic-chips">
-        <span class="chip chip-cat">${CATS[i.cat]||i.cat}</span>
-        <span class="chip chip-${i.status}">${SLBL[i.status]}</span>
-        ${age}
-        ${i.assign?`<span class="chip chip-assign">→ ${i.assign}</span>`:''}
-      </div>
-    </div>
-    <div class="ic-actions">
-      <button class="btn btn-ico btn-xs" onclick="openUpdate('${i.id}')">✏ Update</button>
-    </div>
-  </div>
-  ${i.desc?`<div class="ic-desc-strip">${i.desc}</div>`:''}
-  ${i.next?`<div class="ic-next-strip"><strong>Next Steps</strong>${i.next}</div>`:''}
-  ${hist?`<div class="ic-history-strip">${hist}</div>`:''}
-  </div>`;
+function buildCard(i) {
+  const d = days(i.ts);
+  let ageHtml = '<span class="chip chip-age' + (d>=5?' warn':d>=2?' aging':'') + '">' + d + 'd' + (d>=5?' ⚠':'') + '</span>';
+  const hist = (i.history||[]).slice().reverse().map(function(h) {
+    return '<div class="hist-entry"><div class="hist-meta">' + h.ts + ' · ' + (h.by||'') +
+      '</div><div class="hist-note">' + h.note + '</div></div>';
+  }).join('');
+  const statusChip = SEMOJI[i.status] + ' ' + SLBL[i.status];
+  return '<div class="icard s-' + i.status + '">' +
+    '<div class="ic-row"><div class="ic-body">' +
+    '<div class="ic-title">' + i.title + (i.client ? ' <span class="ic-client">— ' + i.client + '</span>' : '') + '</div>' +
+    '<div class="ic-chips">' +
+    '<span class="chip chip-cat">' + (CATS[i.cat]||i.cat) + '</span>' +
+    '<span class="chip chip-' + i.status + '">' + statusChip + '</span>' +
+    ageHtml +
+    (i.assign ? '<span class="chip chip-assign">→ ' + i.assign + '</span>' : '') +
+    '</div>' +
+    '<div style="font-size:10px;color:var(--t3);font-family:\'DM Mono\',monospace;margin-top:5px;">Logged ' + fd(i.ts) + (i.by?' · '+i.by:'') + '</div>' +
+    '</div>' +
+    '<div class="ic-actions"><button class="btn btn-ico" onclick="openUpdate(\'' + i.id + '\')">✏ Update</button></div>' +
+    '</div>' +
+    (i.desc ? '<div class="ic-desc-strip">' + i.desc + '</div>' : '') +
+    (i.next ? '<div class="ic-next-strip"><strong>Next Steps</strong>' + i.next + '</div>' : '') +
+    (i.attachments && i.attachments.length ? buildAttachments(i.attachments) : '') +
+    (hist   ? '<div class="ic-history">' + hist + '</div>' : '') +
+    '</div>';
 }
 
-function counts(){
-  const active=issues.filter(i=>i.status!=='resolved');
-  document.getElementById('c-all').textContent=issues.length;
-  Object.keys(CATS).forEach(c=>{
-    const el=document.getElementById('c-'+c);
-    if(!el) return;
-    const n=active.filter(i=>i.cat===c).length;
-    el.textContent=n;
-    el.className='sb-badge'+(n>0?' live':'');
-  });
-  ['open','in-progress','next-steps','escalated','resolved'].forEach(s=>{
-    const el=document.getElementById('c-s-'+s);
-    if(el) el.textContent=issues.filter(i=>i.status===s).length;
-  });
-  document.getElementById('m-open').textContent=issues.filter(i=>i.status==='open').length;
-  document.getElementById('m-ip').textContent=issues.filter(i=>i.status==='in-progress').length;
-  document.getElementById('m-ns').textContent=issues.filter(i=>i.status==='next-steps').length;
-  document.getElementById('m-esc').textContent=issues.filter(i=>i.status==='escalated').length;
-  document.getElementById('m-res').textContent=issues.filter(i=>i.status==='resolved').length;
-  document.getElementById('m-age').textContent=active.filter(i=>days(i.ts)>=5).length;
+
+function buildAttachments(attachments) {
+  if (!attachments || !attachments.length) return '';
+  const links = attachments.map(function(a) {
+    const icon = a.type && a.type.indexOf('image') > -1 ? '🖼' :
+                 a.type && a.type.indexOf('pdf') > -1 ? '📄' : '📎';
+    return '<a href="' + a.url + '" target="_blank" class="attach-link">' + icon + ' ' + a.filename + '</a>';
+  }).join('');
+  return '<div class="ic-attach-strip"><strong>Attachments</strong>' + links + '</div>';
 }
 
-function nav(f){
-  cur=f;
-  document.querySelectorAll('.sb-item').forEach(e=>e.classList.remove('active'));
-  const el=document.getElementById('nav-'+f);
-  if(el) el.classList.add('active');
-  const titles={all:'All Issues','s-open':'Open Issues','s-in-progress':'In Progress','s-next-steps':'Next Steps','s-escalated':'Escalated','s-resolved':'Resolved'};
-  document.getElementById('view-title').textContent=titles[f]||(CATS[f]||f);
+function counts() {
+  const active = issues.filter(function(i){ return i.status !== 'resolved'; });
+  if ($id('c-all')) $id('c-all').textContent = issues.length;
+  Object.keys(CATS).forEach(function(c) {
+    const el = $id('c-' + c); if (!el) return;
+    const n = active.filter(function(i){ return i.cat === c; }).length;
+    el.textContent = n;
+    el.className = 'sb-badge' + (n > 0 ? ' live' : '');
+  });
+  ['open','in-progress','next-steps','escalated','resolved'].forEach(function(s) {
+    const el = $id('c-s-' + s);
+    if (el) el.textContent = issues.filter(function(i){ return i.status === s; }).length;
+  });
+  [['open','m-open'],['in-progress','m-ip'],['next-steps','m-ns'],['escalated','m-esc'],['resolved','m-res']].forEach(function(p) {
+    const el = $id(p[1]);
+    if (el) el.textContent = issues.filter(function(i){ return i.status === p[0]; }).length;
+  });
+  if ($id('m-age')) $id('m-age').textContent = active.filter(function(i){ return days(i.ts) >= 5; }).length;
+}
+
+function allRender() { counts(); render(); }
+
+function nav(f) {
+  cur = f;
+  document.querySelectorAll('.sb-item').forEach(function(e){ e.classList.remove('active'); });
+  const el = $id('nav-' + f); if (el) el.classList.add('active');
+  const titles = {all:'All Issues','s-open':'Open','s-in-progress':'In Progress',
+    's-next-steps':'Next Steps','s-escalated':'Escalated','s-resolved':'Resolved'};
+  const t = $id('view-title');
+  if (t) t.textContent = titles[f] || (CATS[f] || f);
   render();
 }
 
-function all(){ counts(); render(); }
-
-// ── NEW ──────────────────────────────────────────
-function openNew(){
-  ['n-title','n-desc','n-next','n-client'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('n-cat').value='';
-  document.getElementById('n-status').value='open';
-  document.getElementById('n-assign').value='';
-  document.getElementById('n-by').value='Sonja Elia';
-  open_('m-new');
-}
-function saveNew(){
-  const t=document.getElementById('n-title').value.trim();
-  const c=document.getElementById('n-cat').value;
-  if(!t||!c){alert('Title and category are required.');return;}
-  issues.unshift({
-    id:uid(), title:t, cat:c,
-    status:document.getElementById('n-status').value,
-    assign:document.getElementById('n-assign').value,
-    client:document.getElementById('n-client').value.trim(),
-    desc:document.getElementById('n-desc').value.trim(),
-    next:document.getElementById('n-next').value.trim(),
-    by:document.getElementById('n-by').value,
-    ts:new Date().toISOString(), history:[]
+// ── NEW ISSUE ─────────────────────────────────────
+function openNew() {
+  ['n-title','n-desc','n-next','n-client'].forEach(function(id){
+    const e = $id(id); if (e) e.value = '';
   });
-  save(); all(); close_('m-new');
+  if ($id('n-cat'))    $id('n-cat').value = '';
+  if ($id('n-status')) $id('n-status').value = 'open';
+  if ($id('n-assign')) $id('n-assign').value = '';
+  if ($id('n-by'))     $id('n-by').value = 'Sonja Elia';
+  const ne = $id('new-error'); if (ne) ne.style.display = 'none';
+  openModal('m-new');
 }
 
-// ── UPDATE ───────────────────────────────────────
-function openUpdate(id){
-  editId=id; const i=issues.find(x=>x.id===id); if(!i) return;
-  document.getElementById('u-title').value=i.title;
-  document.getElementById('u-status').value=i.status;
-  document.getElementById('u-assign').value=i.assign||'';
-  document.getElementById('u-note').value='';
-  document.getElementById('u-next').value=i.next||'';
-  open_('m-update');
-}
-function saveUpdate(){
-  const i=issues.find(x=>x.id===editId); if(!i) return;
-  const note=document.getElementById('u-note').value.trim();
-  const oldS=i.status;
-  i.title=document.getElementById('u-title').value.trim()||i.title;
-  i.status=document.getElementById('u-status').value;
-  i.assign=document.getElementById('u-assign').value;
-  i.next=document.getElementById('u-next').value.trim();
-  i.ts_updated=new Date().toISOString();
-  if(note||oldS!==i.status){
-    i.history=i.history||[];
-    i.history.push({ts:new Date().toISOString(),note:note||(SLBL[oldS]+' → '+SLBL[i.status]),by:'Sonja Elia'});
+async function saveNew() {
+  const title = ($id('n-title').value || '').trim();
+  const cat   = $id('n-cat').value;
+  if (!title || !cat) { alert('Title and category are required.'); return; }
+  const btn = $id('save-new-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+  try {
+    const now = new Date().toISOString();
+    await createIssue({
+      'Title':       title,
+      'Category':    cat,
+      'Status':      $id('n-status').value,
+      'Assigned':    $id('n-assign').value,
+      'Client':      ($id('n-client').value || '').trim(),
+      'Description': ($id('n-desc').value || '').trim(),
+      'Next Steps':  ($id('n-next').value || '').trim(),
+      'Logged By':   $id('n-by').value,
+      'Created':     now,
+      'Updated':     now,
+      'History':     '[]'
+    });
+    closeModal('m-new');
+    await loadIssues();
+  } catch(e) {
+    const err = $id('new-error');
+    if (err) { err.textContent = 'Error saving: ' + e.message; err.style.display = 'block'; }
+  } finally {
+    btn.textContent = 'Save Issue'; btn.disabled = false;
   }
-  save(); all(); close_('m-update');
-}
-function del(){
-  if(!confirm('Delete this issue permanently?')) return;
-  issues=issues.filter(i=>i.id!==editId);
-  save(); all(); close_('m-update');
 }
 
-// ── EMAIL ─────────────────────────────────────────
-function showEmail(){
-  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  document.getElementById('email-subj-date').textContent='· '+today;
-  const active=issues.filter(i=>i.status!=='resolved').sort((a,b)=>new Date(a.ts)-new Date(b.ts));
-  let txt=`Salvus Wealth Partners × ThePARTNERS\nOpen Issue Summary — ${today}\nPrepared by: Sonja Elia\n${'─'.repeat(48)}\n\n`;
-  if(!active.length){ txt+='No open issues as of today. All items resolved. ✓\n'; }
-  else {
-    txt+=`SUMMARY: ${active.length} open item${active.length!==1?'s':''} requiring attention\n\n`;
-    const order={escalated:0,open:1,'in-progress':2,'next-steps':3};
-    const grps={escalated:'ESCALATED',open:'OPEN — AWAITING ACKNOWLEDGMENT','in-progress':'IN PROGRESS','next-steps':'NEXT STEPS — ACTION REQUIRED'};
-    Object.entries(grps).forEach(([s,lbl])=>{
-      const items=active.filter(i=>i.status===s);
-      if(!items.length) return;
-      txt+=`${lbl} (${items.length})\n${'─'.repeat(32)}\n`;
-      items.forEach((i,n)=>{
-        const d=days(i.ts);
-        txt+=`${n+1}. [${CATS[i.cat]||i.cat}] ${i.title}\n`;
-        if(i.client) txt+=`   Client: ${i.client}\n`;
-        txt+=`   Logged: ${fd(i.ts)} (${d} day${d!==1?'s':''} old)\n`;
-        if(i.assign) txt+=`   Assigned: ${i.assign}\n`;
-        if(i.desc) txt+=`   Issue: ${i.desc}\n`;
-        if(i.next) txt+=`   Next Steps: ${i.next}\n`;
-        txt+='\n';
+// ── UPDATE ISSUE ──────────────────────────────────
+function openUpdate(id) {
+  editId = id;
+  const i = issues.filter(function(x){ return x.id === id; })[0];
+  if (!i) return;
+  if ($id('u-title'))  $id('u-title').value  = i.title;
+  if ($id('u-status')) $id('u-status').value = i.status;
+  if ($id('u-assign')) $id('u-assign').value = i.assign || '';
+  if ($id('u-note'))   $id('u-note').value   = '';
+  if ($id('u-next'))   $id('u-next').value   = i.next || '';
+  // Show existing attachments count
+  const ua = $id('u-attach-info');
+  if (ua) ua.textContent = i.attachments && i.attachments.length ? i.attachments.length + ' file(s) attached — add more via Airtable' : 'No attachments — add files directly in Airtable';
+  const ue = $id('update-error'); if (ue) ue.style.display = 'none';
+  openModal('m-update');
+}
+
+async function saveUpdate() {
+  const i = issues.filter(function(x){ return x.id === editId; })[0];
+  if (!i) return;
+  const btn = $id('save-update-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+  try {
+    const note = ($id('u-note').value || '').trim();
+    const newS = $id('u-status').value;
+    const hist = (i.history || []).slice();
+    if (note || i.status !== newS) {
+      const ts = new Date().toLocaleString('en-US', {
+        month:'short', day:'numeric', year:'numeric',
+        hour:'numeric', minute:'2-digit', hour12:true
+      });
+      const noteText = note || (SEMOJI[i.status] + ' ' + SLBL[i.status] + ' → ' + SEMOJI[newS] + ' ' + SLBL[newS]);
+      hist.push({ts: ts, note: noteText, by: 'Sonja Elia'});
+    }
+    await updateIssue(editId, {
+      'Title':      ($id('u-title').value || '').trim() || i.title,
+      'Status':     newS,
+      'Assigned':   $id('u-assign').value,
+      'Next Steps': ($id('u-next').value || '').trim(),
+      'Updated':    new Date().toISOString(),
+      'History':    JSON.stringify(hist)
+    });
+    closeModal('m-update');
+    await loadIssues();
+  } catch(e) {
+    const err = $id('update-error');
+    if (err) { err.textContent = 'Error saving: ' + e.message; err.style.display = 'block'; }
+  } finally {
+    btn.textContent = 'Save Update'; btn.disabled = false;
+  }
+}
+
+async function del() {
+  if (!confirm('Delete this issue permanently from Airtable? This cannot be undone.')) return;
+  try {
+    await deleteIssueAT(editId);
+    closeModal('m-update');
+    await loadIssues();
+  } catch(e) { alert('Error deleting: ' + e.message); }
+}
+
+// ── EMAIL SUMMARY ─────────────────────────────────
+function showEmail() {
+  const today = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+  const ed = $id('email-date'); if (ed) ed.textContent = '· ' + today;
+  const active = issues.filter(function(i){ return i.status !== 'resolved'; })
+    .sort(function(a,b){ return new Date(a.ts) - new Date(b.ts); });
+  let txt = 'Salvus Wealth Partners x ThePARTNERS\n';
+  txt += 'Open Issue Summary - ' + today + '\n';
+  txt += 'Prepared by: Sonja Elia\n';
+  txt += '-'.repeat(48) + '\n\n';
+  if (!active.length) {
+    txt += 'No open issues as of today. All items resolved.\n';
+  } else {
+    txt += 'SUMMARY: ' + active.length + ' open item' + (active.length !== 1 ? 's' : '') + ' requiring attention\n\n';
+    const grps = [
+      ['escalated',   'ESCALATED'],
+      ['open',        'OPEN - AWAITING ACKNOWLEDGMENT'],
+      ['in-progress', 'IN PROGRESS'],
+      ['next-steps',  'NEXT STEPS - ACTION REQUIRED']
+    ];
+    grps.forEach(function(g) {
+      const items = active.filter(function(i){ return i.status === g[0]; });
+      if (!items.length) return;
+      txt += g[1] + ' (' + items.length + ')\n' + '-'.repeat(32) + '\n';
+      items.forEach(function(i, n) {
+        const d = days(i.ts);
+        txt += (n+1) + '. [' + (CATS[i.cat]||i.cat) + '] ' + i.title + '\n';
+        if (i.client) txt += '   Client: ' + i.client + '\n';
+        txt += '   Logged: ' + fd(i.ts) + ' (' + d + ' day' + (d!==1?'s':'') + ' old)\n';
+        if (i.assign) txt += '   Assigned: ' + i.assign + '\n';
+        if (i.desc)   txt += '   Issue: ' + i.desc + '\n';
+        if (i.next)   txt += '   Next Steps: ' + i.next + '\n';
+        txt += '\n';
       });
     });
-    txt+=`${'─'.repeat(48)}\n`;
-    txt+=`Please acknowledge receipt and provide status updates.\nWe will review all open items on our Friday morning call.\n\nThank you,\nSonja Elia | Salvus Wealth Partners\nselia@salvuswealth.com`;
+    txt += '-'.repeat(48) + '\n';
+    txt += 'Please acknowledge receipt and provide status updates on each item.\n';
+    txt += 'We will review all open items on our Friday morning call.\n\n';
+    txt += 'Thank you,\nSonja Elia | Salvus Wealth Partners\nselia@salvuswealth.com';
   }
-  document.getElementById('email-body').textContent=txt;
-  open_('m-email');
+  const eb = $id('email-body'); if (eb) eb.textContent = txt;
+  openModal('m-email');
 }
-function copyEmail(){
-  navigator.clipboard.writeText(document.getElementById('email-body').textContent).then(()=>{
-    const el=document.getElementById('copy-ok');
-    el.style.display='inline';setTimeout(()=>el.style.display='none',2200);
+
+function copyEmail() {
+  const eb = $id('email-body'); if (!eb) return;
+  navigator.clipboard.writeText(eb.textContent).then(function() {
+    const el = $id('copy-ok');
+    if (el) { el.style.display = 'inline'; setTimeout(function(){ el.style.display = 'none'; }, 2200); }
   });
 }
 
-// ── FRIDAY ───────────────────────────────────────
-function showFriday(){
-  const active=issues.filter(i=>['open','in-progress','next-steps','escalated'].includes(i.status))
-    .sort((a,b)=>new Date(a.ts)-new Date(b.ts));
-  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  let html=`<div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--rule);">Friday Call · ${today} · ${active.length} active item${active.length!==1?'s':''}</div>`;
-  if(!active.length){
-    html+=`<div class="empty"><div class="empty-icon">✓</div><p>No open items — clean slate for the call!</p></div>`;
+// ── FRIDAY VIEW ───────────────────────────────────
+function showFriday() {
+  const active = issues.filter(function(i){
+    return ['open','in-progress','next-steps','escalated'].indexOf(i.status) > -1;
+  }).sort(function(a,b){ return new Date(a.ts) - new Date(b.ts); });
+
+  const today = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+  let html = '<div style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--t3);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--rule);">';
+  html += 'Friday Call &middot; ' + today + ' &middot; ' + active.length + ' active item' + (active.length !== 1 ? 's' : '') + '</div>';
+
+  if (!active.length) {
+    html += '<div class="empty"><div class="empty-icon">&#10003;</div><p>No open items &mdash; clean slate for the call!</p></div>';
   } else {
-    active.forEach((i,n)=>{
-      const d=days(i.ts);
-      html+=`<div class="fri-card s-${i.status}">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-          <div class="fri-ttl">${n+1}. ${i.title}${i.client?` <span style="font-weight:400;color:var(--t2);">— ${i.client}</span>`:''}</div>
-          <div style="display:flex;gap:5px;align-items:center;flex-shrink:0;">
-            <span class="chip chip-${i.status}" style="font-size:9px;">${SLBL[i.status]}</span>
-            <span style="font-family:'DM Mono',monospace;font-size:9px;color:${d>=5?'var(--red)':'var(--t3)'};">${d}d${d>=5?' ⚠':''}</span>
-          </div>
-        </div>
-        <div class="fri-meta">${CATS[i.cat]||i.cat}${i.assign?' · '+i.assign:''} · ${fd(i.ts)}</div>
-        ${i.next?`<div class="ic-next-strip" style="font-size:11px;"><strong>Next Steps</strong>${i.next}</div>`:''}
-      </div>`;
+    active.forEach(function(i, n) {
+      const d = days(i.ts);
+      html += '<div class="fri-card s-' + i.status + '">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">';
+      html += '<div style="font-size:14px;font-weight:700;color:var(--n1);margin-bottom:4px;">' + (n+1) + '. ' + i.title;
+      if (i.client) html += ' <span style="font-weight:400;color:var(--t2);">&mdash; ' + i.client + '</span>';
+      html += '</div>';
+      html += '<div style="display:flex;gap:5px;align-items:center;flex-shrink:0;">';
+      html += '<span class="chip chip-' + i.status + '" style="font-size:9px;">' + SEMOJI[i.status] + ' ' + SLBL[i.status] + '</span>';
+      html += '<span style="font-family:\'DM Mono\',monospace;font-size:9px;color:' + (d>=5?'var(--red)':'var(--t3)') + ';">' + d + 'd' + (d>=5?' &#9888;':'') + '</span>';
+      html += '</div></div>';
+      html += '<div style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--t2);margin-bottom:6px;font-weight:500;">';
+      html += (CATS[i.cat]||i.cat) + (i.assign?' &middot; '+i.assign:'') + ' &middot; ' + fd(i.ts) + '</div>';
+      if (i.next) html += '<div class="ic-next-strip" style="font-size:12px;"><strong>Next Steps</strong>' + i.next + '</div>';
+      html += '</div>';
     });
   }
-  document.getElementById('friday-body').innerHTML=html;
-  open_('m-friday');
+  const fb = $id('friday-body'); if (fb) fb.innerHTML = html;
+  openModal('m-friday');
 }
-function copyFriday(){
-  const active=issues.filter(i=>['open','in-progress','next-steps','escalated'].includes(i.status))
-    .sort((a,b)=>new Date(a.ts)-new Date(b.ts));
-  const today=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  let txt=`SALVUS × THEPARTNERS — FRIDAY CALL\n${today}\n${'═'.repeat(40)}\n\n`;
-  if(!active.length){ txt+='No open items. ✓\n'; }
-  else active.forEach((i,n)=>{
-    const d=days(i.ts);
-    txt+=`${n+1}. [${SLBL[i.status]}] ${i.title}\n`;
-    txt+=`   Category: ${CATS[i.cat]||i.cat}\n`;
-    if(i.client) txt+=`   Client: ${i.client}\n`;
-    txt+=`   Age: ${d} day${d!==1?'s':''} (logged ${fd(i.ts)})\n`;
-    if(i.assign) txt+=`   Assigned: ${i.assign}\n`;
-    if(i.next) txt+=`   Next Steps: ${i.next}\n`;
-    txt+='\n';
-  });
-  navigator.clipboard.writeText(txt).then(()=>{
-    const el=document.getElementById('fri-ok');
-    el.style.display='inline';setTimeout(()=>el.style.display='none',2000);
+
+function copyFriday() {
+  const active = issues.filter(function(i){
+    return ['open','in-progress','next-steps','escalated'].indexOf(i.status) > -1;
+  }).sort(function(a,b){ return new Date(a.ts) - new Date(b.ts); });
+  const today = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+  let txt = 'SALVUS x THEPARTNERS - FRIDAY CALL\n' + today + '\n' + '='.repeat(40) + '\n\n';
+  if (!active.length) { txt += 'No open items.\n'; }
+  else {
+    active.forEach(function(i, n) {
+      const d = days(i.ts);
+      txt += (n+1) + '. [' + SLBL[i.status] + '] ' + i.title + '\n';
+      txt += '   Category: ' + (CATS[i.cat]||i.cat) + '\n';
+      if (i.client) txt += '   Client: ' + i.client + '\n';
+      txt += '   Age: ' + d + ' day' + (d!==1?'s':'') + ' - Logged: ' + fd(i.ts) + '\n';
+      if (i.assign) txt += '   Assigned: ' + i.assign + '\n';
+      if (i.next)   txt += '   Next Steps: ' + i.next + '\n';
+      txt += '\n';
+    });
+  }
+  navigator.clipboard.writeText(txt).then(function() {
+    const el = $id('fri-ok');
+    if (el) { el.style.display = 'inline'; setTimeout(function(){ el.style.display = 'none'; }, 2000); }
   });
 }
 
 // ── MODAL HELPERS ─────────────────────────────────
-function open_(id){document.getElementById(id).classList.add('open');}
-function close_(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function openModal(id)  { const e = $id(id); if (e) e.classList.add('open'); }
+function closeModal(id) { const e = $id(id); if (e) e.classList.remove('open'); }
+function open_(id)  { openModal(id); }
+function close_(id) { closeModal(id); }
 
-// ── DATE ─────────────────────────────────────────
-document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+document.querySelectorAll('.overlay').forEach(function(o) {
+  o.addEventListener('click', function(e) {
+    if (e.target === o) o.classList.remove('open');
+  });
+});
 
-// ── INIT ─────────────────────────────────────────
-load();
+// ── INIT ──────────────────────────────────────────
+const dl = $id('live-date');
+if (dl) dl.textContent = new Date().toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric', year:'numeric'});
+
+setInterval(loadIssues, 60000);
+loadIssues();
+
 </script>
 </body>
 </html>
