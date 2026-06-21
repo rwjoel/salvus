@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Salvus — Plan B: Independence &amp; Capital Partner Strategy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+:root{--n0:#060f1a;--n1:#0b1929;--n2:#122035;--g1:#b8892a;--g2:#d4a843;--g3:#f0cc7a;--c0:#f7f3ec;--c1:#ede8df;--c2:#e0d8cc;--rule:#d4cbbf;--t0:#1e2f3e;--t1:#3a5068;--t2:#5a7088;--t3:#8a9faf;--red:#b03020;--red-bg:#fdf2f0;--amber:#b07010;--amber-bg:#fdf8ed;--blue:#1a5a8a;--blue-bg:#edf4fb;--green:#1a6040;--green-bg:#edf7f2;--purple:#5a2a7a;--purple-bg:#f5eef8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Jost',sans-serif;background:var(--c0);color:var(--t0);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+.masthead{background:var(--n0);padding:22px 40px;display:flex;align-items:center;justify-content:space-between;position:relative;}
+.masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(184,137,42,0.5),transparent);}
+.mh-l{display:flex;align-items:center;gap:16px;}
+.mh-l img{height:42px;}
+.mh-sep{width:1px;height:30px;background:rgba(255,255,255,0.15);}
+.mh-title{color:rgba(255,255,255,0.55);font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:500;}
+.mh-r{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,0.4);text-align:right;}
+.wrap{max-width:1060px;margin:0 auto;padding:36px 40px 80px;}
+.hero{margin-bottom:24px;}
+.hero .kick{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--g1);font-weight:500;margin-bottom:10px;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:600;color:var(--n1);line-height:1.04;margin-bottom:12px;}
+.hero p{font-size:15px;color:var(--t1);max-width:780px;}
+.toc{background:white;border:1px solid var(--rule);border-radius:8px;padding:20px 26px;margin:24px 0;}
+.toc h4{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t2);margin-bottom:12px;font-weight:600;}
+.toc ol{list-style:none;counter-reset:toc;display:grid;grid-template-columns:1fr 1fr;gap:6px 28px;}
+.toc li{counter-increment:toc;font-size:13.5px;color:var(--t0);padding:3px 0;display:flex;gap:10px;align-items:baseline;}
+.toc li::before{content:counter(toc,decimal-leading-zero);font-family:'DM Mono',monospace;font-size:11px;color:var(--g1);font-weight:500;}
+.toc a{color:var(--t0);text-decoration:none;}
+.toc a:hover{color:var(--g1);}
+.banner{background:var(--n1);color:var(--c0);border-radius:8px;padding:24px 28px;margin:26px 0;}
+.banner.gold{background:linear-gradient(135deg,#0b1929,#13294a);}
+.banner h3{font-family:'Cormorant Garamond',serif;font-size:23px;color:var(--g3);font-weight:600;margin-bottom:12px;}
+.banner p{font-size:14px;color:rgba(247,243,236,0.88);margin-bottom:9px;}
+.banner p:last-child{margin-bottom:0;}
+.banner strong{color:white;}
+.sec{margin:42px 0 0;scroll-margin-top:20px;}
+.sec-h{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--n1);padding-bottom:8px;margin-bottom:16px;}
+.sec-n{font-family:'DM Mono',monospace;font-size:13px;color:var(--g1);font-weight:500;}
+.sec-h h2{font-family:'Cormorant Garamond',serif;font-size:29px;font-weight:600;color:var(--n1);line-height:1.1;}
+.sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g1);font-weight:600;margin:22px 0 8px;}
+p.body{margin-bottom:13px;color:var(--t0);}
+ul.body,ol.body{margin:6px 0 14px 0;padding-left:22px;}
+ul.body li,ol.body li{margin-bottom:6px;color:var(--t0);}
+.callout{background:white;border:1px solid var(--rule);border-left:3px solid var(--g1);border-radius:5px;padding:15px 19px;margin:15px 0;}
+.callout.red{border-left-color:var(--red);background:var(--red-bg);}
+.callout.amber{border-left-color:var(--amber);background:var(--amber-bg);}
+.callout.green{border-left-color:var(--green);background:var(--green-bg);}
+.callout.blue{border-left-color:var(--blue);background:var(--blue-bg);}
+.callout h4{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--t2);margin-bottom:6px;font-weight:600;}
+.callout.red h4{color:var(--red);}.callout.green h4{color:var(--green);}.callout.amber h4{color:var(--amber);}.callout.blue h4{color:var(--blue);}
+.callout p{font-size:13.5px;color:var(--t0);margin-bottom:7px;}
+.callout p:last-child{margin-bottom:0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;background:white;border:1px solid var(--rule);border-radius:6px;overflow:hidden;font-size:12.5px;}
+th{background:var(--n1);color:var(--c0);text-align:left;padding:10px 12px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:500;}
+td{padding:11px 12px;border-top:1px solid var(--c1);vertical-align:top;color:var(--t0);line-height:1.55;}
+tr:nth-child(even) td{background:#fbf9f5;}
+.firm{font-weight:700;color:var(--n1);}
+.wsflow{display:flex;flex-direction:column;gap:0;margin:16px 0;}
+.ws{background:white;border:1px solid var(--rule);border-radius:7px;padding:18px 22px;margin-bottom:12px;border-left:4px solid var(--g1);}
+.ws-hd{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;}
+.ws-num{font-family:'DM Mono',monospace;font-size:11px;color:white;background:var(--g1);border-radius:4px;padding:3px 9px;font-weight:600;flex-shrink:0;}
+.ws-hd h3{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--n1);font-weight:600;}
+.ws p{font-size:13px;color:var(--t1);margin-bottom:8px;}
+.ws .owner{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:0.5px;}
+.tag{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:0.3px;border:1px solid;}
+.tag.green{background:var(--green-bg);color:var(--green);border-color:#90ccac;}
+.tag.amber{background:var(--amber-bg);color:var(--amber);border-color:#e8c870;}
+.tag.red{background:var(--red-bg);color:var(--red);border-color:#e8b0a0;}
+.tag.blue{background:var(--blue-bg);color:var(--blue);border-color:#90bcd8;}
+.quote{font-style:italic;color:var(--t1);border-left:2px solid var(--c2);padding-left:14px;margin:10px 0;font-size:13px;}
+.timeline{position:relative;margin:18px 0 8px;padding-left:24px;}
+.timeline::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--c2);}
+.tl-item{position:relative;margin-bottom:14px;}
+.tl-item::before{content:'';position:absolute;left:-22px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--g1);border:2px solid var(--c0);}
+.tl-when{font-family:'DM Mono',monospace;font-size:10px;color:var(--g1);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
+.tl-what{font-size:13.5px;color:var(--t0);margin-top:2px;}
+.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--rule);font-family:'DM Mono',monospace;font-size:10.5px;color:var(--t3);line-height:1.7;}
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}
+.scn{background:white;border:1px solid var(--rule);border-radius:6px;padding:15px 18px;}
+.scn h4{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--n1);font-weight:600;margin-bottom:6px;}
+.scn .lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--g1);font-weight:600;}
+.scn p{font-size:12.5px;color:var(--t1);margin-top:6px;}
+@media(max-width:760px){.wrap{padding:24px 18px 60px;}.toc ol,.scenario-grid{grid-template-columns:1fr;}table{font-size:11px;}td,th{padding:8px;}}
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div class="mh-l"><img src="data:image/png;base64,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" alt="Salvus Wealth Partners"><div class="mh-sep"></div><div class="mh-title">Plan B &middot; Independence Strategy</div></div>
+  <div class="mh-r">Strategic Contingency<br>June 2026</div>
+</div>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kick">Strategic Contingency &middot; Pre-Close Walk-Away from TPG</div>
+    <h1>Plan B &mdash; Independence &amp; the Replacement Capital Partner</h1>
+    <p>A complete contingency to the TPG / Salvus Purple Marlin transaction: bring O'Quinn's and Freidel's clients home to SWM, run operations independently, fund the Woolston buyout without revenue-sale proceeds, and grow toward $1B with a minority capital partner rather than a controlling platform. Built for readiness, not as a decision to leave &mdash; so that if the TPG relationship cannot be fixed, you can move with confidence rather than improvise.</p>
+  </div>
+
+  <div class="toc">
+    <h4>Contents</h4>
+    <ol>
+      <li><a href="#s1">The decision in one page</a></li>
+      <li><a href="#s2">Why Plan B is on the table</a></li>
+      <li><a href="#s3">Feasibility gate &mdash; the contract</a></li>
+      <li><a href="#s4">Six workstreams to independence</a></li>
+      <li><a href="#s5">Funding the Woolston buyout</a></li>
+      <li><a href="#s6">The five strategic paths</a></li>
+      <li><a href="#s7">Impact on the succession plan</a></li>
+      <li><a href="#s8">Pre-close decision timeline</a></li>
+    </ol>
+  </div>
+
+  <div class="banner gold">
+    <h3>The bottom line</h3>
+    <p><strong>Walking away pre-close is clean and contractually feasible.</strong> No equity has transferred, so there is nothing to buy back. O'Quinn's IAR agreement explicitly preserves his ownership of client relationships and goodwill, imposes no client non-solicit, and allows exit on 30 days' notice. The clients can come home to SWM.</p>
+    <p><strong>The hard problem isn't leaving &mdash; it's re-funding the Woolston buyout.</strong> TPG cash was going to seed it. Without that, the buyout runs on a Chuck seller note plus bank debt plus internal cash flow, and &mdash; per your stated preference &mdash; a minority growth-capital partner that funds liquidity while you keep control.</p>
+    <p><strong>This is a readiness document, not a resignation.</strong> The TPG deal may yet work. The purpose here is to remove the fear of the unknown from that conversation, so you negotiate &mdash; or walk &mdash; from strength.</p>
+  </div>
+
+  <div class="sec" id="s1">
+    <div class="sec-h"><span class="sec-n">01</span><h2>The decision in one page</h2></div>
+    <table>
+      <tr><th>Question</th><th>Answer</th><th>Confidence</th></tr>
+      <tr><td>Can the clients legally come back to SWM?</td><td>Yes. IAR retains exclusive ownership of relationships &amp; goodwill; no client non-solicit; 30-day no-cause exit.</td><td><span class="tag green">High</span></td></tr>
+      <tr><td>Is this clean pre-close?</td><td>Yes. No equity transferred &mdash; nothing to unwind or buy back.</td><td><span class="tag green">High</span></td></tr>
+      <tr><td>Does SWM survive as an RIA?</td><td>Yes &mdash; you simply don't file ADV-W. SWM keeps its registration, Fidelity custody, and infrastructure.</td><td><span class="tag green">High</span></td></tr>
+      <tr><td>Can O'Quinn/Freidel keep custody continuity?</td><td>Likely &mdash; repaper to SWM's own Schwab Advisor Services relationship, or move to Fidelity. Administrative, not legal. <strong>Confirm with Schwab.</strong></td><td><span class="tag amber">Verify</span></td></tr>
+      <tr><td>Can the Woolston buyout still happen by ~2028?</td><td>Yes, but it must be re-funded: Chuck seller note + bank debt + cash flow &plusmn; minority capital partner.</td><td><span class="tag amber">Depends on Chuck &amp; financing</span></td></tr>
+      <tr><td>Does the preferred path exist at your size?</td><td>Yes &mdash; narrowly. Elevation Point ($200M&ndash;$3B) and WPCG (warm) fit; most marquee names want $1B+.</td><td><span class="tag amber">Narrow but real</span></td></tr>
+    </table>
+    <div class="callout green">
+      <h4>What changes the day you walk</h4>
+      <p>You keep the ~$249K/yr that would have gone to TPG's 7% platform fee &mdash; capital that helps fund the in-house operations you'd rebuild. You retain 100% ownership and control. And you remove the dependency on Greg's follow-through across a multi-year sequence of revenue purchases &mdash; the very risk that prompted this plan.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="s2">
+    <div class="sec-h"><span class="sec-n">02</span><h2>Why Plan B is on the table</h2></div>
+    <p class="body">This is not about valuation or money on the table. The TPG terms were, if anything, rich. It is about <strong>execution, communication, and trust in follow-through</strong> &mdash; the things that determine whether a multi-year partnership actually works.</p>
+    <ul class="body">
+      <li><strong>Service and operational failures</strong> that the issue tracker now documents in real time &mdash; the pattern, not any single item.</li>
+      <li><strong>Communication gaps</strong> &mdash; relay delays through Home Office, slow acknowledgment, blame-shifting under pressure.</li>
+      <li><strong>Greg leading but appearing oblivious</strong> &mdash; not taking the issues to heart, not giving them the attention a new partnership demands.</li>
+      <li><strong>The downstream doubt</strong> &mdash; if execution is this strained pre-close, can Greg be relied on to follow through on <em>every future revenue purchase</em> the deal contemplates? That is the question that turns service problems into a structural risk.</li>
+    </ul>
+    <div class="callout amber">
+      <h4>The honest framing</h4>
+      <p>You like Greg personally and the deal economics were generous. Plan B exists because <strong>personal regard and good terms don't compensate for doubt about delivery over a five-to-seven-year arc.</strong> Readiness here is what lets you raise these concerns candidly with Greg &mdash; because you'll be negotiating with a real alternative, not a bluff.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="s3">
+    <div class="sec-h"><span class="sec-n">03</span><h2>Feasibility gate &mdash; what the contract actually says</h2></div>
+    <p class="body">The single question that could have killed Plan B: can O'Quinn and Freidel bring their clients back, or does TPG own them? The executed IAR agreement language settles it decisively in your favor.</p>
+    <div class="sub">Client ownership &mdash; retained by the IAR</div>
+    <p class="quote">&ldquo;ThePARTNERS shall not have any protectable ownership interest in&hellip; all existing client relationships as of the effective date&hellip; The IAR shall retain exclusive ownership of all the aforementioned client relationships, client lists, contact information, and associated goodwill.&rdquo;</p>
+    <p class="body">TPG does not own O'Quinn's book. The relationships, lists, contact data, and goodwill are explicitly his.</p>
+    <div class="sub">No client non-solicit</div>
+    <p class="body">The only restrictive covenant (&para;29) is an <strong>employee/advisor</strong> non-solicit &mdash; it bars poaching TPG's staff, contractors, signal providers, and other advisors for two years. It is silent on clients. And it carves out anyone <em>&ldquo;whom the IAR originally referred to or introduced to ThePARTNERS, or with whom the IAR has an existing relationship&rdquo;</em> &mdash; which is exactly how O'Quinn and Freidel arrived, through Salvus. They sit inside the exemption.</p>
+    <div class="sub">Exit &mdash; 30 days, no cause, no penalty</div>
+    <p class="quote">&ldquo;If termination is not for cause, it will be effective upon 30 days written notice to the other party.&rdquo;</p>
+    <div class="callout blue">
+      <h4>Two items to confirm &mdash; neither a blocker</h4>
+      <p><strong>1. Signed status.</strong> Confirm directly with O'Quinn and Freidel whether the IAR agreements are executed, and have John Suender review the signed versions against this read. If unsigned, they're freer still &mdash; no covenants at all.</p>
+      <p><strong>2. Schwab relationship.</strong> The clients are O'Quinn's; the custodial advisor agreement may be TPG's. Most likely the clients repaper onto SWM's own Schwab Advisor Services relationship, or move to Fidelity. Call Schwab to confirm SWM can stand up its own institutional relationship and the mechanics of bulk repapering.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="s4">
+    <div class="sec-h"><span class="sec-n">04</span><h2>Six workstreams to independence</h2></div>
+    <p class="body">Execution breaks into six parallel tracks. The first two are time-sensitive and client-facing; the rest can run on a slightly longer clock.</p>
+    <div class="wsflow">
+      <div class="ws">
+        <div class="ws-hd"><span class="ws-num">WS 1</span><h3>TPG unwind</h3></div>
+        <p>Deliver 30-day written notice (per IAR &para;2.1) when the decision is made. Coordinate timing with the quarterly Net Revenue cycle so no billing is stranded. Because nothing closed, there is no equity to repurchase and no MIPA to rescind &mdash; the deal documents simply never execute.</p>
+        <p class="owner">Owner: Bob + John Suender &middot; Trigger: decision &middot; Clean (pre-close)</p>
+      </div>
+      <div class="ws">
+        <div class="ws-hd"><span class="ws-num">WS 2</span><h3>O'Quinn &amp; Freidel account repatriation</h3></div>
+        <p>The client-disruption-risk workstream. Stand up (or confirm) SWM's own Schwab Advisor Services relationship; prepare bulk repapering off Amplify and the TPG-Schwab relationship; stage client communications emphasizing continuity. Fallback: move to Fidelity, where SWM already custodies. Sequence to minimize the window where accounts are in motion. <span class="tag amber">Attrition risk &mdash; quantify</span></p>
+        <p class="owner">Owner: Bob, O'Quinn, Sonja + Schwab/Fidelity reps &middot; The critical path</p>
+      </div>
+      <div class="ws">
+        <div class="ws-hd"><span class="ws-num">WS 3</span><h3>SWM as an ongoing RIA</h3></div>
+        <p>Do <strong>not</strong> file ADV-W. SWM stays registered and absorbs what TPG was providing: compliance (Sonja as CCO, augmented), E&amp;O / cyber, IT (re-source the Myriad-equivalent), billing operations, performance reporting, and a platform to replace Amplify/Addepar. Decide build-vs-buy per function; the ~$249K/yr saved on the 7% fee underwrites much of it.</p>
+        <p class="owner">Owner: Sonja + Bob &middot; Re-source over ~60&ndash;90 days</p>
+      </div>
+      <div class="ws">
+        <div class="ws-hd"><span class="ws-num">WS 4</span><h3>Woolston buyout financing &mdash; without TPG cash</h3></div>
+        <p>The hardest problem; detailed in Section 05. Replace the TPG down-payment source with a blend of Chuck seller note, bank acquisition debt, internal cash flow, and &mdash; preferably &mdash; a minority capital partner. Begin within ~2 years (by ~2028).</p>
+        <p class="owner">Owner: Bob + Chuck + lender/capital partner &middot; Model first</p>
+      </div>
+      <div class="ws">
+        <div class="ws-hd"><span class="ws-num">WS 5</span><h3>Revised ownership &amp; succession economics</h3></div>
+        <p>Re-run the 2026&ndash;2032 schedule with no &ldquo;chips off the table&rdquo; event. O'Quinn (equity 2027) and Freidel (2029) tracks survive and arguably improve &mdash; their equity is now in a fully independent SWM with no TPG overhang. Reprice each tranche off the independent-firm valuation.</p>
+        <p class="owner">Owner: Bob + Chuck + counsel &middot; Re-model</p>
+      </div>
+      <div class="ws">
+        <div class="ws-hd"><span class="ws-num">WS 6</span><h3>Growth toward $1B without TPG leverage</h3></div>
+        <p>The $1B-by-2031 ambition now runs on internal capacity plus whatever partner you choose. Organic growth, selective tuck-ins (a capital partner can fund these), and the AI-forward operating posture you've already been building become the engine in place of TPG's platform.</p>
+        <p class="owner">Owner: Bob + advisory team &middot; Ongoing</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec" id="s5">
+    <div class="sec-h"><span class="sec-n">05</span><h2>Funding the Woolston buyout without revenue-sale proceeds</h2></div>
+    <p class="body">The TPG plan used the additional-10% option (~$2.08M) to seed Chuck's down payment. Remove it, and the buyout must be assembled from four sources &mdash; ideally weighted toward the one that preserves your control.</p>
+    <table>
+      <tr><th>Source</th><th>Role in the buyout</th><th>Tradeoff</th></tr>
+      <tr><td class="firm">Chuck seller note</td><td>The linchpin. Chuck financed by the firm over 5&ndash;6 years rather than cash up front. Lowest external dependency.</td><td>Requires Chuck's willingness to carry paper &mdash; the key open question.</td></tr>
+      <tr><td class="firm">Bank acquisition debt</td><td>Oak Street / PPC / Live Oak-style RIA lending against cash flow. Bridges the gap the seller note doesn't cover.</td><td>Personal guarantee at 59; the opposite of de-risking the family.</td></tr>
+      <tr><td class="firm">Internal cash flow</td><td>The retained 7% fee (~$249K/yr) plus margin fund ongoing note payments.</td><td>Constrains distributions during the payoff window.</td></tr>
+      <tr><td class="firm" style="color:var(--g1);">Minority capital partner</td><td><strong>Your preferred lever.</strong> Revenue/earnings-participation capital purpose-built to fund a buyout while you keep control &mdash; reduces the debt and the personal guarantee.</td><td>Introduces an outside economic partner; choose structure carefully (Section 06).</td></tr>
+    </table>
+    <div class="callout amber">
+      <h4>The two questions that size everything</h4>
+      <p><strong>1. Will Chuck carry a 5&ndash;6 year seller note?</strong> His appetite determines how much external capital you need. A generous note shrinks the debt and may eliminate the need for an outside partner entirely.</p>
+      <p><strong>2. How much personal debt are you willing to guarantee at 59?</strong> The more you'll carry, the more the fully-independent path (debt-only) works. The less you want to carry, the stronger the case for a minority capital partner taking part of the load.</p>
+    </div>
+    <div class="callout blue">
+      <h4>Valuation reality &mdash; what the buyout is priced against</h4>
+      <p>Firms your size trade at ~5&ndash;9&times; EBITDA / 2&ndash;6&times; revenue. The independent SWM (post-repatriation, ~$475M combined) gets valued on that basis &mdash; which is also the basis for Chuck's buyout price and the O'Quinn/Freidel equity tranches. Lower headline than TPG's 8&times; revenue, but you own 100% of it and pay no platform fee. Get an independent valuation (see Allen Darby, Section 06) before fixing any internal transaction price.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="s6">
+    <div class="sec-h"><span class="sec-n">06</span><h2>The five strategic paths</h2></div>
+    <p class="body">Independence is the destination; the question is how you finance growth and the buyout once there. Five paths, evaluated against your stated preference for a minority capital partner that preserves control.</p>
+    <div class="scenario-grid">
+      <div class="scn"><div class="lbl">Path A</div><h4>Fully independent</h4><p>Debt + Chuck seller note only. 100% control, no outside partner, no liquidity event. Maximum control, maximum personal financial risk.</p></div>
+      <div class="scn"><div class="lbl">Path B</div><h4>Platform partner</h4><p>Dynasty / Sanctuary / NewEdge-style supported independence. Tech &amp; ops, sometimes transition capital. Watch for brand/control erosion (NewEdge's W-2 Pillar drift).</p></div>
+      <div class="scn" style="border-color:var(--g1);border-width:2px;"><div class="lbl" style="color:var(--g1);">Path C &mdash; preferred</div><h4>Minority growth-capital partner</h4><p>Revenue/earnings-participation or non-voting minority capital that funds the buyout and growth while you keep control. Closest to &ldquo;TPG's money without TPG's behavior.&rdquo;</p></div>
+      <div class="scn"><div class="lbl">Path D</div><h4>New revenue purchaser</h4><p>Another 8&times;-style buyer. Replaces TPG cash but reintroduces exactly the dependency and control-dilution you're leaving. Your inbox is full of these.</p></div>
+    </div>
+    <p class="body" style="margin-top:8px;"><strong>Path E &mdash; ops/TAMP partner only:</strong> outsource back office (Orion / Altruist / GeoWealth) for capacity without equity. No liquidity for the buyout, full control. A complement to A or C, not a standalone answer.</p>
+    <div class="callout green">
+      <h4>The recommended opening sequence</h4>
+      <p><strong>0. Call Allen Darby (Alaris Advisors) first.</strong> Path-agnostic sell-side advisor already in your inbox &mdash; gives you the independent valuation you're missing and a read on the whole field, with no obligation.</p>
+      <p><strong>1. Re-engage Wealth Partners Capital Group (Rocco Sutherland)</strong> &mdash; your one warm minority-capital relationship.</p>
+      <p><strong>2. Approach Elevation Point</strong> &mdash; the only minority partner purpose-built for $200M&ndash;$3B, tax-efficient, Emigrant-backed.</p>
+      <p><strong>3. Use the acquirer inbound (Beacon Pointe, Cerity, Merit, Bluespring, et al.) for price discovery and leverage</strong> &mdash; not as your path. See the Capital Partner Landscape doc for the full map.</p>
+    </div>
+    <div class="callout red">
+      <h4>The caution from your own history</h4>
+      <p>You've been down the minority-capital road with Summit and Meridian (Merchant) and walked each time. The industry's open secret &mdash; minority investors' operational support often &ldquo;doesn't match the brochure&rdquo; &mdash; is something you've lived. For any replacement, weight <strong>references over pitch decks</strong>: ask each firm to show you a firm your size where the support actually materialized, and to put you in touch with that advisor.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="s7">
+    <div class="sec-h"><span class="sec-n">07</span><h2>Impact on the existing succession plan</h2></div>
+    <p class="body">Walking pre-close doesn't destroy the succession architecture &mdash; it re-funds it. Here's what survives, what changes, and what needs re-modeling.</p>
+    <table>
+      <tr><th>Element</th><th>Under TPG</th><th>Under Plan B</th></tr>
+      <tr><td class="firm">2026 liquidity (&ldquo;chips off the table&rdquo;)</td><td>~$1.84M each from the 20% sale</td><td><span class="tag red">Gone</span> &mdash; no equity event in 2026</td></tr>
+      <tr><td class="firm">Chuck buyout down payment</td><td>Seeded by additional-10% option (~$2.08M)</td><td><span class="tag amber">Re-funded</span> &mdash; seller note + debt + cash flow &plusmn; partner</td></tr>
+      <tr><td class="firm">O'Quinn equity (2027)</td><td>Equity in TPG-entangled SPM</td><td><span class="tag green">Survives, cleaner</span> &mdash; equity in fully independent SWM</td></tr>
+      <tr><td class="firm">Freidel partner track (2029)</td><td>On the TPG platform</td><td><span class="tag green">Survives</span> &mdash; no platform overhang</td></tr>
+      <tr><td class="firm">7% platform fee</td><td>~$249K/yr to TPG</td><td><span class="tag green">Retained</span> &mdash; funds in-house ops</td></tr>
+      <tr><td class="firm">Bob exit (~2031)</td><td>Via TPG additional purchases</td><td><span class="tag amber">Re-architect</span> &mdash; internal or partner-funded</td></tr>
+    </table>
+    <div class="callout">
+      <h4>Net effect</h4>
+      <p>You trade <strong>near-term liquidity</strong> (the chips-off-the-table event) for <strong>control, full ownership, and the elimination of execution risk on Greg's side.</strong> The buyout and exit still happen &mdash; they're just financed differently, on a timeline you control rather than one dependent on a partner's follow-through.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="s8">
+    <div class="sec-h"><span class="sec-n">08</span><h2>Pre-close decision timeline</h2></div>
+    <p class="body">The TPG close is the clock. Plan B readiness has to be complete before then so the decision &mdash; proceed, renegotiate, or walk &mdash; is made from strength.</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-when">Now &middot; weeks 1&ndash;2</div><div class="tl-what">Confirm the two open items: IAR signed status (O'Quinn/Freidel + Suender) and Schwab relationship ownership (call Schwab). These convert the feasibility gate from &ldquo;high confidence&rdquo; to &ldquo;certain.&rdquo;</div></div>
+      <div class="tl-item"><div class="tl-when">Weeks 2&ndash;3</div><div class="tl-what">Call Allen Darby for an independent valuation and field read. Re-engage Rocco / WPCG. Both are low-commitment, high-information.</div></div>
+      <div class="tl-item"><div class="tl-when">Weeks 3&ndash;4</div><div class="tl-what">The Chuck conversation: will he carry a 5&ndash;6 year seller note? This answer sizes the entire buyout financing and determines whether a capital partner is needed.</div></div>
+      <div class="tl-item"><div class="tl-when">Weeks 4&ndash;6</div><div class="tl-what">Model the buyout under 2&ndash;3 financing scenarios (seller-note-heavy / debt-heavy / partner-assisted). Scope the operational re-sourcing costs for WS 3.</div></div>
+      <div class="tl-item"><div class="tl-when">Before close</div><div class="tl-what">Decision point with full information: proceed with TPG (now negotiating from strength), renegotiate terms, or execute the clean walk-away with Plan B ready to run.</div></div>
+    </div>
+    <div class="callout blue">
+      <h4>The point of all this</h4>
+      <p>Plan B's real value isn't that you'll necessarily use it &mdash; it's that having it lets you sit across from Greg and say plainly what's wrong, knowing you have a credible, costed alternative. That conversation either fixes the relationship or clarifies that it can't be fixed. Either outcome is better than proceeding on hope.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    SALVUS WEALTH PARTNERS &mdash; PLAN B: INDEPENDENCE &amp; CAPITAL PARTNER STRATEGY<br>
+    Prepared for internal strategic use &middot; June 2026 &middot; Companion to the Capital Partner Landscape and TPG Issue Tracker.<br>
+    Contractual reads reflect the O'Quinn IAR agreement as provided; confirm signed status and have counsel review before acting. Not legal, tax, or investment advice.
+  </div>
+
+</div>
+</body>
+</html>
